@@ -4,7 +4,8 @@
   "description": "A nodejs project to read from AMS electical meters through the mbus protocol.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node clean.js && parcel build src/dash.js --out-dir modules/han1-dash/dash --cache-dir ./.parcel-cache --log-level 4 && nodemon index.js",
+    "front": "parcel watch src/dash.js --out-dir modules/han1-dash/dash --cache-dir ./.parcel-cache --log-level 4"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,30 @@
   "bugs": {
     "url": "https://github.com/antonedvard/han1/issues"
   },
-  "homepage": "https://github.com/antonedvard/han1#readme"
+  "homepage": "https://github.com/antonedvard/han1#readme",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "dotenv": "^6.2.0",
+    "hexy": "^0.3.0",
+    "log-timestamp": "^0.2.1",
+    "md5": "^2.2.1",
+    "node-sass": "^4.10.0",
+    "nodemon": "^1.18.7",
+    "parcel-bundler": "^1.10.3",
+    "pug": "^2.0.3",
+    "rimraf": "^2.6.2",
+    "sass": "^1.15.1"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chartist": "^0.11.0",
+    "crc": "^3.8.0",
+    "express": "^4.16.4",
+    "nprogress": "^0.2.0",
+    "progressbar.js": "^1.0.1",
+    "raspi": "^5.0.2",
+    "raspi-serial": "^5.0.0",
+    "socket.io": "^2.2.0"
+  }
 }

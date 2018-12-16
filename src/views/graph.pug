@@ -1,0 +1,13 @@
+extends template
+append css
+  link(rel='stylesheet', href='../scss/graph.scss')
+append topScripts
+  script(src=process.env.SOCKET)
+  script(src="../js/graph-init.js")
+
+block content
+  
+
+
+append bottomScripts
+  script(src="../js/graph.js")

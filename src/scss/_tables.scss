@@ -1,0 +1,68 @@
+table.obisTable,
+table.specTable {
+  border-collapse: collapse;
+  border: 1px solid #203D42;
+}
+
+
+table.specTable {
+  thead {
+    tr {}
+
+    th {
+      padding: 1em;
+      border-right: 1px solid #203D42;
+    }
+  }
+
+  tbody {
+    tr {
+      border: 1px solid hsla(0, 0%, 100%, .3);
+
+      &.startFrame {
+        background: hsla(120, 100%, 25%, .3);
+      }
+
+      &.dui {
+        background: hsla(60, 100%, 25%, .3);
+      }
+
+      &.infoObjOne {
+        background: hsla(39, 100%, 25%, .3);
+      }
+
+      &.infoObjTwo {
+        background: hsla(33, 100%, 25%, .3);
+      }
+
+      &.stopFrame {
+        background: hsla(0, 100%, 25%, .3);
+      }
+    }
+
+    td {
+      border: 1px solid white;
+      padding: .4em;
+    }
+
+  }
+
+  tfoot {
+    tr {}
+
+    td {}
+  }
+
+  tr {}
+
+  td {}
+
+}
+
+table.obisTable {
+  thead {}
+
+  tbody {}
+
+  tfoot {}
+}

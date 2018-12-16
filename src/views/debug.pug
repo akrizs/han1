@@ -1,0 +1,17 @@
+extends template
+
+append css
+  link(rel='stylesheet', href='../scss/debug.scss')
+
+append topScripts
+  script(src=process.env.SOCKET)
+  script(src="../js/debug-init.js")
+
+block content
+  include _specTable
+  include _obisTable
+  include _obisCodeTable
+
+
+append bottomScripts
+  script(src="../js/debug.js")

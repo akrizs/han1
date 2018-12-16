@@ -1,0 +1,57 @@
+table#obis__table.obis__table
+  thead
+    tr
+      th.obis__listIdentifier(colspan='7') Obis List Identifier
+      th(colspan='1')
+      th.obis__version(colspan='6')
+    tr
+      th.obis__listNr(colspan='1') List Nr
+      th.obis__codeValue(colspan='6') OBIS Code - Group Value
+      th.obis__object Object
+      th.obis__attributes(colspan='2') Attributes
+      th.obis__obisBytes(colspan='2') Obis
+      th.obis__valueBytes(colspan='2') Value
+    tr
+      th.obisListIdNr
+      th.obisGroup.obisGroup__A A
+      th.obisGroup.obisGroup__B B
+      th.obisGroup.obisGroup__C C
+      th.obisGroup.obisGroup__D D
+      th.obisGroup.obisGroup__E E
+      th.obisGroup.obisGroup__F F
+      th.obis__name Name
+      th.obis__unit Unit
+      th.obis__dataType Data Type
+      th.obis__obis_byteStart Start
+      th.obis__obis_byteEnd End
+      th.obis__value_byteStart Start
+      th.obis__value_byteEnd End
+  tbody
+  tfoot
+
+p Definition of each OBIS Group
+table.obisGroupDefinitions
+  thead
+    tr
+      th OBIS Group Code
+      th Definition
+  tbody
+    tr
+      th A
+      td Specifies the medium (0=abstract objects, 1=electricity, 6=heat, 7=gas, 8=water etc.)
+    tr
+      th B
+      td Specifies the channel. Each device with multiple channels generating measurement results, can separate the results into the channels
+    tr
+      th C
+      td Specifies the physical value (current, voltage, energy, level, temperature, etc.)
+    tr
+      th D
+      td Specifies the quantity computation result of specific algorythm
+    tr
+      th E
+      td Specifies the measurement type defined by groups A to D into individual measurements (e.g. switching ranges)
+    tr
+      th F
+      td Separates the results partly defined by groups A to E. The typical usage is the specification of individual time ranges, 
+  tfoot

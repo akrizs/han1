@@ -1,0 +1,36 @@
+extends template
+append css
+  link(rel='stylesheet', href='../scss/main.scss')
+append topScripts
+  script(src=process.env.SOCKET)
+  script(src="../js/main-init.js")
+
+block content
+  .activeGroup
+  #activePower.mainActive
+    .meter
+  #phasesGroup
+    #l1.phase
+      .headTitle
+        h4 L1
+      .phaseChild.current
+      .phaseChild.volt
+    #l2.phase
+      .headTitle
+        h4 L2
+      .phaseChild.current
+      .phaseChild.volt
+    #l3.phase
+      .headTitle
+        h4 L3
+      .phaseChild.current
+      .phaseChild.volt
+block footer
+  #lastUpdate
+    h3 Last Updated
+    h4
+
+
+
+append bottomScripts
+  script(src="../js/main.js")

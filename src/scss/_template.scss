@@ -1,0 +1,30 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  color: white;
+  background-color: rgba(29, 55, 60, 1);
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+.header {}
+
+.wrap {
+  margin: 0 auto;
+  width: 900px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.footer {}
+
+@import 'tables';

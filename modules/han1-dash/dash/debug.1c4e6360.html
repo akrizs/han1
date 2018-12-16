@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>config.name</title>
+    <meta content="" name="description">
+    <link rel="stylesheet" href="debug.e86987f3.css">
+    <script src="dash.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="debug-init.d885b192.js"></script>
+  <script src="debug.e86987f3.js"></script></head>
+  <body>
+    <div class="header">
+    </div>
+    <div class="wrap">
+      <table class="specTable" id="iec101">
+        <thead>
+          <tr>
+            <th>Data Unit</th>
+            <th>Name</th>
+            <th>Function</th>
+            <th colspan="2">Byte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="startFrame">
+            <td rowspan="5">Start Frame.</td>
+            <td>Start Character.</td>
+            <td>Indicates start of Frame.</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="startFrame">
+            <td>Length Field(*2).</td>
+            <td>Total length of frame.</td>
+          </tr>
+          <tr class="startFrame">
+            <td>Start Character(repeat).</td>
+            <td>Reapeat provided for reliability.</td>
+          </tr>
+          <tr class="startFrame">
+            <td>Control Field.</td>
+            <td>Indicates Control functions like message direction.</td>
+          </tr>
+          <tr class="startFrame">
+            <td>Link adress(0, 1 or 2).</td>
+            <td>Normally used as the device/station address.</td>
+          </tr>
+          <tr class="dui">
+            <td rowspan="4">Data Unit Identifier(DUI).</td>
+            <td>Type Identifier.</td>
+            <td>Defines the data type which contains specific format of information objects.</td>
+          </tr>
+          <tr class="dui">
+            <td>Variable Structure Qualifier.</td>
+            <td>Indicates whether type contains multiple informaion objects or not.</td>
+          </tr>
+          <tr class="dui">
+            <td>COT (1 or 2).</td>
+            <td>Indicates causes of data transmissions like spontaneous or cyclic.</td>
+          </tr>
+          <tr class="dui">
+            <td>ASDU Address (1 or 2).</td>
+            <td>Denotes separate segments and its address inside a device.</td>
+          </tr>
+          <tr class="infoObjOne">
+            <td rowspan="2">Information Object.</td>
+            <td>Information Object address (1 or 2 or 3).</td>
+            <td>Provides address of the information object element.</td>
+          </tr>
+          <tr class="infoObjOne">
+            <td>Information Elements(n).</td>
+            <td>Contains details of the information element depending on the type.</td>
+          </tr>
+          <tr class="infoObjTwo">
+            <td rowspan="2">Information Object-n++.</td>
+            <td>--||--</td>
+            <td>--||--</td>
+          </tr>
+          <tr class="infoObjTwo">
+            <td>--||--</td>
+            <td>--||--</td>
+          </tr>
+          <tr class="stopFrame">
+            <td rowspan="2">Stop Frame.</td>
+            <td>Checksum.</td>
+            <td>Used for Error checks.</td>
+          </tr>
+          <tr class="stopFrame">
+            <td>Stop Char.</td>
+            <td>Indicates end of a frame.</td>
+          </tr>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+      <table class="obis__table" id="obis__table">
+        <thead>
+          <tr>
+            <th class="obis__listIdentifier" colspan="7">Obis List Identifier</th>
+            <th colspan="1"></th>
+            <th class="obis__version" colspan="6"></th>
+          </tr>
+          <tr>
+            <th class="obis__listNr" colspan="1">List Nr</th>
+            <th class="obis__codeValue" colspan="6">OBIS Code - Group Value</th>
+            <th class="obis__object">Object</th>
+            <th class="obis__attributes" colspan="2">Attributes</th>
+            <th class="obis__obisBytes" colspan="2">Obis</th>
+            <th class="obis__valueBytes" colspan="2">Value</th>
+          </tr>
+          <tr>
+            <th class="obisListIdNr"></th>
+            <th class="obisGroup obisGroup__A">A</th>
+            <th class="obisGroup obisGroup__B">B</th>
+            <th class="obisGroup obisGroup__C">C</th>
+            <th class="obisGroup obisGroup__D">D</th>
+            <th class="obisGroup obisGroup__E">E</th>
+            <th class="obisGroup obisGroup__F">F</th>
+            <th class="obis__name">Name</th>
+            <th class="obis__unit">Unit</th>
+            <th class="obis__dataType">Data Type</th>
+            <th class="obis__obis_byteStart">Start</th>
+            <th class="obis__obis_byteEnd">End</th>
+            <th class="obis__value_byteStart">Start</th>
+            <th class="obis__value_byteEnd">End</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+      </table>
+      <p>Definition of each OBIS Group</p>
+      <table class="obisGroupDefinitions">
+        <thead>
+          <tr>
+            <th>OBIS Group Code</th>
+            <th>Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>A</th>
+            <td>Specifies the medium (0=abstract objects, 1=electricity, 6=heat, 7=gas, 8=water etc.)</td>
+          </tr>
+          <tr>
+            <th>B</th>
+            <td>Specifies the channel. Each device with multiple channels generating measurement results, can separate the results into the channels</td>
+          </tr>
+          <tr>
+            <th>C</th>
+            <td>Specifies the physical value (current, voltage, energy, level, temperature, etc.)</td>
+          </tr>
+          <tr>
+            <th>D</th>
+            <td>Specifies the quantity computation result of specific algorythm</td>
+          </tr>
+          <tr>
+            <th>E</th>
+            <td>Specifies the measurement type defined by groups A to D into individual measurements (e.g. switching ranges)</td>
+          </tr>
+          <tr>
+            <th>F</th>
+            <td>Separates the results partly defined by groups A to E. The typical usage is the specification of individual time ranges, </td>
+          </tr>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+      <p>The code consists of (up to) 6 group sub-identifiers marked by letters A to F. All these may or may not be present in the identifier (e.g. groups A and B are often omitted). In order to decide to which group the sub-identifier belongs, the groups are separated by unique separators: A-B:C.D.E*F - The A group specifies the medium (0=abstract objects, 1=electricity, 6=heat, 7=gas, 8=water ...) - The B group specifies the channel. Each device with multiple channels generating measurement results, can separate the results into the channels. - The C group specifies the physical value (current, voltage, energy, level, temperature, ...) - The D group specifies the quantity computation result of specific algorythm - The E group specifies the measurement type defined by groups A to D into individual measurements (e.g. switching ranges) - The F group separates the results partly defined by groups A to E. The typical usage is the specification of individual time ranges.</p>
+      <table class="obisCodes" cellspacing="0">
+        <tbody>
+          <tr>
+            <th>OBIS code</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <th colspan="2">Active energy registers:</th>
+          </tr>
+          <tr>
+            <th>1.8.0</th>
+            <td>Positive active energy (A+) total [kWh]</td>
+          </tr>
+          <tr>
+            <th>1.8.1</th>
+            <td>Positive active energy (A+) in tariff T1 [kWh]</td>
+          </tr>
+          <tr>
+            <th>1.8.2</th>
+            <td>Positive active energy (A+) in tariff T2 [kWh]</td>
+          </tr>
+          <tr>
+            <th>1.8.3</th>
+            <td>Positive active energy (A+) in tariff T3 [kWh]</td>
+          </tr>
+          <tr>
+            <th>1.8.4</th>
+            <td>Positive active energy (A+) in tariff T4 [kWh]</td>
+          </tr>
+          <tr>
+            <th>2.8.0</th>
+            <td>Negative active energy (A+) total [kWh]</td>
+          </tr>
+          <tr>
+            <th>2.8.1</th>
+            <td>Negative active energy (A+) in tariff T1 [kWh]</td>
+          </tr>
+          <tr>
+            <th>2.8.2</th>
+            <td>Negative active energy (A+) in tariff T2 [kWh]</td>
+          </tr>
+          <tr>
+            <th>2.8.3</th>
+            <td>Negative active energy (A+) in tariff T3 [kWh]</td>
+          </tr>
+          <tr>
+            <th>2.8.4</th>
+            <td>Negative active energy (A+) in tariff T4 [kWh]</td>
+          </tr>
+          <tr>
+            <th>15.8.0</th>
+            <td>Absolute active energy (A+) total [kWh]</td>
+          </tr>
+          <tr>
+            <th>15.8.1</th>
+            <td>Absolute active energy (A+) in tariff T1 [kWh]</td>
+          </tr>
+          <tr>
+            <th>15.8.2</th>
+            <td>Absolute active energy (A+) in tariff T2 [kWh]</td>
+          </tr>
+          <tr>
+            <th>15.8.3</th>
+            <td>Absolute active energy (A+) in tariff T3 [kWh]</td>
+          </tr>
+          <tr>
+            <th>15.8.4</th>
+            <td>Absolute active energy (A+) in tariff T4 [kWh]</td>
+          </tr>
+          <tr>
+            <th>16.8.0</th>
+            <td>Sum active energy without reverse blockade (A+ - A-) total [kWh]</td>
+          </tr>
+          <tr>
+            <th>16.8.</th>
+            <td>Sum active energy without reverse blockade (A+ - A-) in tariff T1 [kWh]</td>
+          </tr>
+          <tr>
+            <th>16.8.2</th>
+            <td>Sum active energy without reverse blockade (A+ - A-) in tariff T2 [kWh]</td>
+          </tr>
+          <tr>
+            <th>16.8.3</th>
+            <td>Sum active energy without reverse blockade (A+ - A-) in tariff T3 [kWh]</td>
+          </tr>
+          <tr>
+            <th>16.8.4</th>
+            <td>Sum active energy without reverse blockade (A+ - A-) in tariff T4 [kWh]</td>
+          </tr>
+          <tr>
+            <th colspan="2">2. Reactive energy registers</th>
+          </tr>
+          <tr>
+            <th>3.8.0</th>
+            <td>Positive reactive energy (Q+) total [kvarh]</td>
+          </tr>
+          <tr>
+            <th>3.8.1</th>
+            <td>Positive reactive energy (Q+) in tariff T1 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>3.8.2</th>
+            <td>Positive reactive energy (Q+) in tariff T2 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>3.8.3</th>
+            <td>Positive reactive energy (Q+) in tariff T3 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>3.8.4</th>
+            <td>Positive reactive energy (Q+) in tariff T4 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>4.8.0</th>
+            <td>Negative reactive energy (Q-) total [kvarh]</td>
+          </tr>
+          <tr>
+            <th>4.8.1</th>
+            <td>Negative reactive energy (Q-) in tariff T1 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>4.8.2</th>
+            <td>Negative reactive energy (Q-) in tariff T2 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>4.8.3</th>
+            <td>Negative reactive energy (Q-) in tariff T3 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>4.8.4</th>
+            <td>Negative reactive energy (Q-) in tariff T4 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>5.8.0</th>
+            <td>Imported inductive reactive energy in 1-st quadrant (Q1) total [kvarh]</td>
+          </tr>
+          <tr>
+            <th>5.8.1</th>
+            <td>Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T1 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>5.8.2</th>
+            <td>Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T2 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>5.8.3</th>
+            <td>Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T3 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>5.8.4</th>
+            <td>Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T4 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>6.8.0</th>
+            <td>Imported capacitive reactive energy in 2-nd quadrant (Q2) total [kvarh]</td>
+          </tr>
+          <tr>
+            <th>6.8.1</th>
+            <td>Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T1 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>6.8.2</th>
+            <td>Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T2 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>6.8.3</th>
+            <td>Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T3 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>6.8.4</th>
+            <td>Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T4 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>7.8.0</th>
+            <td>Exported inductive reactive energy in 3-rd quadrant (Q3) total [kvarh]</td>
+          </tr>
+          <tr>
+            <th>7.8.1</th>
+            <td>Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T1 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>7.8.2</th>
+            <td>Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T2 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>7.8.3</th>
+            <td>Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T3 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>7.8.4</th>
+            <td>Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T4 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>8.8.0</th>
+            <td>Exported capacitive reactive energy in 4-th quadrant (Q4) total [kvarh]</td>
+          </tr>
+          <tr>
+            <th>8.8.1</th>
+            <td>Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T1 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>8.8.2</th>
+            <td>Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T2 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>8.8.3</th>
+            <td>Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T3 [kvarh]</td>
+          </tr>
+          <tr>
+            <th>8.8.4</th>
+            <td>Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T4 [kvarh]</td>
+          </tr>
+          <tr>
+            <th colspan="2">3. Apparent energy registers</th>
+          </tr>
+          <tr>
+            <th>9.8.0</th>
+            <td>Apparent energy (S+) total [kVAh]</td>
+          </tr>
+          <tr>
+            <th>9.8.1</th>
+            <td>Apparent energy (S+) in tariff T1 [kVAh]</td>
+          </tr>
+          <tr>
+            <th>9.8.2</th>
+            <td>Apparent energy (S+) in tariff T2 [kVAh]</td>
+          </tr>
+          <tr>
+            <th>9.8.3</th>
+            <td>Apparent energy (S+) in tariff T3 [kVAh]</td>
+          </tr>
+          <tr>
+            <th>9.8.4</th>
+            <td>Apparent energy (S+) in tariff T4 [kVAh]</td>
+          </tr>
+          <tr>
+            <th colspan="2">4. Registers of active energy per phases</th>
+          </tr>
+          <tr>
+            <th>21.8.0</th>
+            <td>Positive active energy (A+) in phase L1 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>41.8.0</th>
+            <td>Positive active energy (A+) in phase L2 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>61.8.0</th>
+            <td>Positive active energy (A+) in phase L3 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>22.8.0</th>
+            <td>Negative active energy (A-) in phase L1 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>42.8.0</th>
+            <td>Negative active energy (A-) in phase L2 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>62.8.0</th>
+            <td>Negative active energy (A-) in phase L3 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>35.8.0</th>
+            <td>Absolute active energy (|A|) in phase L1 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>55.8.0</th>
+            <td>Absolute active energy (|A|) in phase L2 total [kWh]</td>
+          </tr>
+          <tr>
+            <th>75.8.0</th>
+            <td>Absolute active energy (|A|) in phase L3 total [kWh]</td>
+          </tr>
+          <tr>
+            <th colspan="2">5. Maximum demand registers:</th>
+          </tr>
+          <tr>
+            <th>1.6.0</th>
+            <td>Positive active maximum demand (A+) total [kW]</td>
+          </tr>
+          <tr>
+            <th>1.6.1</th>
+            <td>Positive active maximum demand (A+) in tariff T1 [kW]</td>
+          </tr>
+          <tr>
+            <th>1.6.2</th>
+            <td>Positive active maximum demand (A+) in tariff T2 [kW]</td>
+          </tr>
+          <tr>
+            <th>1.6.3</th>
+            <td>Positive active maximum demand (A+) in tariff T3 [kW]</td>
+          </tr>
+          <tr>
+            <th>1.6.4</th>
+            <td>Positive active maximum demand (A+) in tariff T4 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.6.0</th>
+            <td>Negative active maximum demand (A-) total [kW]</td>
+          </tr>
+          <tr>
+            <th>2.6.1</th>
+            <td>Negative active maximum demand (A-) in tariff T1 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.6.2</th>
+            <td>Negative active maximum demand (A-) in tariff T2 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.6.3</th>
+            <td>Negative active maximum demand (A-) in tariff T3 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.6.4</th>
+            <td>Negative active maximum demand (A-) in tariff T4 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.6.0</th>
+            <td>Absolute active maximum demand (|A|) total [kW]</td>
+          </tr>
+          <tr>
+            <th>15.6.1</th>
+            <td>Absolute active maximum demand (|A|) in tariff T1 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.6.2</th>
+            <td>Absolute active maximum demand (|A|) in tariff T2 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.6.3</th>
+            <td>Absolute active maximum demand (|A|) in tariff T3 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.6.4</th>
+            <td>Absolute active maximum demand (|A|) in tariff T4 [kW]</td>
+          </tr>
+          <tr>
+            <th>3.6.0</th>
+            <td>Positive reactive maximum demand (Q+) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>4.6.0</th>
+            <td>Negative reactive maximum demand (Q-) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>5.6.0</th>
+            <td>Reactive maximum demand in Q1 (Q1) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>6.6.0</th>
+            <td>Reactive maximum demand in Q2 (Q2) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>7.6.0</th>
+            <td>Reactive maximum demand in Q3 (Q3) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>8.6.0</th>
+            <td>Reactive maximum demand in Q4 (Q4) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>9.6.0</th>
+            <td>Apparent maximum demand (S+) total [kVA]</td>
+          </tr>
+          <tr>
+            <th colspan="2">6. Cumulative maximum demand registers</th>
+          </tr>
+          <tr>
+            <th>1.2.0</th>
+            <td>Positive active cumulative maximum demand (A+) total [kW]</td>
+          </tr>
+          <tr>
+            <th>1.2.1</th>
+            <td>Positive active cumulative maximum demand (A+) in tariff T1 [kW]</td>
+          </tr>
+          <tr>
+            <th>1.2.2</th>
+            <td>Positive active cumulative maximum demand (A+) in tariff T2 [kW]</td>
+          </tr>
+          <tr>
+            <th>1.2.3</th>
+            <td>Positive active cumulative maximum demand (A+) in tariff T3 [kW]</td>
+          </tr>
+          <tr>
+            <th>1.2.4</th>
+            <td>Positive active cumulative maximum demand (A+) in tariff T4 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.2.0</th>
+            <td>Negative active cumulative maximum demand (A-) total [kW]</td>
+          </tr>
+          <tr>
+            <th>2.2.1</th>
+            <td>Negative active cumulative maximum demand (A-) in tariff T1 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.2.2</th>
+            <td>Negative active cumulative maximum demand (A-) in tariff T2 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.2.3</th>
+            <td>Negative active cumulative maximum demand (A-) in tariff T3 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.2.4</th>
+            <td>Negative active cumulative maximum demand (A-) in tariff T4 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.2.0</th>
+            <td>Absolute active cumulative maximum demand (|A|) total [kW]</td>
+          </tr>
+          <tr>
+            <th>15.2.1</th>
+            <td>Absolute active cumulative maximum demand (|A|) in tariff T1 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.2.2</th>
+            <td>Absolute active cumulative maximum demand (|A|) in tariff T2 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.2.3</th>
+            <td>Absolute active cumulative maximum demand (|A|) in tariff T3 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.2.4</th>
+            <td>Absolute active cumulative maximum demand (|A|) in tariff T4 [kW]</td>
+          </tr>
+          <tr>
+            <th>3.2.0</th>
+            <td>Positive reactive cumulative maximum demand (Q+) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>4.2.0</th>
+            <td>Negative reactive cumulative maximum demand (Q-) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>5.2.0</th>
+            <td>Reactive cumulative maximum demand in Q1 (Q1) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>6.2.0</th>
+            <td>Reactive cumulative maximum demand in Q2 (Q2) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>7.2.0</th>
+            <td>Reactive cumulative maximum demand in Q3 (Q3) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>8.2.0</th>
+            <td>Reactive cumulative maximum demand in Q4 (Q4) total [kvar]</td>
+          </tr>
+          <tr>
+            <th>9.2.0</th>
+            <td>Apparent cumulative maximum demand (S+) total [kVA]</td>
+          </tr>
+          <tr>
+            <th colspan="2">7. Demands in a current demand period</th>
+          </tr>
+          <tr>
+            <th>1.4.0</th>
+            <td>Positive active demand in a current demand period (A+) [kW]</td>
+          </tr>
+          <tr>
+            <th>2.4.0</th>
+            <td>Negative active demand in a current demand period (A-) [kW]</td>
+          </tr>
+          <tr>
+            <th>15.4.0</th>
+            <td>Absolute active demand in a current demand period (|A|) [kW]</td>
+          </tr>
+          <tr>
+            <th>3.4.0</th>
+            <td>Positive reactive demand in a current demand period (Q+) [kvar]</td>
+          </tr>
+          <tr>
+            <th>4.4.0</th>
+            <td>Negative reactive demand in a current demand period (Q-) [kvar]</td>
+          </tr>
+          <tr>
+            <th>5.4.0</th>
+            <td>Reactive demand in a current demand period in Q1 (Q1) [kvar]</td>
+          </tr>
+          <tr>
+            <th>6.4.0</th>
+            <td>Reactive demand in a current demand period in Q2 (Q2) [kvar]</td>
+          </tr>
+          <tr>
+            <th>7.4.0</th>
+            <td>Reactive demand in a current demand period in Q3 (Q3) [kvar]</td>
+          </tr>
+          <tr>
+            <th>8.4.0</th>
+            <td>Reactive demand in a current demand period in Q4 (Q4) [kvar]</td>
+          </tr>
+          <tr>
+            <th>9.4.0</th>
+            <td>Apparent demand in a current demand period (S+) [kVA]</td>
+          </tr>
+          <tr>
+            <th colspan="2">8. Demands in the last completed demand period</th>
+          </tr>
+          <tr>
+            <th>1.5.0</th>
+            <td>Positive active demand in the last completed demand period (A+) [kW]</td>
+          </tr>
+          <tr>
+            <th>2.5.0</th>
+            <td>Negative active demand in the last completed demand period (A-) [kW]</td>
+          </tr>
+          <tr>
+            <th>15.5.0</th>
+            <td>Absolute active demand in the last completed demand period (|A|) [kW]</td>
+          </tr>
+          <tr>
+            <th>3.5.0</th>
+            <td>Positive reactive demand in the last completed demand period (Q+) [kvar]</td>
+          </tr>
+          <tr>
+            <th>4.5.0</th>
+            <td>Negative reactive demand in the last completed demand period (Q-) [kvar]</td>
+          </tr>
+          <tr>
+            <th>5.5.0</th>
+            <td>Reactive demand in the last completed demand period in Q1 (Q1) [kvar]</td>
+          </tr>
+          <tr>
+            <th>6.5.0</th>
+            <td>Reactive demand in the last completed demand period in Q2 (Q2) [kvar]</td>
+          </tr>
+          <tr>
+            <th>7.5.0</th>
+            <td>Reactive demand in the last completed demand period in Q3 (Q3) [kvar]</td>
+          </tr>
+          <tr>
+            <th>8.5.0</th>
+            <td>Reactive demand in the last completed demand period in Q4 (Q4) [kvar]</td>
+          </tr>
+          <tr>
+            <th>9.5.0</th>
+            <td>Apparent demand in the last completed demand period (S+) [kVA]</td>
+          </tr>
+          <tr>
+            <th colspan="2">9. Instantaneous power registers</th>
+          </tr>
+          <tr>
+            <th>1.7.0</th>
+            <td>Positive active instantaneous power (A+) [kW]</td>
+          </tr>
+          <tr>
+            <th>21.7.0</th>
+            <td>Positive active instantaneous power (A+) in phase L1 [kW]</td>
+          </tr>
+          <tr>
+            <th>41.7.0</th>
+            <td>Positive active instantaneous power (A+) in phase L2 [kW]</td>
+          </tr>
+          <tr>
+            <th>61.7.0</th>
+            <td>Positive active instantaneous power (A+) in phase L3 [kW]</td>
+          </tr>
+          <tr>
+            <th>2.7.0</th>
+            <td>Negative active instantaneous power (A-) [kW]</td>
+          </tr>
+          <tr>
+            <th>22.7.0</th>
+            <td>Negative active instantaneous power (A-) in phase L1 [kW]</td>
+          </tr>
+          <tr>
+            <th>42.7.0</th>
+            <td>Negative active instantaneous power (A-) in phase L2 [kW]</td>
+          </tr>
+          <tr>
+            <th>62.7.0</th>
+            <td>Negative active instantaneous power (A-) in phase L3 [kW]</td>
+          </tr>
+          <tr>
+            <th>15.7.0</th>
+            <td>Absolute active instantaneous power (|A|) [kW]</td>
+          </tr>
+          <tr>
+            <th>35.7.0</th>
+            <td>Absolute active instantaneous power (|A|) in phase L1 [kW]</td>
+          </tr>
+          <tr>
+            <th>55.7.0</th>
+            <td>Absolute active instantaneous power (|A|) in phase L2 [kW]</td>
+          </tr>
+          <tr>
+            <th>75.7.0</th>
+            <td>Absolute active instantaneous power (|A|) in phase L3 [kW]</td>
+          </tr>
+          <tr>
+            <th>16.7.0</th>
+            <td>Sum active instantaneous power (A+ - A-) [kW]</td>
+          </tr>
+          <tr>
+            <th>36.7.0</th>
+            <td>Sum active instantaneous power (A+ - A-) in phase L1 [kW]</td>
+          </tr>
+          <tr>
+            <th>56.7.0</th>
+            <td>Sum active instantaneous power (A+ - A-) in phase L2 [kW]</td>
+          </tr>
+          <tr>
+            <th>76.7.0</th>
+            <td>Sum active instantaneous power (A+ - A-) in phase L3 [kW]</td>
+          </tr>
+          <tr>
+            <th>3.7.0</th>
+            <td>Positive reactive instantaneous power (Q+) [kvar]</td>
+          </tr>
+          <tr>
+            <th>23.7.0</th>
+            <td>Positive reactive instantaneous power (Q+) in phase L1 [kvar]</td>
+          </tr>
+          <tr>
+            <th>43.7.0</th>
+            <td>Positive reactive instantaneous power (Q+) in phase L2 [kvar]</td>
+          </tr>
+          <tr>
+            <th>63.7.0</th>
+            <td>Positive reactive instantaneous power (Q+) in phase L3 [kvar]</td>
+          </tr>
+          <tr>
+            <th>4.7.0</th>
+            <td>Negative reactive instantaneous power (Q-) [kvar]</td>
+          </tr>
+          <tr>
+            <th>24.7.0</th>
+            <td>Negative reactive instantaneous power (Q-) in phase L1 [kvar]</td>
+          </tr>
+          <tr>
+            <th>44.7.0</th>
+            <td>Negative reactive instantaneous power (Q-) in phase L2 [kvar]</td>
+          </tr>
+          <tr>
+            <th>64.7.0</th>
+            <td>Negative reactive instantaneous power (Q-) in phase L3 [kvar]</td>
+          </tr>
+          <tr>
+            <th>9.7.0</th>
+            <td>Apparent instantaneous power (S+) [kVA]</td>
+          </tr>
+          <tr>
+            <th>29.7.0</th>
+            <td>Apparent instantaneous power (S+) in phase L1 [kVA]</td>
+          </tr>
+          <tr>
+            <th>49.7.0</th>
+            <td>Apparent instantaneous power (S+) in phase L2 [kVA]</td>
+          </tr>
+          <tr>
+            <th>69.7.0</th>
+            <td>Apparent instantaneous power (S+) in phase L3 [kVA]</td>
+          </tr>
+          <tr>
+            <th colspan="2">10. Electricity network quality registers</th>
+          </tr>
+          <tr>
+            <th>11.7.0</th>
+            <td>Instantaneous current (I) [A]</td>
+          </tr>
+          <tr>
+            <th>31.7.0</th>
+            <td>Instantaneous current (I) in phase L1 [A]</td>
+          </tr>
+          <tr>
+            <th>51.7.0</th>
+            <td>Instantaneous current (I) in phase L2 [A]</td>
+          </tr>
+          <tr>
+            <th>71.7.0</th>
+            <td>Instantaneous current (I) in phase L3 [A]</td>
+          </tr>
+          <tr>
+            <th>91.7.0</th>
+            <td>Instantaneous current (I) in neutral [A]</td>
+          </tr>
+          <tr>
+            <th>11.6.0</th>
+            <td>Maximum current (I max) [A]</td>
+          </tr>
+          <tr>
+            <th>31.6.0</th>
+            <td>Maximum current (I max) in phase L1 [A]</td>
+          </tr>
+          <tr>
+            <th>51.6.0</th>
+            <td>Maximum current (I max) in phase L2 [A]</td>
+          </tr>
+          <tr>
+            <th>71.6.0</th>
+            <td>Maximum current (I max) in phase L3 [A]</td>
+          </tr>
+          <tr>
+            <th>91.6.0</th>
+            <td>Maximum current (I max) in neutral [A]</td>
+          </tr>
+          <tr>
+            <th>12.7.0</th>
+            <td>Instantaneous voltage (U) [V]</td>
+          </tr>
+          <tr>
+            <th>32.7.0</th>
+            <td>Instantaneous voltage (U) in phase L1 [V]</td>
+          </tr>
+          <tr>
+            <th>52.7.0</th>
+            <td>Instantaneous voltage (U) in phase L2 [V]</td>
+          </tr>
+          <tr>
+            <th>72.7.0</th>
+            <td>Instantaneous voltage (U) in phase L3 [V]</td>
+          </tr>
+          <tr>
+            <th>13.7.0</th>
+            <td>Instantaneous power factor</td>
+          </tr>
+          <tr>
+            <th>33.7.0</th>
+            <td>Instantaneous power factor in phase L1</td>
+          </tr>
+          <tr>
+            <th>53.7.0</th>
+            <td>Instantaneous power factor in phase L2</td>
+          </tr>
+          <tr>
+            <th>73.7.0</th>
+            <td>Instantaneous power factor in phase L3</td>
+          </tr>
+          <tr>
+            <th>14.7.0</th>
+            <td>Frequency [Hz]</td>
+          </tr>
+          <tr>
+            <th colspan="2">11. Tamper registers (energy registers and registers of elapsed time)</th>
+          </tr>
+          <tr>
+            <th>C.53.1</th>
+            <td>Tamper 1 energy register</td>
+          </tr>
+          <tr>
+            <th>C.53.2</th>
+            <td>Tamper 2 energy register</td>
+          </tr>
+          <tr>
+            <th>C.53.3</th>
+            <td>Tamper 3 energy register</td>
+          </tr>
+          <tr>
+            <th>C.53.4</th>
+            <td>Tamper 4 energy register</td>
+          </tr>
+          <tr>
+            <th>C.53.11</th>
+            <td>Tamper 5 energy register</td>
+          </tr>
+          <tr>
+            <th>C.53.5</th>
+            <td>Tamper 1 time counter register</td>
+          </tr>
+          <tr>
+            <th>C.53.6</th>
+            <td>Tamper 2 time counter register</td>
+          </tr>
+          <tr>
+            <th>C.53.7</th>
+            <td>Tamper 3 time counter register</td>
+          </tr>
+          <tr>
+            <th>C.53.9</th>
+            <td>Tamper 4 time counter register</td>
+          </tr>
+          <tr>
+            <th>C.53.10</th>
+            <td>Tamper 5 time counter register</td>
+          </tr>
+          <tr>
+            <th colspan="2">12. Events registers (counters and time-stamps)</th>
+          </tr>
+          <tr>
+            <th>C.2.0</th>
+            <td>Event parameters change - counter</td>
+          </tr>
+          <tr>
+            <th>C.2.1</th>
+            <td>Event parameters change - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.1</th>
+            <td>Event terminal cover opened - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.2</th>
+            <td>Event terminal cover opened - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.3</th>
+            <td>Event main cover opened - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.4</th>
+            <td>Event main cover opened - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.5</th>
+            <td>Event magnetic field detection start - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.6</th>
+            <td>Event magnetic field detection start - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.7</th>
+            <td>Event reverse power flow - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.8</th>
+            <td>Event reverse power flow - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.7.0</th>
+            <td>Event power down - counter</td>
+          </tr>
+          <tr>
+            <th>C.7.10</th>
+            <td>Event power down - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.13</th>
+            <td>Event power up - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.14</th>
+            <td>Event power up – timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.15</th>
+            <td>Event RTC (Real Time Clock) set - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.16</th>
+            <td>Event RTC (Real Time Clock) set - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.21</th>
+            <td>Event terminal cover closed - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.22</th>
+            <td>Event terminal cover closed - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.23</th>
+            <td>Event main cover closed - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.24</th>
+            <td>Event main cover closed - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.25</th>
+            <td>Event log-book 1 erased - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.26</th>
+            <td>Event log-book 1 erased - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.27</th>
+            <td>Event fraud start - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.28</th>
+            <td>Event fraud start - timestamp</td>
+          </tr>
+          <tr>
+            <th>C.51.29</th>
+            <td>Event fraud stop - counter</td>
+          </tr>
+          <tr>
+            <th>C.51.30</th>
+            <td>Event fraud stop - timestamp</td>
+          </tr>
+          <tr>
+            <th colspan="2">13. Miscellaneous registers used in sequences</th>
+          </tr>
+          <tr>
+            <th>0.9.1</th>
+            <td>Current time (hh:mm:ss)</td>
+          </tr>
+          <tr>
+            <th>0.9.2</th>
+            <td>Date (YY.MM.DD or DD.MM.YY)</td>
+          </tr>
+          <tr>
+            <th>0.9.4</th>
+            <td>Date and Time (YYMMDDhhmmss)</td>
+          </tr>
+          <tr>
+            <th>0.8.0</th>
+            <td>Demand period [min]</td>
+          </tr>
+          <tr>
+            <th>0.8.4</th>
+            <td>Load profile period [min] (option)</td>
+          </tr>
+          <tr>
+            <th>0.0.0</th>
+            <td>Device address 1</td>
+          </tr>
+          <tr>
+            <th>0.0.1</th>
+            <td>Device address 2</td>
+          </tr>
+          <tr>
+            <th>0.1.0</th>
+            <td>MD reset counter</td>
+          </tr>
+          <tr>
+            <th>0.1.2</th>
+            <td>MD reset timestamp</td>
+          </tr>
+          <tr>
+            <th>0.2.0</th>
+            <td>Firmware version</td>
+          </tr>
+          <tr>
+            <th>0.2.2</th>
+            <td>Tariff program ID</td>
+          </tr>
+          <tr>
+            <th>C.1.0</th>
+            <td>Meter serial number</td>
+          </tr>
+          <tr>
+            <th>C.1.2</th>
+            <td>Parameters file code</td>
+          </tr>
+          <tr>
+            <th>C.1.4</th>
+            <td>Parameters check sum</td>
+          </tr>
+          <tr>
+            <th>C.1.5</th>
+            <td>Firmware built date</td>
+          </tr>
+          <tr>
+            <th>C.1.6</th>
+            <td>Firmware check sum</td>
+          </tr>
+          <tr>
+            <th>C.6.0</th>
+            <td>Power down time counter</td>
+          </tr>
+          <tr>
+            <th>C.6.1</th>
+            <td>Battery remaining capacity</td>
+          </tr>
+          <tr>
+            <th>F.F.0</th>
+            <td>Fatal error meter status</td>
+          </tr>
+          <tr>
+            <th>C.87.0</th>
+            <td>Active tariff</td>
+          </tr>
+          <tr>
+            <th>0.2.1</th>
+            <td>Parameters scheme ID</td>
+          </tr>
+          <tr>
+            <th>C.60.9</th>
+            <td>Fraud flag</td>
+          </tr>
+          <tr>
+            <th>0.3.0</th>
+            <td>Active energy meter constant</td>
+          </tr>
+          <tr>
+            <th>0.4.2</th>
+            <td>Current transformer ratio</td>
+          </tr>
+          <tr>
+            <th>0.4.3</th>
+            <td>Voltage transformer ratio</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">
+    </div>
+    <script src="debug.ae5400d3.js"></script>
+  </body>
+</html>

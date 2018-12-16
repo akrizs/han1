@@ -1,0 +1,62 @@
+table#iec101.specTable
+    thead
+      tr
+        th Data Unit
+        th Name
+        th Function
+        th(colspan="2") Byte
+    tbody
+      tr.startFrame
+        td(rowspan="5") Start Frame.
+        td Start Character.
+        td Indicates start of Frame.
+        td
+        td
+      tr.startFrame
+        td Length Field(*2).
+        td Total length of frame.
+      tr.startFrame
+        td Start Character(repeat).
+        td Reapeat provided for reliability.
+      tr.startFrame
+        td Control Field.
+        td Indicates Control functions like message direction.
+      tr.startFrame
+        td Link adress(0, 1 or 2).
+        td Normally used as the device/station address.
+      tr.dui
+        td(rowspan="4") Data Unit Identifier(DUI).
+        td Type Identifier.
+        td Defines the data type which contains specific format of information objects.
+      tr.dui
+        td Variable Structure Qualifier.
+        td Indicates whether type contains multiple informaion objects or not.
+      tr.dui
+        td COT (1 or 2).
+        td Indicates causes of data transmissions like spontaneous or cyclic.
+      tr.dui
+        td ASDU Address (1 or 2).
+        td Denotes separate segments and its address inside a device.
+      tr.infoObjOne
+        td(rowspan="2") Information Object.
+        td Information Object address (1 or 2 or 3).
+        td Provides address of the information object element.
+      tr.infoObjOne
+        td Information Elements(n).
+        td Contains details of the information element depending on the type.
+      tr.infoObjTwo
+        td(rowspan="2") Information Object-n++.
+        td --||--
+        td --||--
+      tr.infoObjTwo
+        td --||--
+        td --||--
+      tr.stopFrame
+        td(rowspan="2") Stop Frame.
+        td Checksum.
+        td Used for Error checks.
+      tr.stopFrame
+        td Stop Char.
+        td Indicates end of a frame.
+
+    tfoot

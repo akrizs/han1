@@ -1,0 +1,23 @@
+@import 'template';
+
+#debugWindow {
+  padding: 0 0 0 1rem;
+  white-space: pre;
+  line-break: normal;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+#debugWindow>.raw {
+  display: inline-block;
+}
+
+#debugWindow>.obis {
+  display: inline-block;
+}

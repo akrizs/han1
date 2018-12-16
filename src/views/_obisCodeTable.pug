@@ -1,0 +1,741 @@
+p The code consists of (up to) 6 group sub-identifiers marked by letters A to F. All these may or may not be present in the identifier (e.g. groups A and B are often omitted). In order to decide to which group the sub-identifier belongs, the groups are separated by unique separators: A-B:C.D.E*F - The A group specifies the medium (0=abstract objects, 1=electricity, 6=heat, 7=gas, 8=water ...) - The B group specifies the channel. Each device with multiple channels generating measurement results, can separate the results into the channels. - The C group specifies the physical value (current, voltage, energy, level, temperature, ...) - The D group specifies the quantity computation result of specific algorythm - The E group specifies the measurement type defined by groups A to D into individual measurements (e.g. switching ranges) - The F group separates the results partly defined by groups A to E. The typical usage is the specification of individual time ranges.
+
+table.obisCodes(cellspacing='0')
+  tbody
+    tr
+      th OBIS code
+      th Description
+    tr
+      th(colspan='2') Active energy registers:
+    tr
+      th 1.8.0
+      td Positive active energy (A+) total [kWh]
+    tr
+      th 1.8.1
+      td Positive active energy (A+) in tariff T1 [kWh]
+    tr
+      th 1.8.2
+      td Positive active energy (A+) in tariff T2 [kWh]
+    tr
+      th 1.8.3
+      td Positive active energy (A+) in tariff T3 [kWh]
+    tr
+      th 1.8.4
+      td Positive active energy (A+) in tariff T4 [kWh]
+    tr
+      th 2.8.0
+      td Negative active energy (A+) total [kWh]
+    tr
+      th 2.8.1
+      td Negative active energy (A+) in tariff T1 [kWh]
+    tr
+      th 2.8.2
+      td Negative active energy (A+) in tariff T2 [kWh]
+    tr
+      th 2.8.3
+      td Negative active energy (A+) in tariff T3 [kWh]
+    tr
+      th 2.8.4
+      td Negative active energy (A+) in tariff T4 [kWh]
+    tr
+      th 15.8.0
+      td Absolute active energy (A+) total [kWh]
+    tr
+      th 15.8.1
+      td Absolute active energy (A+) in tariff T1 [kWh]
+    tr
+      th 15.8.2
+      td Absolute active energy (A+) in tariff T2 [kWh]
+    tr
+      th 15.8.3
+      td Absolute active energy (A+) in tariff T3 [kWh]
+    tr
+      th 15.8.4
+      td Absolute active energy (A+) in tariff T4 [kWh]
+    tr
+      th 16.8.0
+      td Sum active energy without reverse blockade (A+ - A-) total [kWh]
+    tr
+      th 16.8.
+      td Sum active energy without reverse blockade (A+ - A-) in tariff T1 [kWh]
+    tr
+      th 16.8.2
+      td Sum active energy without reverse blockade (A+ - A-) in tariff T2 [kWh]
+    tr
+      th 16.8.3
+      td Sum active energy without reverse blockade (A+ - A-) in tariff T3 [kWh]
+    tr
+      th 16.8.4
+      td Sum active energy without reverse blockade (A+ - A-) in tariff T4 [kWh]
+    tr
+      th(colspan='2') 2. Reactive energy registers
+    tr
+      th 3.8.0
+      td Positive reactive energy (Q+) total [kvarh]
+    tr
+      th 3.8.1
+      td Positive reactive energy (Q+) in tariff T1 [kvarh]
+    tr
+      th 3.8.2
+      td Positive reactive energy (Q+) in tariff T2 [kvarh]
+    tr
+      th 3.8.3
+      td Positive reactive energy (Q+) in tariff T3 [kvarh]
+    tr
+      th 3.8.4
+      td Positive reactive energy (Q+) in tariff T4 [kvarh]
+    tr
+      th 4.8.0
+      td Negative reactive energy (Q-) total [kvarh]
+    tr
+      th 4.8.1
+      td Negative reactive energy (Q-) in tariff T1 [kvarh]
+    tr
+      th 4.8.2
+      td Negative reactive energy (Q-) in tariff T2 [kvarh]
+    tr
+      th 4.8.3
+      td Negative reactive energy (Q-) in tariff T3 [kvarh]
+    tr
+      th 4.8.4
+      td Negative reactive energy (Q-) in tariff T4 [kvarh]
+    tr
+      th 5.8.0
+      td Imported inductive reactive energy in 1-st quadrant (Q1) total [kvarh]
+    tr
+      th 5.8.1
+      td Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T1 [kvarh]
+    tr
+      th 5.8.2
+      td Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T2 [kvarh]
+    tr
+      th 5.8.3
+      td Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T3 [kvarh]
+    tr
+      th 5.8.4
+      td Imported inductive reactive energy in 1-st quadrant (Q1) in tariff T4 [kvarh]
+    tr
+      th 6.8.0
+      td Imported capacitive reactive energy in 2-nd quadrant (Q2) total [kvarh]
+    tr
+      th 6.8.1
+      td Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T1 [kvarh]
+    tr
+      th 6.8.2
+      td Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T2 [kvarh]
+    tr
+      th 6.8.3
+      td Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T3 [kvarh]
+    tr
+      th 6.8.4
+      td Imported capacitive reactive energy in 2-nd quadr. (Q2) in tariff T4 [kvarh]
+    tr
+      th 7.8.0
+      td Exported inductive reactive energy in 3-rd quadrant (Q3) total [kvarh]
+    tr
+      th 7.8.1
+      td Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T1 [kvarh]
+    tr
+      th 7.8.2
+      td Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T2 [kvarh]
+    tr
+      th 7.8.3
+      td Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T3 [kvarh]
+    tr
+      th 7.8.4
+      td Exported inductive reactive energy in 3-rd quadrant (Q3) in tariff T4 [kvarh]
+    tr
+      th 8.8.0
+      td Exported capacitive reactive energy in 4-th quadrant (Q4) total [kvarh]
+    tr
+      th 8.8.1
+      td Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T1 [kvarh]
+    tr
+      th 8.8.2
+      td Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T2 [kvarh]
+    tr
+      th 8.8.3
+      td Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T3 [kvarh]
+    tr
+      th 8.8.4
+      td Exported capacitive reactive energy in 4-th quadr. (Q4) in tariff T4 [kvarh]
+    tr
+      th(colspan='2') 3. Apparent energy registers
+    tr
+      th 9.8.0
+      td Apparent energy (S+) total [kVAh]
+    tr
+      th 9.8.1
+      td Apparent energy (S+) in tariff T1 [kVAh]
+    tr
+      th 9.8.2
+      td Apparent energy (S+) in tariff T2 [kVAh]
+    tr
+      th 9.8.3
+      td Apparent energy (S+) in tariff T3 [kVAh]
+    tr
+      th 9.8.4
+      td Apparent energy (S+) in tariff T4 [kVAh]
+    tr
+      th(colspan='2') 4. Registers of active energy per phases
+    tr
+      th 21.8.0
+      td Positive active energy (A+) in phase L1 total [kWh]
+    tr
+      th 41.8.0
+      td Positive active energy (A+) in phase L2 total [kWh]
+    tr
+      th 61.8.0
+      td Positive active energy (A+) in phase L3 total [kWh]
+    tr
+      th 22.8.0
+      td Negative active energy (A-) in phase L1 total [kWh]
+    tr
+      th 42.8.0
+      td Negative active energy (A-) in phase L2 total [kWh]
+    tr
+      th 62.8.0
+      td Negative active energy (A-) in phase L3 total [kWh]
+    tr
+      th 35.8.0
+      td Absolute active energy (|A|) in phase L1 total [kWh]
+    tr
+      th 55.8.0
+      td Absolute active energy (|A|) in phase L2 total [kWh]
+    tr
+      th 75.8.0
+      td Absolute active energy (|A|) in phase L3 total [kWh]
+    tr
+      th(colspan='2') 5. Maximum demand registers:
+    tr
+      th 1.6.0
+      td Positive active maximum demand (A+) total [kW]
+    tr
+      th 1.6.1
+      td Positive active maximum demand (A+) in tariff T1 [kW]
+    tr
+      th 1.6.2
+      td Positive active maximum demand (A+) in tariff T2 [kW]
+    tr
+      th 1.6.3
+      td Positive active maximum demand (A+) in tariff T3 [kW]
+    tr
+      th 1.6.4
+      td Positive active maximum demand (A+) in tariff T4 [kW]
+    tr
+      th 2.6.0
+      td Negative active maximum demand (A-) total [kW]
+    tr
+      th 2.6.1
+      td Negative active maximum demand (A-) in tariff T1 [kW]
+    tr
+      th 2.6.2
+      td Negative active maximum demand (A-) in tariff T2 [kW]
+    tr
+      th 2.6.3
+      td Negative active maximum demand (A-) in tariff T3 [kW]
+    tr
+      th 2.6.4
+      td Negative active maximum demand (A-) in tariff T4 [kW]
+    tr
+      th 15.6.0
+      td Absolute active maximum demand (|A|) total [kW]
+    tr
+      th 15.6.1
+      td Absolute active maximum demand (|A|) in tariff T1 [kW]
+    tr
+      th 15.6.2
+      td Absolute active maximum demand (|A|) in tariff T2 [kW]
+    tr
+      th 15.6.3
+      td Absolute active maximum demand (|A|) in tariff T3 [kW]
+    tr
+      th 15.6.4
+      td Absolute active maximum demand (|A|) in tariff T4 [kW]
+    tr
+      th 3.6.0
+      td Positive reactive maximum demand (Q+) total [kvar]
+    tr
+      th 4.6.0
+      td Negative reactive maximum demand (Q-) total [kvar]
+    tr
+      th 5.6.0
+      td Reactive maximum demand in Q1 (Q1) total [kvar]
+    tr
+      th 6.6.0
+      td Reactive maximum demand in Q2 (Q2) total [kvar]
+    tr
+      th 7.6.0
+      td Reactive maximum demand in Q3 (Q3) total [kvar]
+    tr
+      th 8.6.0
+      td Reactive maximum demand in Q4 (Q4) total [kvar]
+    tr
+      th 9.6.0
+      td Apparent maximum demand (S+) total [kVA]
+    tr
+      th(colspan='2') 6. Cumulative maximum demand registers
+    tr
+      th 1.2.0
+      td Positive active cumulative maximum demand (A+) total [kW]
+    tr
+      th 1.2.1
+      td Positive active cumulative maximum demand (A+) in tariff T1 [kW]
+    tr
+      th 1.2.2
+      td Positive active cumulative maximum demand (A+) in tariff T2 [kW]
+    tr
+      th 1.2.3
+      td Positive active cumulative maximum demand (A+) in tariff T3 [kW]
+    tr
+      th 1.2.4
+      td Positive active cumulative maximum demand (A+) in tariff T4 [kW]
+    tr
+      th 2.2.0
+      td Negative active cumulative maximum demand (A-) total [kW]
+    tr
+      th 2.2.1
+      td Negative active cumulative maximum demand (A-) in tariff T1 [kW]
+    tr
+      th 2.2.2
+      td Negative active cumulative maximum demand (A-) in tariff T2 [kW]
+    tr
+      th 2.2.3
+      td Negative active cumulative maximum demand (A-) in tariff T3 [kW]
+    tr
+      th 2.2.4
+      td Negative active cumulative maximum demand (A-) in tariff T4 [kW]
+    tr
+      th 15.2.0
+      td Absolute active cumulative maximum demand (|A|) total [kW]
+    tr
+      th 15.2.1
+      td Absolute active cumulative maximum demand (|A|) in tariff T1 [kW]
+    tr
+      th 15.2.2
+      td Absolute active cumulative maximum demand (|A|) in tariff T2 [kW]
+    tr
+      th 15.2.3
+      td Absolute active cumulative maximum demand (|A|) in tariff T3 [kW]
+    tr
+      th 15.2.4
+      td Absolute active cumulative maximum demand (|A|) in tariff T4 [kW]
+    tr
+      th 3.2.0
+      td Positive reactive cumulative maximum demand (Q+) total [kvar]
+    tr
+      th 4.2.0
+      td Negative reactive cumulative maximum demand (Q-) total [kvar]
+    tr
+      th 5.2.0
+      td Reactive cumulative maximum demand in Q1 (Q1) total [kvar]
+    tr
+      th 6.2.0
+      td Reactive cumulative maximum demand in Q2 (Q2) total [kvar]
+    tr
+      th 7.2.0
+      td Reactive cumulative maximum demand in Q3 (Q3) total [kvar]
+    tr
+      th 8.2.0
+      td Reactive cumulative maximum demand in Q4 (Q4) total [kvar]
+    tr
+      th 9.2.0
+      td Apparent cumulative maximum demand (S+) total [kVA]
+    tr
+      th(colspan='2') 7. Demands in a current demand period
+    tr
+      th 1.4.0
+      td Positive active demand in a current demand period (A+) [kW]
+    tr
+      th 2.4.0
+      td Negative active demand in a current demand period (A-) [kW]
+    tr
+      th 15.4.0
+      td Absolute active demand in a current demand period (|A|) [kW]
+    tr
+      th 3.4.0
+      td Positive reactive demand in a current demand period (Q+) [kvar]
+    tr
+      th 4.4.0
+      td Negative reactive demand in a current demand period (Q-) [kvar]
+    tr
+      th 5.4.0
+      td Reactive demand in a current demand period in Q1 (Q1) [kvar]
+    tr
+      th 6.4.0
+      td Reactive demand in a current demand period in Q2 (Q2) [kvar]
+    tr
+      th 7.4.0
+      td Reactive demand in a current demand period in Q3 (Q3) [kvar]
+    tr
+      th 8.4.0
+      td Reactive demand in a current demand period in Q4 (Q4) [kvar]
+    tr
+      th 9.4.0
+      td Apparent demand in a current demand period (S+) [kVA]
+    tr
+      th(colspan='2') 8. Demands in the last completed demand period
+    tr
+      th 1.5.0
+      td Positive active demand in the last completed demand period (A+) [kW]
+    tr
+      th 2.5.0
+      td Negative active demand in the last completed demand period (A-) [kW]
+    tr
+      th 15.5.0
+      td Absolute active demand in the last completed demand period (|A|) [kW]
+    tr
+      th 3.5.0
+      td Positive reactive demand in the last completed demand period (Q+) [kvar]
+    tr
+      th 4.5.0
+      td Negative reactive demand in the last completed demand period (Q-) [kvar]
+    tr
+      th 5.5.0
+      td Reactive demand in the last completed demand period in Q1 (Q1) [kvar]
+    tr
+      th 6.5.0
+      td Reactive demand in the last completed demand period in Q2 (Q2) [kvar]
+    tr
+      th 7.5.0
+      td Reactive demand in the last completed demand period in Q3 (Q3) [kvar]
+    tr
+      th 8.5.0
+      td Reactive demand in the last completed demand period in Q4 (Q4) [kvar]
+    tr
+      th 9.5.0
+      td Apparent demand in the last completed demand period (S+) [kVA]
+    tr
+      th(colspan='2') 9. Instantaneous power registers
+    tr
+      th 1.7.0
+      td Positive active instantaneous power (A+) [kW]
+    tr
+      th 21.7.0
+      td Positive active instantaneous power (A+) in phase L1 [kW]
+    tr
+      th 41.7.0
+      td Positive active instantaneous power (A+) in phase L2 [kW]
+    tr
+      th 61.7.0
+      td Positive active instantaneous power (A+) in phase L3 [kW]
+    tr
+      th 2.7.0
+      td Negative active instantaneous power (A-) [kW]
+    tr
+      th 22.7.0
+      td Negative active instantaneous power (A-) in phase L1 [kW]
+    tr
+      th 42.7.0
+      td Negative active instantaneous power (A-) in phase L2 [kW]
+    tr
+      th 62.7.0
+      td Negative active instantaneous power (A-) in phase L3 [kW]
+    tr
+      th 15.7.0
+      td Absolute active instantaneous power (|A|) [kW]
+    tr
+      th 35.7.0
+      td Absolute active instantaneous power (|A|) in phase L1 [kW]
+    tr
+      th 55.7.0
+      td Absolute active instantaneous power (|A|) in phase L2 [kW]
+    tr
+      th 75.7.0
+      td Absolute active instantaneous power (|A|) in phase L3 [kW]
+    tr
+      th 16.7.0
+      td Sum active instantaneous power (A+ - A-) [kW]
+    tr
+      th 36.7.0
+      td Sum active instantaneous power (A+ - A-) in phase L1 [kW]
+    tr
+      th 56.7.0
+      td Sum active instantaneous power (A+ - A-) in phase L2 [kW]
+    tr
+      th 76.7.0
+      td Sum active instantaneous power (A+ - A-) in phase L3 [kW]
+    tr
+      th 3.7.0
+      td Positive reactive instantaneous power (Q+) [kvar]
+    tr
+      th 23.7.0
+      td Positive reactive instantaneous power (Q+) in phase L1 [kvar]
+    tr
+      th 43.7.0
+      td Positive reactive instantaneous power (Q+) in phase L2 [kvar]
+    tr
+      th 63.7.0
+      td Positive reactive instantaneous power (Q+) in phase L3 [kvar]
+    tr
+      th 4.7.0
+      td Negative reactive instantaneous power (Q-) [kvar]
+    tr
+      th 24.7.0
+      td Negative reactive instantaneous power (Q-) in phase L1 [kvar]
+    tr
+      th 44.7.0
+      td Negative reactive instantaneous power (Q-) in phase L2 [kvar]
+    tr
+      th 64.7.0
+      td Negative reactive instantaneous power (Q-) in phase L3 [kvar]
+    tr
+      th 9.7.0
+      td Apparent instantaneous power (S+) [kVA]
+    tr
+      th 29.7.0
+      td Apparent instantaneous power (S+) in phase L1 [kVA]
+    tr
+      th 49.7.0
+      td Apparent instantaneous power (S+) in phase L2 [kVA]
+    tr
+      th 69.7.0
+      td Apparent instantaneous power (S+) in phase L3 [kVA]
+    tr
+      th(colspan='2') 10. Electricity network quality registers
+    tr
+      th 11.7.0
+      td Instantaneous current (I) [A]
+    tr
+      th 31.7.0
+      td Instantaneous current (I) in phase L1 [A]
+    tr
+      th 51.7.0
+      td Instantaneous current (I) in phase L2 [A]
+    tr
+      th 71.7.0
+      td Instantaneous current (I) in phase L3 [A]
+    tr
+      th 91.7.0
+      td Instantaneous current (I) in neutral [A]
+    tr
+      th 11.6.0
+      td Maximum current (I max) [A]
+    tr
+      th 31.6.0
+      td Maximum current (I max) in phase L1 [A]
+    tr
+      th 51.6.0
+      td Maximum current (I max) in phase L2 [A]
+    tr
+      th 71.6.0
+      td Maximum current (I max) in phase L3 [A]
+    tr
+      th 91.6.0
+      td Maximum current (I max) in neutral [A]
+    tr
+      th 12.7.0
+      td Instantaneous voltage (U) [V]
+    tr
+      th 32.7.0
+      td Instantaneous voltage (U) in phase L1 [V]
+    tr
+      th 52.7.0
+      td Instantaneous voltage (U) in phase L2 [V]
+    tr
+      th 72.7.0
+      td Instantaneous voltage (U) in phase L3 [V]
+    tr
+      th 13.7.0
+      td Instantaneous power factor
+    tr
+      th 33.7.0
+      td Instantaneous power factor in phase L1
+    tr
+      th 53.7.0
+      td Instantaneous power factor in phase L2
+    tr
+      th 73.7.0
+      td Instantaneous power factor in phase L3
+    tr
+      th 14.7.0
+      td Frequency [Hz]
+    tr
+      th(colspan='2') 11. Tamper registers (energy registers and registers of elapsed time)
+    tr
+      th C.53.1
+      td Tamper 1 energy register
+    tr
+      th C.53.2
+      td Tamper 2 energy register
+    tr
+      th C.53.3
+      td Tamper 3 energy register
+    tr
+      th C.53.4
+      td Tamper 4 energy register
+    tr
+      th C.53.11
+      td Tamper 5 energy register
+    tr
+      th C.53.5
+      td Tamper 1 time counter register
+    tr
+      th C.53.6
+      td Tamper 2 time counter register
+    tr
+      th C.53.7
+      td Tamper 3 time counter register
+    tr
+      th C.53.9
+      td Tamper 4 time counter register
+    tr
+      th C.53.10
+      td Tamper 5 time counter register
+    tr
+      th(colspan='2') 12. Events registers (counters and time-stamps)
+    tr
+      th C.2.0
+      td Event parameters change - counter
+    tr
+      th C.2.1
+      td Event parameters change - timestamp
+    tr
+      th C.51.1
+      td Event terminal cover opened - counter
+    tr
+      th C.51.2
+      td Event terminal cover opened - timestamp
+    tr
+      th C.51.3
+      td Event main cover opened - counter
+    tr
+      th C.51.4
+      td Event main cover opened - timestamp
+    tr
+      th C.51.5
+      td Event magnetic field detection start - counter
+    tr
+      th C.51.6
+      td Event magnetic field detection start - timestamp
+    tr
+      th C.51.7
+      td Event reverse power flow - counter
+    tr
+      th C.51.8
+      td Event reverse power flow - timestamp
+    tr
+      th C.7.0
+      td Event power down - counter
+    tr
+      th C.7.10
+      td Event power down - timestamp
+    tr
+      th C.51.13
+      td Event power up - counter
+    tr
+      th C.51.14
+      td Event power up – timestamp
+    tr
+      th C.51.15
+      td Event RTC (Real Time Clock) set - counter
+    tr
+      th C.51.16
+      td Event RTC (Real Time Clock) set - timestamp
+    tr
+      th C.51.21
+      td Event terminal cover closed - counter
+    tr
+      th C.51.22
+      td Event terminal cover closed - timestamp
+    tr
+      th C.51.23
+      td Event main cover closed - counter
+    tr
+      th C.51.24
+      td Event main cover closed - timestamp
+    tr
+      th C.51.25
+      td Event log-book 1 erased - counter
+    tr
+      th C.51.26
+      td Event log-book 1 erased - timestamp
+    tr
+      th C.51.27
+      td Event fraud start - counter
+    tr
+      th C.51.28
+      td Event fraud start - timestamp
+    tr
+      th C.51.29
+      td Event fraud stop - counter
+    tr
+      th C.51.30
+      td Event fraud stop - timestamp
+    tr
+      th(colspan='2') 13. Miscellaneous registers used in sequences
+    tr
+      th 0.9.1
+      td Current time (hh:mm:ss)
+    tr
+      th 0.9.2
+      td Date (YY.MM.DD or DD.MM.YY)
+    tr
+      th 0.9.4
+      td Date and Time (YYMMDDhhmmss)
+    tr
+      th 0.8.0
+      td Demand period [min]
+    tr
+      th 0.8.4
+      td Load profile period [min] (option)
+    tr
+      th 0.0.0
+      td Device address 1
+    tr
+      th 0.0.1
+      td Device address 2
+    tr
+      th 0.1.0
+      td MD reset counter
+    tr
+      th 0.1.2
+      td MD reset timestamp
+    tr
+      th 0.2.0
+      td Firmware version
+    tr
+      th 0.2.2
+      td Tariff program ID
+    tr
+      th C.1.0
+      td Meter serial number
+    tr
+      th C.1.2
+      td Parameters file code
+    tr
+      th C.1.4
+      td Parameters check sum
+    tr
+      th C.1.5
+      td Firmware built date
+    tr
+      th C.1.6
+      td Firmware check sum
+    tr
+      th C.6.0
+      td Power down time counter
+    tr
+      th C.6.1
+      td Battery remaining capacity
+    tr
+      th F.F.0
+      td Fatal error meter status
+    tr
+      th C.87.0
+      td Active tariff
+    tr
+      th 0.2.1
+      td Parameters scheme ID
+    tr
+      th C.60.9
+      td Fraud flag
+    tr
+      th 0.3.0
+      td Active energy meter constant
+    tr
+      th 0.4.2
+      td Current transformer ratio
+    tr
+      th 0.4.3
+      td Voltage transformer ratio
