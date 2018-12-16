@@ -40,3 +40,7 @@ scream out if you need any help, this is how it will be until the project is rea
 - noSQL storage option (meanwhile will probably just be json object written to a json file.)
 - REST API (the url is active, just doesn't deliver any data.)
 - This is the second time i write this program, so there are probably thousand more things to do... please post me a message if you get any ideas.
+
+# ScreenGIF
+
+![Han1 Dash](https://media.giphy.com/media/t8Y61oRkLHa8xKMOvd/giphy.gif)
