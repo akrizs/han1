@@ -64,3 +64,9 @@ typings/
 
 #Parcel Cache!
 .parcel-cache
+
+#Crap Files
+._*
+
+#DS_STORE
+.DS_Store
