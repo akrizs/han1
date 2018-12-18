@@ -1,3 +1,74 @@
+import ProgressBar from 'progressbar.js';
+
+window.ProgressBar = ProgressBar;
+
+const metersOptions = {
+  activeMeterOpts: {
+    color: '#ffffff',
+    strokeWidth: 4,
+    trailColor: '#203D42',
+    trailWidth: 0.8,
+    text: {
+      value: 'Active Power',
+      className: 'activePowerLabel',
+      style: {
+        autoStyleContainer: false,
+      }
+    },
+    svgStyle: {
+      display: 'block',
+      width: '100%'
+    },
+  },
+  ampsMetersOpts: {
+    color: '#ffffff',
+    strokeWidth: 4,
+    trailColor: '#203D42',
+    trailWidth: 0.8,
+    text: {
+      value: 'Current',
+      className: 'phaseVal phaseMeter__current',
+      style: {
+        autoStyleContainer: false,
+      }
+    },
+    svgStyle: {
+      display: 'block',
+      width: '100%'
+    },
+  },
+  voltMetersOpts: {
+    color: '#ffffff',
+    strokeWidth: 4,
+    trailColor: '#203D42',
+    trailWidth: 0.8,
+    text: {
+      value: 'Voltage',
+      className: 'phaseVal phaseMeter__voltage',
+      style: {
+        autoStyleContainer: false,
+      }
+    },
+    svgStyle: {
+      display: 'block',
+      width: '100%'
+    },
+  },
+  voltsMax: 250,
+  ampsMax: 50,
+  ampsAlot: 15,
+  maxWatts: 10000,
+  animationOpts: {
+    duration: 1200,
+    easing: 'easeOut',
+  },
+  sColors: {
+    error: 'rgb(255, 90, 82)',
+    fine: 'rgb(82, 194, 43)',
+    warning: 'rgb(255, 135, 0)',
+  }
+}
+
 let conectedToDevice;
 const socket = window.io();
 
@@ -46,7 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
-socket.on('meterData', function (frmSrv) {
+socket.on('disconnect', function () {
+  console.log(socket);
+  console.log('disconnected')
+});
+
+socket.on('meterData', (frmSrv) => {
   const {
     data,
     meter,
@@ -54,8 +130,7 @@ socket.on('meterData', function (frmSrv) {
     ...rest
   } = frmSrv;
 
-  console.log(data);
-  console.log(listId);
+  console.log(frmSrv);
   if (listId === 25 || listId === 35) {
     activeWmeter.animate((data.activePowerPos / metersOptions.maxWatts), metersOptions.animationOpts);
     activeWmeter.setText(`${(data.activePowerPos / 1000).toFixed(3)} kW`)

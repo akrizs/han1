@@ -1,14 +1,22 @@
-// Require the serial Connection.
-const han1Connect = require('./modules/han1-connect');
-// Require the package script.
-const han1Packer = require('./modules/han1-packer');
-// Start the Web UI/Dashboard.
-require('./modules/han1-dash/han1-dash');
+const config = require('./modules/han1-config.js');
 
-/**
- * Receive the data from the serial connection
- * and send it through to the packaging script.
- * The whole program is controlled by the interval
- * of the data received by the serial connection.
- */
-han1Connect.on('data', han1Packer)
+config().then(cfg => {
+  process.cfg = cfg;
+  if (cfg.debug) {
+    console.log(process.cfg);
+  }
+  // Require the serial Connection.
+  const han1Connect = require('./modules/han1-connect');
+  // Require the package script.
+  const han1Packer = require('./modules/han1-packer');
+  // Start the Web UI/Dashboard.
+  require('./modules/han1-dash/han1-dash');
+
+  /**
+   * Receive the data from the serial connection
+   * and send it through to the packaging script.
+   * The whole program is controlled by the interval
+   * of the data received by the serial connection.
+   */
+  han1Connect.on('data', han1Packer)
+})

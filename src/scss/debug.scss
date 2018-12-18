@@ -1,5 +1,17 @@
 @import 'template';
 
+$blendColor: white;
+$blendPercent: 40%;
+
+
+$obColor:rgba(230, 192, 41, 1.00);
+$dataColor:rgba(0, 88, 208, 1.00);
+$bDCBColor: mix($blendColor, $dataColor, $blendPercent);
+$bNOCBColor: mix($blendColor, $obColor, $blendPercent);
+$fsefColor: rgba(82, 194, 43, 1.00);
+$hfcsColor: rgba(255, 90, 82, 1.00);
+
+
 #debugWindow {
   padding: 0 0 0 1rem;
   white-space: pre;
@@ -14,10 +26,213 @@
   justify-content: center;
 }
 
+.freezeButton {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: $slightly-lighter-background;
+  border: none;
+  outline: none;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background: $lighter-background;
+  }
+
+  &[data-frozen] {
+    background: rgba(255, 90, 82, 1.00);
+  }
+}
+
 #debugWindow>.raw {
   display: inline-block;
 }
 
 #debugWindow>.obis {
   display: inline-block;
+}
+
+@import 'tables';
+
+.dbgHexTbl {
+  margin: 50px auto;
+  font-family: monospace;
+  display: grid;
+  grid-template: "heading heading"
+    "hexTable definitions";
+  grid-gap: 1em;
+
+  .dbgHexTblHead {
+    grid-area: heading;
+    margin: .5em 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-line-pack: justify;
+    align-content: space-between;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+
+    .dbgHexTblDateTime {
+      display: inline-block;
+    }
+
+    .dbgHexTblAddInfo {
+      display: inline-block;
+    }
+  }
+
+  .dbgHexTblContent {
+    grid-area: hexTable;
+    white-space: pre-wrap;
+
+    p {
+      display: inline-block;
+      -webkit-margin-before: 0em;
+      margin-block-start: 0em;
+      -webkit-margin-after: 0em;
+      margin-block-end: 0em;
+      -webkit-margin-start: 0px;
+      -moz-margin-start: 0px;
+      margin-inline-start: 0px;
+      -webkit-margin-end: 0px;
+      -moz-margin-end: 0px;
+      margin-inline-end: 0px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+
+      &.byte {
+        position: relative;
+
+        &:hover {
+          color: green;
+
+          &::after {
+            font-weight: bold;
+            border-radius: 2px;
+            padding: .2em;
+            background: white;
+            z-index: 99999;
+            position: absolute;
+            display: inline-block;
+            content: '#'attr(data-bytenr);
+            top: 0;
+            left: 50%;
+            -webkit-transform: translate(-50%, -100%);
+            transform: translate(-50%, -100%);
+          }
+        }
+
+        &.hl {
+          font-weight: bold;
+        }
+
+        &.fsef {
+          color: $fsefColor;
+        }
+
+        &.fcs,
+        &.hcs {
+          color: $hfcsColor;
+        }
+
+        &.obis {
+          color: $obColor;
+
+          &.hl {
+            color: $obColor;
+          }
+        }
+
+        &.dataCtrl {
+          color: $bDCBColor;
+
+          &.hl {
+            color: $bDCBColor;
+          }
+        }
+
+        &.data {
+          color: $dataColor;
+
+          &.hl {
+            color: $dataColor;
+          }
+        }
+
+        &.obisCtrl {
+          color: $bNOCBColor;
+
+          &.hl {
+            color: $bNOCBColor;
+          }
+        }
+      }
+    }
+  }
+
+  .dbgHexTblDefinitions {
+    grid-area: definitions;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    p {
+      position: relative;
+      margin: 2.5px 0 2.5px 1.4em;
+
+
+      &::before {
+        border-radius: 2px;
+        position: absolute;
+        content: '';
+        display: inline-block;
+        height: calc(1em - 2px);
+        width: calc(1em - 2px);
+        bottom: 50%;
+        left: -1.4em;
+        -webkit-transform: translate(0, 50%);
+        transform: translate(0, 50%);
+        border: 1px solid white;
+      }
+    }
+
+    p.obisCtrlDef {
+      &::before {
+        background-color: $bNOCBColor;
+      }
+    }
+
+    p.obisDef {
+      &::before {
+        background-color: $obColor;
+      }
+    }
+
+    p.dataCtrlDef {
+      &::before {
+        background-color: $bDCBColor;
+      }
+    }
+
+    p.dataDef {
+      &::before {
+        background-color: $dataColor;
+      }
+    }
+  }
+
 }

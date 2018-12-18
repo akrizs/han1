@@ -6,7 +6,8 @@ html {
   font-size: 15px;
   color: white;
   background-color: #1d373c;
-  font-family: 'Open Sans', Arial, Helvetica, sans-serif; }
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+}
 
 .wrap {
   margin: 0 auto;
@@ -18,33 +19,8 @@ html {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  padding: 1rem; }
-
-table.obisTable,
-table.specTable {
-  border-collapse: collapse;
-  border: 1px solid #203D42; }
-
-table.specTable thead th {
-  padding: 1em;
-  border-right: 1px solid #203D42; }
-
-table.specTable tbody tr {
-  border: 1px solid rgba(255, 255, 255, 0.3); }
-  table.specTable tbody tr.startFrame {
-    background: rgba(0, 128, 0, 0.3); }
-  table.specTable tbody tr.dui {
-    background: rgba(128, 128, 0, 0.3); }
-  table.specTable tbody tr.infoObjOne {
-    background: rgba(128, 83, 0, 0.3); }
-  table.specTable tbody tr.infoObjTwo {
-    background: rgba(128, 70, 0, 0.3); }
-  table.specTable tbody tr.stopFrame {
-    background: rgba(128, 0, 0, 0.3); }
-
-table.specTable tbody td {
-  border: 1px solid white;
-  padding: .4em; }
+  padding: 1rem;
+}
 
 .activeGroup {
   display: -webkit-box;
@@ -53,17 +29,20 @@ table.specTable tbody td {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 #activePower {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+}
 
 #activePower .meter {
   display: inline-block;
   width: 50%;
-  margin: 0 auto; }
+  margin: 0 auto;
+}
 
 .activePowerLabel {
   display: block;
@@ -74,12 +53,14 @@ table.specTable tbody td {
   transform: translate(-50%, -50%);
   font-size: 1.2rem;
   font-weight: bold;
-  color: white; }
+  color: white;
+}
 
 #phasesGroup {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px; }
+  grid-gap: 20px;
+}
 
 .phaseVal {
   display: block;
@@ -90,31 +71,37 @@ table.specTable tbody td {
   transform: translate(-50%, -50%);
   font-size: 1.2rem;
   font-weight: bold;
-  color: white; }
+  color: white;
+}
 
 .phaseChild {
-  margin: 0 0 20px 0; }
+  margin: 0 0 20px 0;
+}
 
 .phase .headTitle h4 {
   text-align: center;
-  font-size: 1.1rem; }
+  font-size: 1.1rem;
+}
 
 #lastUpdate {
   text-align: center;
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: .8rem;
-  color: #203d42; }
-  #lastUpdate h3 {
-    margin: 0;
-    padding: 0;
-    text-transform: uppercase;
-    font-size: 1rem; }
-  #lastUpdate h4 {
-    margin: 0;
-    padding: 0;
-    margin-top: .5rem;
-    white-space: pre;
-    line-break: normal;
-    font-size: .8rem; }
+  padding: 0.8rem;
+  color: #203d42;
+}
+#lastUpdate h3 {
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+#lastUpdate h4 {
+  margin: 0;
+  padding: 0;
+  margin-top: 0.5rem;
+  white-space: pre;
+  line-break: normal;
+  font-size: 0.8rem;
+}

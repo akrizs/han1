@@ -81,7 +81,7 @@ class Kamstrup extends han1Profile {
           dataEnd = (workData.length);
         }
         dataStart = (c[(c.length - 1)] + 2);
-        console.log(dataStart, dataEnd)
+
         if (obisCodeString === '1-1:0.2.129.255') {
           // OBIS List version identifier.
           this.obisVListId = workData.slice(dataStart, dataEnd - 1).toString('utf8')
@@ -160,7 +160,6 @@ class Kamstrup extends han1Profile {
         }
       }
     })
-    console.log(this.obis)
     return
   }
 
@@ -199,27 +198,22 @@ class Kamstrup extends han1Profile {
   }
 
   getObisCodeValue(sliced) {
-    console.log('obisCodeValue');
     return sliced.toString('utf8');
   }
 
   getString(sliced) {
-    console.log('string');
     return sliced.toString('utf8');
   }
 
   get1Byte(sliced) {
-    console.log('1byte');
     return sliced.readUInt8(0);
   }
 
   getInt2Bytes(sliced) {
-    console.log('int2Bytes');
     return sliced.readUInt16BE(0);
   }
 
   getInt4Bytes(sliced) {
-    console.log('int4Bytes');
     return sliced.readUInt32BE(0);
   }
 

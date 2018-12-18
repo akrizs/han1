@@ -5,12 +5,23 @@ append css
 
 append topScripts
   script(src=process.env.SOCKET)
-  script(src="../js/debug-init.js")
 
 block content
-  include _specTable
+  #debugHexTable(class="dbgHexTbl")
+    .dbgHexTblHead
+      .dbgHexTblDateTime
+      .dbgHexTblAddInfo
+    .dbgHexTblContent
+    .dbgHexTblDefinitions
+      p.obisCtrlDef Obis Control
+      p.obisDef Obis
+      p.dataCtrlDef Data Control
+      p.dataDef Data
+      
+    .demoWindow
+  //- include _specTable
   include _obisTable
-  include _obisCodeTable
+  //- include _obisCodeTable
 
 
 append bottomScripts

@@ -6,7 +6,8 @@ html {
   font-size: 15px;
   color: white;
   background-color: #1d373c;
-  font-family: 'Open Sans', Arial, Helvetica, sans-serif; }
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+}
 
 .wrap {
   margin: 0 auto;
@@ -18,33 +19,8 @@ html {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  padding: 1rem; }
-
-table.obisTable,
-table.specTable {
-  border-collapse: collapse;
-  border: 1px solid #203D42; }
-
-table.specTable thead th {
-  padding: 1em;
-  border-right: 1px solid #203D42; }
-
-table.specTable tbody tr {
-  border: 1px solid rgba(255, 255, 255, 0.3); }
-  table.specTable tbody tr.startFrame {
-    background: rgba(0, 128, 0, 0.3); }
-  table.specTable tbody tr.dui {
-    background: rgba(128, 128, 0, 0.3); }
-  table.specTable tbody tr.infoObjOne {
-    background: rgba(128, 83, 0, 0.3); }
-  table.specTable tbody tr.infoObjTwo {
-    background: rgba(128, 70, 0, 0.3); }
-  table.specTable tbody tr.stopFrame {
-    background: rgba(128, 0, 0, 0.3); }
-
-table.specTable tbody td {
-  border: 1px solid white;
-  padding: .4em; }
+  padding: 1rem;
+}
 
 #debugWindow {
   padding: 0 0 0 1rem;
@@ -57,10 +33,242 @@ table.specTable tbody td {
   align-content: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center; }
+  justify-content: center;
+}
+
+.freezeButton {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #25474d;
+  border: none;
+  outline: none;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.freezeButton:hover {
+  background: #366670;
+}
+.freezeButton[data-frozen] {
+  background: #ff5a52;
+}
 
 #debugWindow > .raw {
-  display: inline-block; }
+  display: inline-block;
+}
 
 #debugWindow > .obis {
-  display: inline-block; }
+  display: inline-block;
+}
+
+table.obisTable,
+table.specTable {
+  border-collapse: collapse;
+  border: 1px solid #25474d;
+  table-layout: auto;
+  width: 100%;
+  cursor: pointer;
+}
+
+table.specTable thead th {
+  padding: 1em;
+  border-right: 1px solid #203D42;
+}
+table.specTable tbody tr {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+table.specTable tbody tr.startFrame {
+  background: rgba(0, 128, 0, 0.3);
+}
+table.specTable tbody tr.dui {
+  background: rgba(128, 128, 0, 0.3);
+}
+table.specTable tbody tr.infoObjOne {
+  background: rgba(128, 83, 0, 0.3);
+}
+table.specTable tbody tr.infoObjTwo {
+  background: rgba(128, 70, 0, 0.3);
+}
+table.specTable tbody tr.stopFrame {
+  background: rgba(128, 0, 0, 0.3);
+}
+table.specTable tbody td {
+  border: 1px solid white;
+  padding: 0.4em;
+}
+table.obisTable thead {
+  border: 1px solid #366670;
+}
+table.obisTable thead tr:first-of-type {
+  border-bottom: 1px solid #366670;
+}
+table.obisTable thead tr th {
+  border-right: 1px solid #366670;
+  padding: 0.5em 0;
+}
+table.obisTable tbody tr {
+  padding: 0.5em 0.5em;
+}
+table.obisTable tbody tr:not(:last-of-type) {
+  border-bottom: 1px solid #25474d;
+}
+table.obisTable tbody tr td {
+  padding: inherit;
+  text-align: center;
+  padding: 0.5em 0.5em;
+}
+table.obisTable tbody tr td.obis__name {
+  text-align: left;
+}
+table.obisTable tbody tr td.obis__obis_byteStart {
+  border-left: 1px solid #25474d;
+}
+table.obisTable tbody tr td.obisGroup.obisGroup__A {
+  border-left: 1px solid #25474d;
+}
+table.obisTable tbody tr td.obisGroup.obisGroup__F {
+  border-right: 1px solid #25474d;
+}
+.dbgHexTbl {
+  margin: 50px auto;
+  font-family: monospace;
+  display: grid;
+  grid-template: "heading heading" "hexTable definitions";
+  grid-gap: 1em;
+}
+.dbgHexTbl .dbgHexTblHead {
+  grid-area: heading;
+  margin: 0.5em 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: justify;
+  align-content: space-between;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.dbgHexTbl .dbgHexTblHead .dbgHexTblDateTime {
+  display: inline-block;
+}
+.dbgHexTbl .dbgHexTblHead .dbgHexTblAddInfo {
+  display: inline-block;
+}
+.dbgHexTbl .dbgHexTblContent {
+  grid-area: hexTable;
+  white-space: pre-wrap;
+}
+.dbgHexTbl .dbgHexTblContent p {
+  display: inline-block;
+  -webkit-margin-before: 0em;
+  margin-block-start: 0em;
+  -webkit-margin-after: 0em;
+  margin-block-end: 0em;
+  -webkit-margin-start: 0px;
+  -moz-margin-start: 0px;
+  margin-inline-start: 0px;
+  -webkit-margin-end: 0px;
+  -moz-margin-end: 0px;
+  margin-inline-end: 0px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.dbgHexTbl .dbgHexTblContent p.byte {
+  position: relative;
+}
+.dbgHexTbl .dbgHexTblContent p.byte:hover {
+  color: green;
+}
+.dbgHexTbl .dbgHexTblContent p.byte:hover::after {
+  font-weight: bold;
+  border-radius: 2px;
+  padding: 0.2em;
+  background: white;
+  z-index: 99999;
+  position: absolute;
+  display: inline-block;
+  content: "#" attr(data-bytenr);
+  top: 0;
+  left: 50%;
+  -webkit-transform: translate(-50%, -100%);
+  transform: translate(-50%, -100%);
+}
+.dbgHexTbl .dbgHexTblContent p.byte.hl {
+  font-weight: bold;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.fsef {
+  color: #52c22b;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.fcs, .dbgHexTbl .dbgHexTblContent p.byte.hcs {
+  color: #ff5a52;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.obis {
+  color: #e6c029;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.obis.hl {
+  color: #e6c029;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.dataCtrl {
+  color: #669be3;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.dataCtrl.hl {
+  color: #669be3;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.data {
+  color: #0058d0;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.data.hl {
+  color: #0058d0;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.obisCtrl {
+  color: #f0d97f;
+}
+.dbgHexTbl .dbgHexTblContent p.byte.obisCtrl.hl {
+  color: #f0d97f;
+}
+.dbgHexTbl .dbgHexTblDefinitions {
+  grid-area: definitions;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dbgHexTbl .dbgHexTblDefinitions p {
+  position: relative;
+  margin: 2.5px 0 2.5px 1.4em;
+}
+.dbgHexTbl .dbgHexTblDefinitions p::before {
+  border-radius: 2px;
+  position: absolute;
+  content: "";
+  display: inline-block;
+  height: calc(1em - 2px);
+  width: calc(1em - 2px);
+  bottom: 50%;
+  left: -1.4em;
+  -webkit-transform: translate(0, 50%);
+  transform: translate(0, 50%);
+  border: 1px solid white;
+}
+.dbgHexTbl .dbgHexTblDefinitions p.obisCtrlDef::before {
+  background-color: #f0d97f;
+}
+.dbgHexTbl .dbgHexTblDefinitions p.obisDef::before {
+  background-color: #e6c029;
+}
+.dbgHexTbl .dbgHexTblDefinitions p.dataCtrlDef::before {
+  background-color: #669be3;
+}
+.dbgHexTbl .dbgHexTblDefinitions p.dataDef::before {
+  background-color: #0058d0;
+}

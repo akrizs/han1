@@ -1,8 +1,15 @@
+$ol-col-lightest: lighten(rgba(29, 55, 60, 1.00), 5%);
+$ol-col-light: lighten(rgba(29, 55, 60, 1.00), 15%);
+
 table.obisTable,
 table.specTable {
   border-collapse: collapse;
-  border: 1px solid #203D42;
+  border: 1px solid $ol-col-lightest;
+  table-layout: auto;
+  width: 100%;
+  cursor: pointer;
 }
+
 
 
 table.specTable {
@@ -60,9 +67,55 @@ table.specTable {
 }
 
 table.obisTable {
-  thead {}
+  thead {
+    border: 1px solid $ol-col-light;
 
-  tbody {}
+    tr {
+      &:first-of-type {
+        border-bottom: 1px solid $ol-col-light;
+      }
+
+      th {
+        border-right: 1px solid $ol-col-light;
+        padding: .5em 0;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      padding: .5em .5em;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid $ol-col-lightest;
+      }
+
+      td {
+        padding: inherit;
+        text-align: center;
+        padding: .5em .5em;
+
+        &.obis__name {
+          text-align: left;
+        }
+
+        &.obis__obis_byteStart {
+          border-left: 1px solid $ol-col-lightest;
+        }
+
+        &.obisGroup {
+          &.obisGroup__A {
+            border-left: 1px solid $ol-col-lightest;
+          }
+
+          &.obisGroup__F {
+            border-right: 1px solid $ol-col-lightest;
+          }
+        }
+      }
+    }
+
+  }
 
   tfoot {}
 }

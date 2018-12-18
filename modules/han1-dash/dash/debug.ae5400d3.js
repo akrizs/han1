@@ -104,9 +104,374 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"js/debug.js":[function(require,module,exports) {
+})({"../node_modules/@babel/runtime/helpers/arrayWithHoles.js":[function(require,module,exports) {
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
 
-},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+module.exports = _arrayWithHoles;
+},{}],"../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":[function(require,module,exports) {
+function _iterableToArrayLimit(arr, i) {
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit;
+},{}],"../node_modules/@babel/runtime/helpers/nonIterableRest.js":[function(require,module,exports) {
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+module.exports = _nonIterableRest;
+},{}],"../node_modules/@babel/runtime/helpers/slicedToArray.js":[function(require,module,exports) {
+var arrayWithHoles = require("./arrayWithHoles");
+
+var iterableToArrayLimit = require("./iterableToArrayLimit");
+
+var nonIterableRest = require("./nonIterableRest");
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
+}
+
+module.exports = _slicedToArray;
+},{"./arrayWithHoles":"../node_modules/@babel/runtime/helpers/arrayWithHoles.js","./iterableToArrayLimit":"../node_modules/@babel/runtime/helpers/iterableToArrayLimit.js","./nonIterableRest":"../node_modules/@babel/runtime/helpers/nonIterableRest.js"}],"js/debug.js":[function(require,module,exports) {
+"use strict";
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var dbgConn = io.connect('/debug');
+var dbgHexTbl = document.all.debugHexTable;
+var obisTable = document.all.obisTable;
+var frozen = false;
+var freezeButton = document.createElement('button');
+freezeButton.classList.add('freezeButton');
+freezeButton.id = 'freezer';
+freezeButton.innerText = 'Freeze Data';
+
+freezeButton.onclick = function () {
+  frozen = frozen === false ? true : false;
+  this.innerText = frozen === false ? 'Freeze Data' : 'Data is Frozen!';
+  frozen ? this.dataset.frozen = '' : delete this.dataset.frozen;
+};
+
+document.body.appendChild(freezeButton);
+dbgConn.on('dbgData', function (frmSrv) {
+  var hexified = frmSrv.hexified,
+      obis = frmSrv.obis,
+      date = frmSrv.date,
+      raw = frmSrv.raw,
+      rest = (0, _objectWithoutProperties2.default)(frmSrv, ["hexified", "obis", "date", "raw"]);
+
+  if (!frozen) {
+    debugHexTable(date, hexified, obis, raw.ctrl.frameSize);
+    generateObisTable(raw.manufacturer, null, obis);
+    console.log(frmSrv);
+  } else {
+    console.log('The data stream is frozen!');
+  }
+
+  Array.from(obisTable.tBodies[0].rows).map(function (row) {
+    row.addEventListener('mouseenter', function () {
+      var bStart,
+          bEnd,
+          obStart,
+          obEnd,
+          rowl = row.cells.length,
+          hexTable,
+          bytes,
+          nOBytes;
+      bStart = parseInt(row.cells[rowl - 2].innerText);
+      bEnd = parseInt(row.cells[rowl - 1].innerText);
+      obStart = parseInt(row.cells[rowl - 4].innerText);
+      obEnd = parseInt(row.cells[rowl - 3].innerText);
+      console.log(bStart, bEnd, obStart, obEnd);
+      bytes = bEnd - bStart + (obEnd - obStart) + 2;
+      obStart = obStart - 2;
+      hexTable = document.querySelector('.dbgHexTblContent');
+
+      for (var i = 0; i < bytes; i++) {
+        var byte = hexTable.children[obStart++];
+        byte.classList.toggle('hl');
+      }
+    });
+  });
+});
+
+function generateObisTable(mfact, listNr, obisVals) {
+  var tableHeader = document.all.obisTable.tHead;
+  tableHeader.rows[2].cells[0].innerText = listNr;
+  var tableBody = document.all.obisTable.tBodies[0];
+  var nr = 1;
+  var obisRows = obisVals.map(function (obis) {
+    var _obis = (0, _slicedToArray2.default)(obis, 6),
+        str = _obis[0],
+        type = _obis[1],
+        obStart = _obis[2],
+        obEnd = _obis[3],
+        dStart = _obis[4],
+        dEnd = _obis[5];
+
+    var obisArray = str.split(/-|:|\./gi).map(function (ob) {
+      return parseInt(ob);
+    });
+
+    var _obisArray = (0, _slicedToArray2.default)(obisArray, 6),
+        a = _obisArray[0],
+        b = _obisArray[1],
+        c = _obisArray[2],
+        d = _obisArray[3],
+        e = _obisArray[4],
+        f = _obisArray[5];
+
+    if (mfact === 'kamstrup') {
+      if (type.match(/^(int)(\d)(bytes)/gi)) {
+        type = 'u'.concat(type);
+      }
+    }
+
+    obisArray.push(str);
+    var row = ["<tr>", "<td class=\"obisListIdNr\">".concat(nr++, "</td>"), "<td class=\"obisGroup obisGroup__A\">".concat(a, "</td>"), "<td class=\"obisGroup obisGroup__B\">".concat(b, "</td>"), "<td class=\"obisGroup obisGroup__C\">".concat(c, "</td>"), "<td class=\"obisGroup obisGroup__D\">".concat(d, "</td>"), "<td class=\"obisGroup obisGroup__E\">".concat(e, "</td>"), "<td class=\"obisGroup obisGroup__F\">".concat(f, "</td>"), "<td class=\"obis__name\">".concat(findObisName(obisArray, mfact), "</td>"), "<td class=\"obis__unit\">".concat(findUnitType(obisArray, mfact), "</td>"), "<td class=\"obis__dataType\">".concat(type, "</td>"), "<td class=\"obis__obis_byteStart\">".concat(obStart, "</td>"), "<td class=\"obis__obis_byteEnd\">".concat(obEnd, "</td>"), "<td class=\"obis__value_byteStart\">".concat(dStart, "</td>"), "<td class=\"obis__value_byteEnd\">".concat(dEnd, "</td>"), "</tr>"];
+    return row.join('');
+  }).join('');
+  tableBody.innerHTML = obisRows;
+}
+
+function debugHexTable(date, hexified, obisVals, size) {
+  var meterDate = new Date(date.meter);
+  var serverDate = new Date(date.server);
+  var rL = hexified.split('\n').filter(Boolean).length;
+  var no = -1;
+  var obS, dS, octrlS, dctrlS;
+  var webified = hexified.split('\n').filter(Boolean).map(function (row) {
+    return row.trim();
+  }).map(function (row) {
+    var bytes = row.split(' ').map(function (byte) {
+      no++;
+      var t;
+      obisVals.map(function (obis, idx) {
+        var _obis2 = (0, _slicedToArray2.default)(obis, 6),
+            str = _obis2[0],
+            type = _obis2[1],
+            obStart = _obis2[2],
+            obEnd = _obis2[3],
+            dStart = _obis2[4],
+            dEnd = _obis2[5];
+
+        if (no === parseInt(obStart) - 2) {
+          octrlS = true;
+        }
+
+        if (no === parseInt(obStart)) {
+          octrlS = false;
+          obS = true;
+        }
+
+        if (no - 1 === parseInt(obEnd)) {
+          obS = false;
+        }
+
+        if (no === parseInt(dStart)) {
+          dctrlS = true;
+        }
+
+        if (no === parseInt(dStart) + 1) {
+          dctrlS = false;
+          dS = true;
+        }
+
+        if (no === parseInt(dEnd) - 1) {
+          dS = false;
+        }
+      });
+
+      if (octrlS) {
+        t = 'obisCtrl';
+      }
+
+      if (obS) {
+        t = 'obis';
+      }
+
+      if (dctrlS) {
+        if (t != 'obisCtrl') {
+          t = 'dataCtrl';
+        }
+      }
+
+      if (dS) {
+        t = 'data';
+      }
+
+      if (no === 0 || no === size + 1) {
+        t = 'fsef';
+      }
+
+      if (no === size || no === size - 1) {
+        t = 'fcs';
+      }
+
+      if (no === size - 2) {
+        t = 'data';
+      }
+
+      return "<p class=\"byte ".concat(t, "\" data-byteNr=\"").concat(no, "\">").concat(byte, "</p>");
+    }).join(' ');
+    return bytes;
+  }).join('\n');
+  var packLength = no + 1;
+  dbgHexTbl.querySelector('.dbgHexTblDateTime').innerText = "".concat(meterDate.toLocaleDateString(), " ").concat(meterDate.toLocaleTimeString());
+  dbgHexTbl.querySelector('.dbgHexTblAddInfo').innerText = "Length: ".concat(packLength);
+  dbgHexTbl.querySelector('.dbgHexTblContent').innerHTML = webified;
+}
+
+function findObisName(obis, mfact) {
+  var _obis3 = (0, _slicedToArray2.default)(obis, 7),
+      a = _obis3[0],
+      b = _obis3[1],
+      c = _obis3[2],
+      d = _obis3[3],
+      e = _obis3[4],
+      f = _obis3[5],
+      str = _obis3[6];
+
+  if (str === '1-1:0.2.129.255') {
+    return 'Obis List Version Identifier';
+  }
+
+  if (str === '1-1:0.0.5.255' || str === '0-0:96.1.0.255') {
+    return 'Meter ID (GIAI GS1 16 Digit)';
+  }
+
+  if (str === '1-1:96.1.1.255' || str === '0-0:96.1.7.255') {
+    return 'Meter Type';
+  }
+
+  if (str === '1-1:1.7.0.255' || str === '1-0:1.7.0.255') {
+    return 'Active Power + (Q1+Q4)';
+  }
+
+  if (str === '1-1:2.7.0.255' || str === '1-0:2.7.0.255') {
+    return 'Active Power - (Q2+Q3)';
+  }
+
+  if (str === '1-1:3.7.0.255' || str === '1-0:3.7.0.255') {
+    return 'Reactive Power + (Q1+Q2)';
+  }
+
+  if (str === '1-1:4.7.0.255' || str === '1-0:4.7.0.255') {
+    return 'Reactive Power - (Q3-Q4)';
+  }
+
+  if (str === '1-1:31.7.0.255' || str === '1-0:31.7.0.255') {
+    return 'IL1 Current Phase L1';
+  }
+
+  if (str === '1-1:51.7.0.255' || str === '1-0:51.7.0.255') {
+    return 'IL2 Current Phase L2';
+  }
+
+  if (str === '1-1:71.7.0.255' || str === '1-0:71.7.0.255') {
+    return 'IL3 Current Phase L3';
+  }
+
+  if (str === '1-1:32.7.0.255' || str === '1-0:32.7.0.255') {
+    return 'ULN1 Phase Voltage 4W meter, Line voltage 3W meter.';
+  }
+
+  if (str === '1-1:52.7.0.255' || str === '1-0:52.7.0.255') {
+    return 'ULN2 Phase Voltage 4W meter, Line voltage 3W meter.';
+  }
+
+  if (str === '1-1:72.7.0.255' || str === '1-0:72.7.0.255') {
+    return 'ULN3 Phase Voltage 4W meter, Line voltage 3W meter.';
+  }
+
+  if (str === '0-1:1.0.0.255' || str === '0-0:1.0.0.255') {
+    return 'Clock and Date in meter';
+  }
+
+  if (str === '1-1:1.8.0.255' || str === '1-0:1.8.0.255') {
+    return 'Cumulative hourly active import energy (A+)(Q1+Q4)';
+  }
+
+  if (str === '1-1:2.8.0.255' || str === '1-0:2.8.0.255') {
+    return 'Cumulative hourly active export energy (A-)(Q2+Q3)';
+  }
+
+  if (str === '1-1:3.8.0.255' || str === '1-0:3.8.0.255') {
+    return 'Cumulative hourly reactive import energy (R+)(Q1+Q2)';
+  }
+
+  if (str === '1-1:4.8.0.255' || str === '1-0:4.8.0.255') {
+    return 'Cumulative hourly reactive export energy (R-)(Q3+Q4)';
+  }
+}
+
+function findUnitType(obis, mfact) {
+  var _obis4 = (0, _slicedToArray2.default)(obis, 7),
+      a = _obis4[0],
+      b = _obis4[1],
+      c = _obis4[2],
+      d = _obis4[3],
+      e = _obis4[4],
+      f = _obis4[5],
+      str = _obis4[6];
+
+  if (str === '1-1:0.2.129.255' || str === '1-1:0.0.5.255' || str === '1-1:96.1.1.255' || str === '0-1:1.0.0.255') {
+    return '';
+  }
+
+  if (str === '1-1:1.7.0.255' || str === '1-1:2.7.0.255') {
+    return 'kW';
+  }
+
+  if (str === '1-1:3.7.0.255' || str === '1-1:4.7.0.255') {
+    return 'kVAr';
+  }
+
+  if (str === '1-1:31.7.0.255' || str === '1-1:51.7.0.255' || str === '1-1:71.7.0.255') {
+    return 'A';
+  }
+
+  if (str === '1-1:32.7.0.255' || str === '1-1:52.7.0.255' || str === '1-1:72.7.0.255') {
+    return 'V';
+  }
+
+  if (str === '1-1:1.8.0.255' || str === '1-1:2.8.0.255') {
+    return 'kWh';
+  }
+
+  if (str === '1-1:3.8.0.255' || str === '1-1:4.8.0.255') {
+    return 'kVArh';
+  }
+}
+},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -133,7 +498,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44883" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43725" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -275,4 +640,141 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/debug.js"], null)
+},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel-bundler/src/builtins/bundle-loader.js":[function(require,module,exports) {
+var getBundleURL = require('./bundle-url').getBundleURL;
+
+function loadBundlesLazy(bundles) {
+  if (!Array.isArray(bundles)) {
+    bundles = [bundles];
+  }
+
+  var id = bundles[bundles.length - 1];
+
+  try {
+    return Promise.resolve(require(id));
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return new LazyPromise(function (resolve, reject) {
+        loadBundles(bundles.slice(0, -1)).then(function () {
+          return require(id);
+        }).then(resolve, reject);
+      });
+    }
+
+    throw err;
+  }
+}
+
+function loadBundles(bundles) {
+  return Promise.all(bundles.map(loadBundle));
+}
+
+var bundleLoaders = {};
+
+function registerBundleLoader(type, loader) {
+  bundleLoaders[type] = loader;
+}
+
+module.exports = exports = loadBundlesLazy;
+exports.load = loadBundles;
+exports.register = registerBundleLoader;
+var bundles = {};
+
+function loadBundle(bundle) {
+  var id;
+
+  if (Array.isArray(bundle)) {
+    id = bundle[1];
+    bundle = bundle[0];
+  }
+
+  if (bundles[bundle]) {
+    return bundles[bundle];
+  }
+
+  var type = (bundle.substring(bundle.lastIndexOf('.') + 1, bundle.length) || bundle).toLowerCase();
+  var bundleLoader = bundleLoaders[type];
+
+  if (bundleLoader) {
+    return bundles[bundle] = bundleLoader(getBundleURL() + bundle).then(function (resolved) {
+      if (resolved) {
+        module.bundle.register(id, resolved);
+      }
+
+      return resolved;
+    });
+  }
+}
+
+function LazyPromise(executor) {
+  this.executor = executor;
+  this.promise = null;
+}
+
+LazyPromise.prototype.then = function (onSuccess, onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.then(onSuccess, onError);
+};
+
+LazyPromise.prototype.catch = function (onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.catch(onError);
+};
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/parcel-bundler/src/builtins/loaders/browser/js-loader.js":[function(require,module,exports) {
+module.exports = function loadJSBundle(bundle) {
+  return new Promise(function (resolve, reject) {
+    var script = document.createElement('script');
+    script.async = true;
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.src = bundle;
+
+    script.onerror = function (e) {
+      script.onerror = script.onload = null;
+      reject(e);
+    };
+
+    script.onload = function () {
+      script.onerror = script.onload = null;
+      resolve();
+    };
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  });
+};
+},{}],0:[function(require,module,exports) {
+var b=require("../node_modules/parcel-bundler/src/builtins/bundle-loader.js");b.register("js",require("../node_modules/parcel-bundler/src/builtins/loaders/browser/js-loader.js"));b.load([]).then(function(){require("js/debug.js");});
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js",0], null)
+//# sourceMappingURL=debug.ae5400d3.map

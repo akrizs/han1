@@ -49,6 +49,8 @@ const watchableOpts = {
   watch: true
 }
 
+console.clear();
+
 clean(cleanFiles)
   .then(() => {
     bundler.bundle()

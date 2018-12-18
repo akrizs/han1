@@ -1,12 +1,18 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
 
+$background: rgba(29, 55, 60, 1.00);
+
+$slightly-lighter-background: lighten($background, 5%);
+
+$lighter-background: lighten($background, 15%);
+
 body,
 html {
   padding: 0;
   margin: 0;
   font-size: 15px;
   color: white;
-  background-color: rgba(29, 55, 60, 1);
+  background-color: $background;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
@@ -27,4 +33,5 @@ html {
 
 .footer {}
 
-@import 'tables';
+
+@import 'menu';

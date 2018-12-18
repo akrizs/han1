@@ -70,3 +70,7 @@ typings/
 
 #DS_STORE
 .DS_Store
+
+#Han1Config
+han1-config.js
+han1-config.json

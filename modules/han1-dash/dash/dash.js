@@ -112,7 +112,51 @@ require("./views/index.pug");
 require("./views/debug.pug");
 
 require("./views/graph.pug");
-},{"./views/index.pug":"views/index.pug","./views/debug.pug":"views/debug.pug","./views/graph.pug":"views/graph.pug"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+require("./views/settings.pug");
+
+require("./views/setup.pug");
+},{"./views/index.pug":"views/index.pug","./views/debug.pug":"views/debug.pug","./views/graph.pug":"views/graph.pug","./views/settings.pug":"views/settings.pug","./views/setup.pug":"views/setup.pug"}],"../node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+module.exports = _objectWithoutPropertiesLoose;
+},{}],"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js":[function(require,module,exports) {
+var objectWithoutPropertiesLoose = require("./objectWithoutPropertiesLoose");
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = objectWithoutPropertiesLoose(source, excluded);
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+module.exports = _objectWithoutProperties;
+},{"./objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -139,7 +183,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44883" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43725" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -400,6 +444,6 @@ module.exports = function loadHTMLBundle(bundle) {
   });
 };
 },{}],0:[function(require,module,exports) {
-var b=require("../node_modules/parcel-bundler/src/builtins/bundle-loader.js");b.register("html",require("../node_modules/parcel-bundler/src/builtins/loaders/browser/html-loader.js"));b.load([["views.9661ef0e.html","views/index.pug"],["debug.1c4e6360.html","views/debug.pug"],["graph.1a5e4c20.html","views/graph.pug"]]).then(function(){require("dash.js");});
+var b=require("../node_modules/parcel-bundler/src/builtins/bundle-loader.js");b.register("html",require("../node_modules/parcel-bundler/src/builtins/loaders/browser/html-loader.js"));b.load([["views.9661ef0e.html","views/index.pug"],["debug.1c4e6360.html","views/debug.pug"],["graph.1a5e4c20.html","views/graph.pug"],["settings.c9a50872.html","views/settings.pug"],["setup.2de50de5.html","views/setup.pug"]]).then(function(){require("dash.js");});
 },{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js",0], null)
 //# sourceMappingURL=dash.map
