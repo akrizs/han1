@@ -15,7 +15,7 @@ const {
  * @param {*} dbgInfo
  */
 
-function han1Debug(data, parsed) {
+function han1Debug(data, parsed, lastPrice) {
   const dbgPack = {};
 
   dbgPack.hexified = hexy(data, {
@@ -30,6 +30,9 @@ function han1Debug(data, parsed) {
   dbgPack.date = parsed.dateTime;
   dbgPack.raw = parsed.raw;
   dbgPack.raw.fullData = data;
+  if (!!lastPrice) {
+    dbgPack.price = lastPrice
+  }
   dbgWeb.emit('dbgData', dbgPack)
 }
 

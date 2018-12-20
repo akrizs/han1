@@ -34,15 +34,15 @@
     "parcel-bundler": "^1.10.3",
     "pug": "^2.0.3",
     "rimraf": "^2.6.2",
-    "sass": "^1.15.1"
+    "sass": "^1.15.1",
+    "progressbar.js": "^1.0.1",
+    "chartist": "^0.11.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "chartist": "^0.11.0",
     "crc": "^3.8.0",
     "express": "^4.16.4",
-    "nprogress": "^0.2.0",
-    "progressbar.js": "^1.0.1",
+    "graphql-request": "^1.8.2",
     "raspi": "^5.0.2",
     "raspi-serial": "^5.0.0",
     "socket.io": "^2.2.0"
