@@ -9,15 +9,16 @@ html(lang="en")
       script(src="../dash.js")
       
   body
-    .header
-      include _menu
-      block header
+    #MainContent.content
+      .header
+        include _menu
+        block header
 
-    .wrap
-      block content
-    
-    .footer
-      block footer
+      .wrap
+        block content
+      
+      .footer
+        block footer
 
     block bottomScripts
     

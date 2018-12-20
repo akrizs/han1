@@ -1,10 +1,12 @@
 $ol-col-lightest: lighten(rgba(29, 55, 60, 1.00), 5%);
 $ol-col-light: lighten(rgba(29, 55, 60, 1.00), 15%);
 
+$shadowColor: rgba(0, 0, 0, 1);
+
 table.obisTable,
 table.specTable {
   border-collapse: collapse;
-  border: 1px solid $ol-col-lightest;
+  border: 1px solid $lighter-background;
   table-layout: auto;
   width: 100%;
   cursor: pointer;
@@ -24,7 +26,7 @@ table.specTable {
 
   tbody {
     tr {
-      border: 1px solid hsla(0, 0%, 100%, .3);
+      border: 1px solid $lighter-background;
 
       &.startFrame {
         background: hsla(120, 100%, 25%, .3);
@@ -68,15 +70,15 @@ table.specTable {
 
 table.obisTable {
   thead {
-    border: 1px solid $ol-col-light;
+    border: 1px solid $lighter-background;
 
     tr {
       &:first-of-type {
-        border-bottom: 1px solid $ol-col-light;
+        border-bottom: 1px solid $lighter-background;
       }
 
       th {
-        border-right: 1px solid $ol-col-light;
+        border-right: 1px solid $lighter-background;
         padding: .5em 0;
       }
     }
@@ -85,9 +87,45 @@ table.obisTable {
   tbody {
     tr {
       padding: .5em .5em;
+      position: relative;
 
       &:not(:last-of-type) {
-        border-bottom: 1px solid $ol-col-lightest;
+        border-bottom: 1px solid $slightly-lighter-background;
+      }
+
+      &.selected {
+        td {
+          position: relative;
+          background-color: $lighter-background;
+
+          &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 50%;
+            -webkit-box-shadow: 0px 10px 65px 0px $shadowColor;
+            box-shadow: 0px 10px 65px 0px $shadowColor;
+            z-index: -1;
+          }
+
+          &:first-child {
+            &::after {
+              -webkit-box-shadow: 0px 10px 65px 0px $shadowColor;
+              box-shadow: 0px 10px 65px 0px $shadowColor;
+              left: 15%;
+            }
+          }
+
+          &:last-child {
+            &::after {
+              -webkit-box-shadow: 0px 10px 65px 0px $shadowColor;
+              box-shadow: 0px 10px 65px 0px $shadowColor;
+              right: 15%;
+            }
+          }
+        }
       }
 
       td {
@@ -100,16 +138,16 @@ table.obisTable {
         }
 
         &.obis__obis_byteStart {
-          border-left: 1px solid $ol-col-lightest;
+          border-left: 1px solid $slightly-lighter-background;
         }
 
         &.obisGroup {
           &.obisGroup__A {
-            border-left: 1px solid $ol-col-lightest;
+            border-left: 1px solid $slightly-lighter-background;
           }
 
           &.obisGroup__F {
-            border-right: 1px solid $ol-col-lightest;
+            border-right: 1px solid $slightly-lighter-background;
           }
         }
       }

@@ -11,6 +11,7 @@ $bNOCBColor: mix($blendColor, $obColor, $blendPercent);
 $fsefColor: rgba(82, 194, 43, 1.00);
 $hfcsColor: rgba(255, 90, 82, 1.00);
 
+@import 'loadingScreen';
 
 #debugWindow {
   padding: 0 0 0 1rem;
@@ -129,8 +130,8 @@ $hfcsColor: rgba(255, 90, 82, 1.00);
           }
         }
 
-        &.hl {
-          font-weight: bold;
+        &.dl {
+          opacity: .2;
         }
 
         &.fsef {
@@ -207,6 +208,25 @@ $hfcsColor: rgba(255, 90, 82, 1.00);
         -webkit-transform: translate(0, 50%);
         transform: translate(0, 50%);
         border: 1px solid white;
+      }
+    }
+
+    p.fsefDef {
+      &::before {
+        background-color: $fsefColor;
+      }
+    }
+
+    p.fcsDef,
+    p.hcsDef {
+      &::before {
+        background-color: $hfcsColor;
+      }
+    }
+
+    p.unknownDef {
+      &::before {
+        background-color: white;
       }
     }
 

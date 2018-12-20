@@ -1,12 +1,26 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
 body,
-html {
+div#MainContent {
   padding: 0;
   margin: 0;
   font-size: 15px;
   color: white;
-  background-color: #1d373c;
+  background-color: #2b2c2e;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  outline: none;
+}
+
+div#MainContent:focus {
+  outline: none;
 }
 
 .wrap {

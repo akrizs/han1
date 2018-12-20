@@ -27,30 +27,3 @@ table#obisTable.obisTable
       th.obis__value_byteEnd End
   tbody
   tfoot
-
-p Definition of each OBIS Group
-table.obisGroupDefinitions
-  thead
-    tr
-      th OBIS Group Code
-      th Definition
-  tbody
-    tr
-      th A
-      td Specifies the medium (0=abstract objects, 1=electricity, 6=heat, 7=gas, 8=water etc.)
-    tr
-      th B
-      td Specifies the channel. Each device with multiple channels generating measurement results, can separate the results into the channels
-    tr
-      th C
-      td Specifies the physical value (current, voltage, energy, level, temperature, etc.)
-    tr
-      th D
-      td Specifies the quantity computation result of specific algorythm
-    tr
-      th E
-      td Specifies the measurement type defined by groups A to D into individual measurements (e.g. switching ranges)
-    tr
-      th F
-      td Separates the results partly defined by groups A to E. The typical usage is the specification of individual time ranges, 
-  tfoot

@@ -1,12 +1,26 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
 body,
-html {
+div#MainContent {
   padding: 0;
   margin: 0;
   font-size: 15px;
   color: white;
-  background-color: #1d373c;
+  background-color: #2b2c2e;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  outline: none;
+}
+
+div#MainContent:focus {
+  outline: none;
 }
 
 .wrap {
@@ -36,12 +50,20 @@ html {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 #activePower .meter {
   display: inline-block;
   width: 50%;
   margin: 0 auto;
+}
+#activePower .headTitle h4 {
+  font-size: 1.3rem;
+  text-align: center;
 }
 
 .activePowerLabel {
@@ -60,6 +82,11 @@ html {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
+}
+
+.meterTrail {
+  color: #37393b;
+  stroke: #37393b;
 }
 
 .phaseVal {
@@ -89,7 +116,7 @@ html {
   bottom: 0;
   width: 100%;
   padding: 0.8rem;
-  color: #203d42;
+  color: #505256;
 }
 #lastUpdate h3 {
   margin: 0;
@@ -104,4 +131,150 @@ html {
   white-space: pre;
   line-break: normal;
   font-size: 0.8rem;
+}
+
+@-webkit-keyframes strikeUnvail {
+  from {
+    y: -200%;
+  }
+  to {
+    y: 200%;
+  }
+}
+@keyframes strikeUnvail {
+  from {
+    y: -200%;
+  }
+  to {
+    y: 200%;
+  }
+}
+@-webkit-keyframes blurOnOff {}
+@keyframes blurOnOff {}
+@-webkit-keyframes dash {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes dash {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.disScroll {
+  overflow-y: hidden;
+}
+
+[data-blurred] {
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  -webkit-transition: -webkit-filter 1000ms linear;
+  transition: -webkit-filter 1000ms linear;
+  transition: filter 1000ms linear;
+  transition: filter 1000ms linear, -webkit-filter 1000ms linear;
+}
+
+[data-blurred=off] {
+  -webkit-filter: blur(0);
+  filter: blur(0);
+}
+
+div.phase.phaseBack {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(34, 34, 38, 0.8);
+  z-index: 9999999;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  opacity: 0;
+  -webkit-transition: opacity 1000ms linear;
+  transition: opacity 1000ms linear;
+}
+div.phase.phaseBack[data-hidden] {
+  opacity: 0;
+}
+div.phase.phaseBack[data-display] {
+  opacity: 1;
+}
+div.phase.phaseBack .phase.phaseNote {
+  position: relative;
+  height: 250px;
+  width: 350px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+div.phase.phaseBack .phase.phaseNote h3 {
+  padding: 0;
+  margin: 0;
+  font-weight: 100;
+  color: #eed369;
+  font-size: 1.1rem;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace {
+  height: 200px;
+  width: 200px;
+  padding: 2em;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .iconMask {
+  width: 100%;
+  height: 100%;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .iconMask .backPath {
+  fill: white;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .iconMask .backRect {
+  fill: black;
+  width: 100%;
+  height: 100%;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .frontRect {
+  position: absolute;
+  fill: #eed369;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .frontRect.scroller {
+  -webkit-animation: 0.7s infinite ease-out strikeUnvail;
+  animation: 0.7s infinite ease-out strikeUnvail;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .outline {
+  height: 100%;
+  width: 100%;
+  fill: none;
+  stroke: #e6c029;
+}
+div.phase.phaseBack .phase.phaseNote .iconPlace svg.iconSvg .outline.trace {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 1;
+  -webkit-animation: dash 2s linear infinite;
+  animation: dash 2s linear infinite;
 }

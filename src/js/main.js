@@ -1,12 +1,17 @@
 import ProgressBar from 'progressbar.js';
+import loadingScreen from './modules/loadingScreen';
 
 window.ProgressBar = ProgressBar;
+
+const loading = new loadingScreen({
+  text: 'Waiting for data!'
+})
 
 const metersOptions = {
   activeMeterOpts: {
     color: '#ffffff',
     strokeWidth: 4,
-    trailColor: '#203D42',
+    trailColor: null,
     trailWidth: 0.8,
     text: {
       value: 'Active Power',
@@ -23,7 +28,7 @@ const metersOptions = {
   ampsMetersOpts: {
     color: '#ffffff',
     strokeWidth: 4,
-    trailColor: '#203D42',
+    trailColor: null,
     trailWidth: 0.8,
     text: {
       value: 'Current',
@@ -40,7 +45,7 @@ const metersOptions = {
   voltMetersOpts: {
     color: '#ffffff',
     strokeWidth: 4,
-    trailColor: '#203D42',
+    trailColor: null,
     trailWidth: 0.8,
     text: {
       value: 'Voltage',
@@ -69,39 +74,49 @@ const metersOptions = {
   }
 }
 
-let conectedToDevice;
-const socket = window.io();
+const mainConn = io.connect('/main');
 
+window.mainConn = mainConn;
 let lastUpdate = document.all.lastUpdate;
 let activePower = document.all.activePower;
 
 let activeWmeter = new ProgressBar.SemiCircle(activePower.querySelector('.meter'), metersOptions.activeMeterOpts);
+activeWmeter.trail.classList.add('meterTrail')
 activeWmeter.text.removeAttribute('style');
 activeWmeter.path.setAttribute('stroke-linecap', 'round')
 
+
 let l1 = document.all.l1;
 let il1Meter = new ProgressBar.SemiCircle(l1.querySelector('.current'), metersOptions.ampsMetersOpts);
-il1Meter.path.setAttribute('stroke-linecap', 'round')
+il1Meter.trail.classList.add('meterTrail');
+
+il1Meter.path.setAttribute('stroke-linecap', 'round');
 il1Meter.text.removeAttribute('style');
 let vl1Meter = new ProgressBar.SemiCircle(l1.querySelector('.volt'), metersOptions.voltMetersOpts);
-vl1Meter.path.setAttribute('stroke-linecap', 'round')
+vl1Meter.trail.classList.add('meterTrail');
+vl1Meter.path.setAttribute('stroke-linecap', 'round');
 vl1Meter.text.removeAttribute('style');
 
 
 let l2 = document.all.l2;
 let il2Meter = new ProgressBar.SemiCircle(l2.querySelector('.current'), metersOptions.ampsMetersOpts);
+il2Meter.trail.classList.add('meterTrail')
 il2Meter.path.setAttribute('stroke-linecap', 'round')
 il2Meter.text.removeAttribute('style');
+
 let vl2Meter = new ProgressBar.SemiCircle(l2.querySelector('.volt'), metersOptions.voltMetersOpts);
+vl2Meter.trail.classList.add('meterTrail')
 vl2Meter.path.setAttribute('stroke-linecap', 'round')
 vl2Meter.text.removeAttribute('style');
 
 let l3 = document.all.l3;
 let il3Meter = new ProgressBar.SemiCircle(l3.querySelector('.current'), metersOptions.ampsMetersOpts);
+il3Meter.trail.classList.add('meterTrail')
 il3Meter.path.setAttribute('stroke-linecap', 'round')
 il3Meter.text.removeAttribute('style');
 
 let vl3Meter = new ProgressBar.SemiCircle(l3.querySelector('.volt'), metersOptions.voltMetersOpts);
+vl3Meter.trail.classList.add('meterTrail')
 vl3Meter.path.setAttribute('stroke-linecap', 'round')
 vl3Meter.text.removeAttribute('style');
 
@@ -117,18 +132,27 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
-socket.on('disconnect', function () {
-  console.log(socket);
-  console.log('disconnected')
+mainConn.on('disconnect', function () {
+  loading.enable('Lost Connection')
 });
 
-socket.on('meterData', (frmSrv) => {
+mainConn.on('reconnect', function () {
+  loading.disable()
+});
+
+mainConn.on('meterData', (frmSrv) => {
   const {
     data,
     meter,
     listId,
     ...rest
   } = frmSrv;
+
+  if (loading.isActive) {
+    loading.disable();
+  }
+
+
 
   console.log(frmSrv);
   if (listId === 25 || listId === 35) {
@@ -208,8 +232,10 @@ socket.on('meterData', (frmSrv) => {
       vl3Meter.path.setAttribute('stroke', metersOptions.sColors.error)
     }
 
+    const date = new Date(frmSrv.dateTime.meter);
 
-    lastUpdate.querySelector('h4').textContent = 'bubble';
+
+    lastUpdate.querySelector('h4').textContent = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
     // `${data.date.date}/${data.date.month}/${data.date.year}\n${data.date.hour}:${data.date.min}:${data.date.sec}`
   }
   if (listId === 35) {

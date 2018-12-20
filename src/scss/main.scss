@@ -14,6 +14,10 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 #activePower {
@@ -21,6 +25,13 @@
     display: inline-block;
     width: 50%;
     margin: 0 auto;
+  }
+
+  .headTitle {
+    h4 {
+      font-size: 1.3rem;
+      text-align: center;
+    }
   }
 }
 
@@ -40,6 +51,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
+}
+
+.meterTrail {
+  color: $slightly-lighter-background;
+  stroke: $slightly-lighter-background;
 }
 
 .phaseVal {
@@ -78,7 +94,7 @@
   bottom: 0;
   width: 100%;
   padding: .8rem;
-  color: rgba(32, 61, 66, 1);
+  color: $lighter-background;
 
   h3 {
     margin: 0;
@@ -96,3 +112,5 @@
     font-size: .8rem;
   }
 }
+
+@import 'loadingScreen';

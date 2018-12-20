@@ -1,22 +1,24 @@
+import loadingScreen from './modules/loadingScreen';
+
 const dbgConn = io.connect('/debug')
 
 const dbgHexTbl = document.all.debugHexTable;
 
 const obisTable = document.all.obisTable;
 
+let waitig = true;
 let frozen = false;
 
-const freezeButton = document.createElement('button');
-freezeButton.classList.add('freezeButton');
-freezeButton.id = 'freezer';
-freezeButton.innerText = 'Freeze Data';
-freezeButton.onclick = function () {
-  frozen = frozen === false ? true : false;
-  this.innerText = frozen === false ? 'Freeze Data' : 'Data is Frozen!';
-  frozen ? this.dataset.frozen = '' : delete this.dataset.frozen;
-}
+let waitscreen = new loadingScreen({
+  text: 'Waiting for data!',
+  animation: 'scroller'
+});
 
-document.body.appendChild(freezeButton);
+window.waitscreen = waitscreen;
+
+createFreezeButton();
+
+
 
 dbgConn.on('dbgData', (frmSrv) => {
   const {
@@ -27,36 +29,49 @@ dbgConn.on('dbgData', (frmSrv) => {
     ...rest
   } = frmSrv;
 
+  if (waitscreen.isActive) {
+    waitscreen.disable();
+  }
+
   if (!frozen) {
     debugHexTable(date, hexified, obis, raw.ctrl.frameSize);
-    generateObisTable(raw.manufacturer, null, obis)
+    generateObisTable(raw.manufacturer, null, obis);
+    addEvListenersToTables();
     console.log(frmSrv);
   } else {
     console.log('The data stream is frozen!')
   }
 
+
+
+})
+
+function addEvListenersToTables() {
   Array.from(obisTable.tBodies[0].rows).map(row => {
-    row.addEventListener('mouseenter', () => {
+    row.addEventListener('click', function () {
+      this.classList.toggle('selected')
+
       let bStart, bEnd, obStart, obEnd, rowl = row.cells.length,
         hexTable, bytes, nOBytes;
       bStart = parseInt(row.cells[rowl - 2].innerText)
       bEnd = parseInt(row.cells[rowl - 1].innerText)
       obStart = parseInt(row.cells[rowl - 4].innerText)
       obEnd = parseInt(row.cells[rowl - 3].innerText)
-      console.log(bStart, bEnd, obStart, obEnd);
 
       bytes = (bEnd - bStart) + (obEnd - obStart) + 2;
       obStart = obStart - 2;
+
       hexTable = document.querySelector('.dbgHexTblContent')
 
-      for (let i = 0; i < bytes; i++) {
-        let byte = hexTable.children[obStart++];
-        byte.classList.toggle('hl');
+      for (let i = 0; i < hexTable.children.length; i++) {
+        let byte = hexTable.children[i];
+        if (obStart > i || i > (obStart + bytes - 1)) {
+          byte.classList.toggle('dl');
+        }
       }
     })
   });
-
-})
+}
 
 function generateObisTable(mfact, listNr, obisVals) {
   const tableHeader = document.all.obisTable.tHead;
@@ -114,10 +129,10 @@ function debugHexTable(date, hexified, obisVals, size) {
     .split('\n')
     .filter(Boolean)
     .map(row => row.trim())
-    .map(row => {
+    .map((row) => {
       let bytes = row.split(' ').map((byte) => {
         no++
-        let t;
+        let t = '';
         obisVals.map((obis, idx) => {
           let [str, type, obStart, obEnd, dStart, dEnd] = obis
           if (no === parseInt(obStart) - 2) {
@@ -165,12 +180,36 @@ function debugHexTable(date, hexified, obisVals, size) {
           t = 'fcs'
         }
 
+        if (no === 1) {
+          t = 'frameFormat'
+        }
+
+        if (no === 2) {
+          t = 'frameSize'
+        }
+
+        if (no === 3) {
+          t = 'destAddr'
+        }
+
+        if (no === 4) {
+          t = 'srcAddr'
+        }
+
+        if (no === 5) {
+          t = 'ctrlField'
+        }
+
+        if (no === 6 || no === 7) {
+          t = 'hcs'
+        }
+
         if (no === (size - 2)) {
           t = 'data';
         }
 
 
-        return `<p class="byte ${t}" data-byteNr="${no}">${byte}</p>`
+        return `<p class="byte${t ? ' ' + t : ''}" data-byteNr="${no}" data-type="${t}">${byte}</p>`
       }).join(' ')
       return bytes;
     }).join('\n')
@@ -269,4 +308,18 @@ function findUnitType(obis, mfact) {
   if (str === '1-1:3.8.0.255' || str === '1-1:4.8.0.255') {
     return 'kVArh'
   }
+}
+
+function createFreezeButton() {
+  const freezeButton = document.createElement('button');
+  freezeButton.classList.add('freezeButton');
+  freezeButton.id = 'freezer';
+  freezeButton.innerText = 'Freeze Data';
+  freezeButton.onclick = function () {
+    frozen = frozen === false ? true : false;
+    this.innerText = frozen === false ? 'Freeze Data' : 'Data is Frozen!';
+    frozen ? this.dataset.frozen = '' : delete this.dataset.frozen;
+  }
+
+  document.body.insertAdjacentElement('afterbegin', freezeButton);
 }

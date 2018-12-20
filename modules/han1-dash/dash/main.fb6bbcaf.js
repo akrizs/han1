@@ -2540,14 +2540,19 @@ var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/h
 
 var _progressbar = _interopRequireDefault(require("progressbar.js"));
 
+var _loadingScreen = _interopRequireDefault(require("./modules/loadingScreen"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.ProgressBar = _progressbar.default;
+var loading = new _loadingScreen.default({
+  text: 'Waiting for data!'
+});
 var metersOptions = {
   activeMeterOpts: {
     color: '#ffffff',
     strokeWidth: 4,
-    trailColor: '#203D42',
+    trailColor: null,
     trailWidth: 0.8,
     text: {
       value: 'Active Power',
@@ -2564,7 +2569,7 @@ var metersOptions = {
   ampsMetersOpts: {
     color: '#ffffff',
     strokeWidth: 4,
-    trailColor: '#203D42',
+    trailColor: null,
     trailWidth: 0.8,
     text: {
       value: 'Current',
@@ -2581,7 +2586,7 @@ var metersOptions = {
   voltMetersOpts: {
     color: '#ffffff',
     strokeWidth: 4,
-    trailColor: '#203D42',
+    trailColor: null,
     trailWidth: 0.8,
     text: {
       value: 'Voltage',
@@ -2609,32 +2614,39 @@ var metersOptions = {
     warning: 'rgb(255, 135, 0)'
   }
 };
-var conectedToDevice;
-var socket = window.io();
+var mainConn = io.connect('/main');
+window.mainConn = mainConn;
 var lastUpdate = document.all.lastUpdate;
 var activePower = document.all.activePower;
 var activeWmeter = new _progressbar.default.SemiCircle(activePower.querySelector('.meter'), metersOptions.activeMeterOpts);
+activeWmeter.trail.classList.add('meterTrail');
 activeWmeter.text.removeAttribute('style');
 activeWmeter.path.setAttribute('stroke-linecap', 'round');
 var l1 = document.all.l1;
 var il1Meter = new _progressbar.default.SemiCircle(l1.querySelector('.current'), metersOptions.ampsMetersOpts);
+il1Meter.trail.classList.add('meterTrail');
 il1Meter.path.setAttribute('stroke-linecap', 'round');
 il1Meter.text.removeAttribute('style');
 var vl1Meter = new _progressbar.default.SemiCircle(l1.querySelector('.volt'), metersOptions.voltMetersOpts);
+vl1Meter.trail.classList.add('meterTrail');
 vl1Meter.path.setAttribute('stroke-linecap', 'round');
 vl1Meter.text.removeAttribute('style');
 var l2 = document.all.l2;
 var il2Meter = new _progressbar.default.SemiCircle(l2.querySelector('.current'), metersOptions.ampsMetersOpts);
+il2Meter.trail.classList.add('meterTrail');
 il2Meter.path.setAttribute('stroke-linecap', 'round');
 il2Meter.text.removeAttribute('style');
 var vl2Meter = new _progressbar.default.SemiCircle(l2.querySelector('.volt'), metersOptions.voltMetersOpts);
+vl2Meter.trail.classList.add('meterTrail');
 vl2Meter.path.setAttribute('stroke-linecap', 'round');
 vl2Meter.text.removeAttribute('style');
 var l3 = document.all.l3;
 var il3Meter = new _progressbar.default.SemiCircle(l3.querySelector('.current'), metersOptions.ampsMetersOpts);
+il3Meter.trail.classList.add('meterTrail');
 il3Meter.path.setAttribute('stroke-linecap', 'round');
 il3Meter.text.removeAttribute('style');
 var vl3Meter = new _progressbar.default.SemiCircle(l3.querySelector('.volt'), metersOptions.voltMetersOpts);
+vl3Meter.trail.classList.add('meterTrail');
 vl3Meter.path.setAttribute('stroke-linecap', 'round');
 vl3Meter.text.removeAttribute('style');
 document.addEventListener('DOMContentLoaded', function () {
@@ -2646,15 +2658,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000);
   });
 });
-socket.on('disconnect', function () {
-  console.log(socket);
-  console.log('disconnected');
+mainConn.on('disconnect', function () {
+  loading.enable('Lost Connection');
 });
-socket.on('meterData', function (frmSrv) {
+mainConn.on('reconnect', function () {
+  loading.disable();
+});
+mainConn.on('meterData', function (frmSrv) {
   var data = frmSrv.data,
       meter = frmSrv.meter,
       listId = frmSrv.listId,
       rest = (0, _objectWithoutProperties2.default)(frmSrv, ["data", "meter", "listId"]);
+
+  if (loading.isActive) {
+    loading.disable();
+  }
+
   console.log(frmSrv);
 
   if (listId === 25 || listId === 35) {
@@ -2751,12 +2770,13 @@ socket.on('meterData', function (frmSrv) {
       vl3Meter.path.setAttribute('stroke', metersOptions.sColors.error);
     }
 
-    lastUpdate.querySelector('h4').textContent = 'bubble'; // `${data.date.date}/${data.date.month}/${data.date.year}\n${data.date.hour}:${data.date.min}:${data.date.sec}`
+    var date = new Date(frmSrv.dateTime.meter);
+    lastUpdate.querySelector('h4').textContent = "".concat(date.toLocaleDateString(), " ").concat(date.toLocaleTimeString()); // `${data.date.date}/${data.date.month}/${data.date.year}\n${data.date.hour}:${data.date.min}:${data.date.sec}`
   }
 
   if (listId === 35) {}
 });
-},{"@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","progressbar.js":"../node_modules/progressbar.js/src/main.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","progressbar.js":"../node_modules/progressbar.js/src/main.js","./modules/loadingScreen":"js/modules/loadingScreen.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2783,7 +2803,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38249" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

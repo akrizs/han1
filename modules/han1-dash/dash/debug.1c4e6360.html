@@ -8,95 +8,65 @@
     <script src="/socket.io/socket.io.js"></script>
   <script src="debug.e86987f3.js"></script></head>
   <body>
-    <div class="header">
-    </div>
-    <div class="wrap">
-      <div class="dbgHexTbl" id="debugHexTable">
-        <div class="dbgHexTblHead">
-          <div class="dbgHexTblDateTime"></div>
-          <div class="dbgHexTblAddInfo"></div>
-        </div>
-        <div class="dbgHexTblContent"></div>
-        <div class="dbgHexTblDefinitions">
-          <p class="obisCtrlDef">Obis Control</p>
-          <p class="obisDef">Obis</p>
-          <p class="dataCtrlDef">Data Control</p>
-          <p class="dataDef">Data</p>
-        </div>
-        <div class="demoWindow"></div>
+    <div class="content" id="MainContent">
+      <div class="header">
       </div>
-      <table class="obisTable" id="obisTable">
-        <thead>
-          <tr>
-            <th class="obis__listIdentifier" colspan="7">Obis List Identifier</th>
-            <th class="obis__version" colspan="7"></th>
-          </tr>
-          <tr>
-            <th class="obis__listNr" colspan="1">List Nr</th>
-            <th class="obis__codeValue" colspan="6">OBIS Code - Group Value</th>
-            <th class="obis__object">Object</th>
-            <th class="obis__attributes" colspan="2">Attributes</th>
-            <th class="obis__obisBytes" colspan="2">Obis</th>
-            <th class="obis__valueBytes" colspan="2">Value</th>
-          </tr>
-          <tr>
-            <th class="obisListIdNr"></th>
-            <th class="obisGroup obisGroup__A">A</th>
-            <th class="obisGroup obisGroup__B">B</th>
-            <th class="obisGroup obisGroup__C">C</th>
-            <th class="obisGroup obisGroup__D">D</th>
-            <th class="obisGroup obisGroup__E">E</th>
-            <th class="obisGroup obisGroup__F">F</th>
-            <th class="obis__name">Name</th>
-            <th class="obis__unit">Unit</th>
-            <th class="obis__dataType">Data Type</th>
-            <th class="obis__obis_byteStart">Start</th>
-            <th class="obis__obis_byteEnd">End</th>
-            <th class="obis__value_byteStart">Start</th>
-            <th class="obis__value_byteEnd">End</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot></tfoot>
-      </table>
-      <p>Definition of each OBIS Group</p>
-      <table class="obisGroupDefinitions">
-        <thead>
-          <tr>
-            <th>OBIS Group Code</th>
-            <th>Definition</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>A</th>
-            <td>Specifies the medium (0=abstract objects, 1=electricity, 6=heat, 7=gas, 8=water etc.)</td>
-          </tr>
-          <tr>
-            <th>B</th>
-            <td>Specifies the channel. Each device with multiple channels generating measurement results, can separate the results into the channels</td>
-          </tr>
-          <tr>
-            <th>C</th>
-            <td>Specifies the physical value (current, voltage, energy, level, temperature, etc.)</td>
-          </tr>
-          <tr>
-            <th>D</th>
-            <td>Specifies the quantity computation result of specific algorythm</td>
-          </tr>
-          <tr>
-            <th>E</th>
-            <td>Specifies the measurement type defined by groups A to D into individual measurements (e.g. switching ranges)</td>
-          </tr>
-          <tr>
-            <th>F</th>
-            <td>Separates the results partly defined by groups A to E. The typical usage is the specification of individual time ranges, </td>
-          </tr>
-        </tbody>
-        <tfoot></tfoot>
-      </table>
-    </div>
-    <div class="footer">
+      <div class="wrap">
+        <div class="dbgHexTbl" id="debugHexTable">
+          <div class="dbgHexTblHead">
+            <div class="dbgHexTblDateTime"></div>
+            <div class="dbgHexTblAddInfo"></div>
+          </div>
+          <div class="dbgHexTblContent"></div>
+          <div class="dbgHexTblDefinitions">
+            <p class="unknownDef">Unknown</p>
+            <p class="fsefDef">Frame start/end;</p>
+            <p class="hcsDef">Header Check Sequence</p>
+            <p class="fcsDef">Frame Check Sequence</p>
+            <p class="obisCtrlDef">Obis Control</p>
+            <p class="obisDef">Obis</p>
+            <p class="dataCtrlDef">Data Control</p>
+            <p class="dataDef">Data</p>
+          </div>
+          <div class="demoWindow"></div>
+        </div>
+        <table class="obisTable" id="obisTable">
+          <thead>
+            <tr>
+              <th class="obis__listIdentifier" colspan="7">Obis List Identifier</th>
+              <th class="obis__version" colspan="7"></th>
+            </tr>
+            <tr>
+              <th class="obis__listNr" colspan="1">List Nr</th>
+              <th class="obis__codeValue" colspan="6">OBIS Code - Group Value</th>
+              <th class="obis__object">Object</th>
+              <th class="obis__attributes" colspan="2">Attributes</th>
+              <th class="obis__obisBytes" colspan="2">Obis</th>
+              <th class="obis__valueBytes" colspan="2">Value</th>
+            </tr>
+            <tr>
+              <th class="obisListIdNr"></th>
+              <th class="obisGroup obisGroup__A">A</th>
+              <th class="obisGroup obisGroup__B">B</th>
+              <th class="obisGroup obisGroup__C">C</th>
+              <th class="obisGroup obisGroup__D">D</th>
+              <th class="obisGroup obisGroup__E">E</th>
+              <th class="obisGroup obisGroup__F">F</th>
+              <th class="obis__name">Name</th>
+              <th class="obis__unit">Unit</th>
+              <th class="obis__dataType">Data Type</th>
+              <th class="obis__obis_byteStart">Start</th>
+              <th class="obis__obis_byteEnd">End</th>
+              <th class="obis__value_byteStart">Start</th>
+              <th class="obis__value_byteEnd">End</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+      <div class="footer">
+      </div>
     </div>
     <script src="debug.ae5400d3.js"></script>
   </body>

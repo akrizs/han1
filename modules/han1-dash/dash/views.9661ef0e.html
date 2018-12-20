@@ -8,41 +8,46 @@
     <script src="/socket.io/socket.io.js"></script>
   <script src="main.77bb5cfd.js"></script></head>
   <body>
-    <div class="header">
-    </div>
-    <div class="wrap">
-      <div class="activeGroup"></div>
-      <div class="mainActive" id="activePower">
-        <div class="meter"></div>
+    <div class="content" id="MainContent">
+      <div class="header">
       </div>
-      <div id="phasesGroup">
-        <div class="phase" id="l1">
+      <div class="wrap">
+        <div class="activeGroup"></div>
+        <div class="mainActive" id="activePower">
           <div class="headTitle">
-            <h4>L1</h4>
+            <h4>Active Power</h4>
           </div>
-          <div class="phaseChild current"></div>
-          <div class="phaseChild volt"></div>
+          <div class="meter"></div>
         </div>
-        <div class="phase" id="l2">
-          <div class="headTitle">
-            <h4>L2</h4>
+        <div id="phasesGroup">
+          <div class="phase" id="l1">
+            <div class="headTitle">
+              <h4>L1</h4>
+            </div>
+            <div class="phaseChild current"></div>
+            <div class="phaseChild volt"></div>
           </div>
-          <div class="phaseChild current"></div>
-          <div class="phaseChild volt"></div>
-        </div>
-        <div class="phase" id="l3">
-          <div class="headTitle">
-            <h4>L3</h4>
+          <div class="phase" id="l2">
+            <div class="headTitle">
+              <h4>L2</h4>
+            </div>
+            <div class="phaseChild current"></div>
+            <div class="phaseChild volt"></div>
           </div>
-          <div class="phaseChild current"></div>
-          <div class="phaseChild volt"></div>
+          <div class="phase" id="l3">
+            <div class="headTitle">
+              <h4>L3</h4>
+            </div>
+            <div class="phaseChild current"></div>
+            <div class="phaseChild volt"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="footer">
-      <div id="lastUpdate">
-        <h3>Last Updated</h3>
-        <h4></h4>
+      <div class="footer">
+        <div id="lastUpdate">
+          <h3>Last Updated</h3>
+          <h4></h4>
+        </div>
       </div>
     </div>
     <script src="main.fb6bbcaf.js"></script>

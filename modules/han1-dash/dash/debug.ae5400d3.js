@@ -163,24 +163,21 @@ var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/sli
 
 var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
 
+var _loadingScreen = _interopRequireDefault(require("./modules/loadingScreen"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var dbgConn = io.connect('/debug');
 var dbgHexTbl = document.all.debugHexTable;
 var obisTable = document.all.obisTable;
+var waitig = true;
 var frozen = false;
-var freezeButton = document.createElement('button');
-freezeButton.classList.add('freezeButton');
-freezeButton.id = 'freezer';
-freezeButton.innerText = 'Freeze Data';
-
-freezeButton.onclick = function () {
-  frozen = frozen === false ? true : false;
-  this.innerText = frozen === false ? 'Freeze Data' : 'Data is Frozen!';
-  frozen ? this.dataset.frozen = '' : delete this.dataset.frozen;
-};
-
-document.body.appendChild(freezeButton);
+var waitscreen = new _loadingScreen.default({
+  text: 'Waiting for data!',
+  animation: 'scroller'
+});
+window.waitscreen = waitscreen;
+createFreezeButton();
 dbgConn.on('dbgData', function (frmSrv) {
   var hexified = frmSrv.hexified,
       obis = frmSrv.obis,
@@ -188,16 +185,24 @@ dbgConn.on('dbgData', function (frmSrv) {
       raw = frmSrv.raw,
       rest = (0, _objectWithoutProperties2.default)(frmSrv, ["hexified", "obis", "date", "raw"]);
 
+  if (waitscreen.isActive) {
+    waitscreen.disable();
+  }
+
   if (!frozen) {
     debugHexTable(date, hexified, obis, raw.ctrl.frameSize);
     generateObisTable(raw.manufacturer, null, obis);
+    addEvListenersToTables();
     console.log(frmSrv);
   } else {
     console.log('The data stream is frozen!');
   }
+});
 
+function addEvListenersToTables() {
   Array.from(obisTable.tBodies[0].rows).map(function (row) {
-    row.addEventListener('mouseenter', function () {
+    row.addEventListener('click', function () {
+      this.classList.toggle('selected');
       var bStart,
           bEnd,
           obStart,
@@ -210,18 +215,20 @@ dbgConn.on('dbgData', function (frmSrv) {
       bEnd = parseInt(row.cells[rowl - 1].innerText);
       obStart = parseInt(row.cells[rowl - 4].innerText);
       obEnd = parseInt(row.cells[rowl - 3].innerText);
-      console.log(bStart, bEnd, obStart, obEnd);
       bytes = bEnd - bStart + (obEnd - obStart) + 2;
       obStart = obStart - 2;
       hexTable = document.querySelector('.dbgHexTblContent');
 
-      for (var i = 0; i < bytes; i++) {
-        var byte = hexTable.children[obStart++];
-        byte.classList.toggle('hl');
+      for (var i = 0; i < hexTable.children.length; i++) {
+        var byte = hexTable.children[i];
+
+        if (obStart > i || i > obStart + bytes - 1) {
+          byte.classList.toggle('dl');
+        }
       }
     });
   });
-});
+}
 
 function generateObisTable(mfact, listNr, obisVals) {
   var tableHeader = document.all.obisTable.tHead;
@@ -273,7 +280,7 @@ function debugHexTable(date, hexified, obisVals, size) {
   }).map(function (row) {
     var bytes = row.split(' ').map(function (byte) {
       no++;
-      var t;
+      var t = '';
       obisVals.map(function (obis, idx) {
         var _obis2 = (0, _slicedToArray2.default)(obis, 6),
             str = _obis2[0],
@@ -336,11 +343,35 @@ function debugHexTable(date, hexified, obisVals, size) {
         t = 'fcs';
       }
 
+      if (no === 1) {
+        t = 'frameFormat';
+      }
+
+      if (no === 2) {
+        t = 'frameSize';
+      }
+
+      if (no === 3) {
+        t = 'destAddr';
+      }
+
+      if (no === 4) {
+        t = 'srcAddr';
+      }
+
+      if (no === 5) {
+        t = 'ctrlField';
+      }
+
+      if (no === 6 || no === 7) {
+        t = 'hcs';
+      }
+
       if (no === size - 2) {
         t = 'data';
       }
 
-      return "<p class=\"byte ".concat(t, "\" data-byteNr=\"").concat(no, "\">").concat(byte, "</p>");
+      return "<p class=\"byte".concat(t ? ' ' + t : '', "\" data-byteNr=\"").concat(no, "\" data-type=\"").concat(t, "\">").concat(byte, "</p>");
     }).join(' ');
     return bytes;
   }).join('\n');
@@ -471,7 +502,22 @@ function findUnitType(obis, mfact) {
     return 'kVArh';
   }
 }
-},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+function createFreezeButton() {
+  var freezeButton = document.createElement('button');
+  freezeButton.classList.add('freezeButton');
+  freezeButton.id = 'freezer';
+  freezeButton.innerText = 'Freeze Data';
+
+  freezeButton.onclick = function () {
+    frozen = frozen === false ? true : false;
+    this.innerText = frozen === false ? 'Freeze Data' : 'Data is Frozen!';
+    frozen ? this.dataset.frozen = '' : delete this.dataset.frozen;
+  };
+
+  document.body.insertAdjacentElement('afterbegin', freezeButton);
+}
+},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","./modules/loadingScreen":"js/modules/loadingScreen.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -498,7 +544,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38249" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

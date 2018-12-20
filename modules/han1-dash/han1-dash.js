@@ -45,7 +45,9 @@ han1Dash.get('/api', (req, res) => {
   })
 })
 
-io.on('connection', function (socket) {
+const mainWeb = io.of('/main');
+
+mainWeb.on('connection', function (socket) {
   if (process.cfg.debug) {
     console.log('a user connected');
     console.log(socket.connected);
@@ -54,6 +56,7 @@ io.on('connection', function (socket) {
     });
   }
 });
+
 const dbgWeb = io.of('/debug');
 if (process.cfg.debug) {
   dbgWeb.on('connection', (socket) => {
@@ -69,6 +72,6 @@ http.listen(port, function () {
 
 module.exports = {
   han1Dash,
-  io,
+  mainWeb,
   dbgWeb
 };

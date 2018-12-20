@@ -1,0 +1,189 @@
+@-webkit-keyframes strikeUnvail {
+  from {
+    y: -200%;
+  }
+
+  to {
+    y: 200%
+  }
+}
+
+@keyframes strikeUnvail {
+  from {
+    y: -200%;
+  }
+
+  to {
+    y: 200%;
+  }
+}
+
+@-webkit-keyframes blurOnOff {
+  from {}
+
+  to {}
+}
+
+@keyframes blurOnOff {
+  from {}
+
+  to {}
+}
+
+@-webkit-keyframes dash {
+  from {
+    stroke-dashoffset: 500;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 500;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+$yellowColor:rgba(230, 192, 41, 1.00);
+$lightYellowColor:mix(white, rgba(230, 192, 41, 1.00), 30%);
+;
+
+
+.disScroll {
+  overflow-y: hidden;
+}
+
+[data-blurred] {
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  -webkit-transition: -webkit-filter 1000ms linear;
+  transition: -webkit-filter 1000ms linear;
+  transition: filter 1000ms linear;
+  transition: filter 1000ms linear, -webkit-filter 1000ms linear;
+}
+
+[data-blurred="off"] {
+  -webkit-filter: blur(0);
+  filter: blur(0);
+}
+
+div.phase {
+  &.phaseBack {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(34, 34, 38, .80);
+    z-index: 9999999;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    opacity: 0;
+    -webkit-transition: opacity 1000ms linear;
+    transition: opacity 1000ms linear;
+
+
+    &[data-hidden] {
+      opacity: 0;
+    }
+
+    &[data-display] {
+      opacity: 1;
+    }
+
+    .phase {
+      &.phaseNote {
+        position: relative;
+        height: 250px;
+        width: 350px;
+        // border: 1px solid black;
+        border-radius: 5px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+
+        h3 {
+          padding: 0;
+          margin: 0;
+          font-weight: 100;
+          color: $lightYellowColor;
+          font-size: 1.1rem;
+        }
+
+
+        .iconPlace {
+          height: 200px;
+          width: 200px;
+          padding: 2em;
+
+          svg.iconSvg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+
+
+            .iconMask {
+              width: 100%;
+              height: 100%;
+
+              .backPath {
+                fill: white;
+              }
+
+              .backRect {
+                fill: black;
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            .frontRect {
+              position: absolute;
+              fill: mix(white, rgba(230, 192, 41, 1.00), 30%);
+
+              &.scroller {
+                -webkit-animation: .7s infinite ease-out strikeUnvail;
+                animation: .7s infinite ease-out strikeUnvail;
+              }
+            }
+
+            .outline {
+              height: 100%;
+              width: 100%;
+              fill: none;
+              stroke: rgba(230, 192, 41, 1.00);
+
+              &.trace {
+                stroke-dasharray: 20;
+                stroke-dashoffset: 1;
+                -webkit-animation: dash 2s linear infinite;
+                animation: dash 2s linear infinite;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

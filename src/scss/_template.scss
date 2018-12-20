@@ -1,19 +1,31 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
 
-$background: rgba(29, 55, 60, 1.00);
-
+$background: rgba(43, 44, 46, 1.00);
 $slightly-lighter-background: lighten($background, 5%);
-
 $lighter-background: lighten($background, 15%);
 
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
 body,
-html {
+div#MainContent {
   padding: 0;
   margin: 0;
   font-size: 15px;
   color: white;
   background-color: $background;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  outline: none;
+}
+
+div#MainContent:focus {
+  outline: none;
 }
 
 .header {}
