@@ -45,4 +45,5 @@ scream out if you need any help, this is how it will be until the project is rea
 
 # ScreenGIF
 
-![Han1 Dash](https://media.giphy.com/media/t8Y61oRkLHa8xKMOvd/giphy.gif)
+![Han1 Dash Opening Sequence](https://media.giphy.com/media/1flyJX30ss7woWjynf/giphy.gif)
+![Han1 Dash Power Increase Sequence](https://media.giphy.com/media/2siapMfufIMQYxzenz/giphy.gif)
