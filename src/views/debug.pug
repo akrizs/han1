@@ -4,7 +4,7 @@ append css
   link(rel='stylesheet', href='../scss/debug.scss')
 
 append topScripts
-  script(src=process.env.SOCKET)
+  script(src=locals.scriptTags.io)
 
 block content
   #debugHexTable(class="dbgHexTbl")

@@ -165,6 +165,8 @@ var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/h
 
 var _loadingScreen = _interopRequireDefault(require("./modules/loadingScreen"));
 
+var _mainMenu = require("./modules/_mainMenu");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var dbgConn = io.connect('/debug');
@@ -176,6 +178,9 @@ var waitscreen = new _loadingScreen.default({
   text: 'Waiting for data!',
   animation: 'scroller'
 });
+
+_mainMenu.mainMenu.init();
+
 window.waitscreen = waitscreen;
 createFreezeButton();
 dbgConn.on('dbgData', function (frmSrv) {
@@ -517,7 +522,7 @@ function createFreezeButton() {
 
   document.body.insertAdjacentElement('afterbegin', freezeButton);
 }
-},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","./modules/loadingScreen":"js/modules/loadingScreen.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","./modules/loadingScreen":"js/modules/loadingScreen.js","./modules/_mainMenu":"js/modules/_mainMenu.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -544,7 +549,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43213" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37845" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

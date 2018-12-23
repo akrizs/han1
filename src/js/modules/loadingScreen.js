@@ -11,6 +11,7 @@ export default class loadingScreen {
     mainContent: 'MainContent'
   }) {
     this.active = false;
+    this.originalText = text;
     this.text = document.createTextNode(text);
     this.run = run
     this.animation = animation
@@ -110,6 +111,17 @@ export default class loadingScreen {
         }
       }, 10)
 
+      setTimeout(() => {
+        if (this.isActive) {
+          this.text.nodeValue = "It's taking a longer time than expected to get data.";
+          setTimeout(() => {
+            if (this.isActive) {
+              this.text.nodeValue = "Uhm... I guess there is something wrong...";
+            }
+          }, 10000);
+        }
+      }, 10000)
+
     }
   }
 
@@ -125,6 +137,7 @@ export default class loadingScreen {
         document.body.classList.remove('disScroll');
         this.background.parentNode.removeChild(this.background);
         this.active = false;
+        this.text.nodeValue = this.originalText;
         if (!!this.mainContainer && !!this.mainContainer.dataset) {
           delete this.mainContainer.dataset.blurred;
         }

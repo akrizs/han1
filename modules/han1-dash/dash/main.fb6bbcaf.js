@@ -2542,9 +2542,19 @@ var _progressbar = _interopRequireDefault(require("progressbar.js"));
 
 var _loadingScreen = _interopRequireDefault(require("./modules/loadingScreen"));
 
+var _mainMenu = require("./modules/_mainMenu");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.ProgressBar = _progressbar.default;
+
+_mainMenu.mainMenu.init();
+
+document.addEventListener('keyup', function (e) {
+  if (e.keyCode === 77) {
+    _mainMenu.mainMenu.handleMainMenuToggle.call(_mainMenu.mainMenu.BTN, e);
+  }
+});
 var loading = new _loadingScreen.default({
   text: 'Waiting for data!'
 });
@@ -2621,32 +2631,39 @@ var activePower = document.all.activePower;
 var activeWmeter = new _progressbar.default.SemiCircle(activePower.querySelector('.meter'), metersOptions.activeMeterOpts);
 activeWmeter.trail.classList.add('meterTrail');
 activeWmeter.text.removeAttribute('style');
+activeWmeter.path.classList.add('meterGauge');
 activeWmeter.path.setAttribute('stroke-linecap', 'round');
 var l1 = document.all.l1;
 var il1Meter = new _progressbar.default.SemiCircle(l1.querySelector('.current'), metersOptions.ampsMetersOpts);
 il1Meter.trail.classList.add('meterTrail');
 il1Meter.path.setAttribute('stroke-linecap', 'round');
+il1Meter.path.classList.add('meterGauge');
 il1Meter.text.removeAttribute('style');
 var vl1Meter = new _progressbar.default.SemiCircle(l1.querySelector('.volt'), metersOptions.voltMetersOpts);
 vl1Meter.trail.classList.add('meterTrail');
 vl1Meter.path.setAttribute('stroke-linecap', 'round');
+vl1Meter.path.classList.add('meterGauge');
 vl1Meter.text.removeAttribute('style');
 var l2 = document.all.l2;
 var il2Meter = new _progressbar.default.SemiCircle(l2.querySelector('.current'), metersOptions.ampsMetersOpts);
 il2Meter.trail.classList.add('meterTrail');
+il2Meter.path.classList.add('meterGauge');
 il2Meter.path.setAttribute('stroke-linecap', 'round');
 il2Meter.text.removeAttribute('style');
 var vl2Meter = new _progressbar.default.SemiCircle(l2.querySelector('.volt'), metersOptions.voltMetersOpts);
 vl2Meter.trail.classList.add('meterTrail');
+vl2Meter.path.classList.add('meterGauge');
 vl2Meter.path.setAttribute('stroke-linecap', 'round');
 vl2Meter.text.removeAttribute('style');
 var l3 = document.all.l3;
 var il3Meter = new _progressbar.default.SemiCircle(l3.querySelector('.current'), metersOptions.ampsMetersOpts);
 il3Meter.trail.classList.add('meterTrail');
+il3Meter.path.classList.add('meterGauge');
 il3Meter.path.setAttribute('stroke-linecap', 'round');
 il3Meter.text.removeAttribute('style');
 var vl3Meter = new _progressbar.default.SemiCircle(l3.querySelector('.volt'), metersOptions.voltMetersOpts);
 vl3Meter.trail.classList.add('meterTrail');
+vl3Meter.path.classList.add('meterGauge');
 vl3Meter.path.setAttribute('stroke-linecap', 'round');
 vl3Meter.text.removeAttribute('style');
 document.addEventListener('DOMContentLoaded', function () {
@@ -2664,7 +2681,7 @@ mainConn.on('disconnect', function () {
 mainConn.on('reconnect', function () {
   loading.disable();
 });
-mainConn.on('meterData', function (frmSrv) {
+mainConn.on('meterData', function (frmSrv, lastPrice) {
   var data = frmSrv.data,
       meter = frmSrv.meter,
       listId = frmSrv.listId,
@@ -2674,7 +2691,7 @@ mainConn.on('meterData', function (frmSrv) {
     loading.disable();
   }
 
-  console.log(frmSrv);
+  workThePrice(lastPrice);
 
   if (listId === 25 || listId === 35) {
     activeWmeter.animate(data.activePowerPos / metersOptions.maxWatts, metersOptions.animationOpts);
@@ -2776,7 +2793,60 @@ mainConn.on('meterData', function (frmSrv) {
 
   if (listId === 35) {}
 });
-},{"@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","progressbar.js":"../node_modules/progressbar.js/src/main.js","./modules/loadingScreen":"js/modules/loadingScreen.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+function workThePrice(price) {
+  var current = price.current,
+      today = price.today,
+      tomorrow = price.tomorrow;
+  var days;
+  var cont = document.querySelector('.priceInfo');
+
+  if (today.length && tomorrow.length) {
+    days = [today, tomorrow].map(getAvgAndHighHours);
+    cont.innerText = "".concat(days[0].str, "\n    ").concat(days[1].str);
+  } else if (today.length) {
+    days = [today].map(getAvgAndHighHours);
+    cont.innerText = days[0].str;
+  }
+}
+
+function getAvgAndHighHours(day, idx) {
+  var dayStr = idx === 0 ? 'Today' : 'Tomorrow';
+
+  var getTotals = function getTotals(time, idx, arr) {
+    return time.total;
+  };
+
+  var reducer = function reducer(acc, curr, idx, arr) {
+    return acc + curr;
+  };
+
+  var getHighHours = function getHighHours(avg, hour, idx, arr) {
+    return hour.total > avg ? hour : null;
+  };
+
+  var getHours = function getHours(hour) {
+    var d = new Date(hour.startsAt);
+    return d.getHours();
+  };
+
+  var totalOnDay = day.map(getTotals).reduce(reducer);
+  var avgOnDayBC = totalOnDay / day.length;
+  var avgOnDay = round(avgOnDayBC * 100, 2);
+  var highHoursOnDay = day.map(getHighHours.bind(null, avgOnDayBC)).filter(Boolean).map(getHours);
+  var avgOnDayStr = "".concat(dayStr, ": ").concat(avgOnDay, " \xF8re");
+  return {
+    avg: avgOnDay,
+    avgBf: avgOnDayBC,
+    str: avgOnDayStr,
+    highHours: highHoursOnDay
+  };
+}
+
+function round(value, decimals) {
+  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+},{"@babel/runtime/helpers/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","progressbar.js":"../node_modules/progressbar.js/src/main.js","./modules/loadingScreen":"js/modules/loadingScreen.js","./modules/_mainMenu":"js/modules/_mainMenu.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2803,7 +2873,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43213" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37845" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

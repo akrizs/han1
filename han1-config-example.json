@@ -1,0 +1,29 @@
+{
+  "firstStart": true,
+  "debug": false,
+  "meter": {
+    "type": "Kamstrup|Kaifa|Aidon"
+  },
+  "dash": {
+    "port": 3000,
+    "api": true,
+    "protect": false
+  },
+  "addons": {
+    "han1Tibber": {
+      "active": false,
+      "homeId": "",
+      "apiKey": ""
+    },
+    "han1Nettleie": {
+      "active": false,
+      "noan": 23825,
+      "consumeTax": true,
+      "vat": true
+    }
+  },
+  "dataStorage": {
+    "active": false,
+    "type": "file|mongodb"
+  }
+}

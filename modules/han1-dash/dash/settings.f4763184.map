@@ -1,0 +1,1 @@
+{"version":3,"sources":["js/settings.js"],"names":["mainMenu","init"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAIAA,mBAASC,IAAT","file":"settings.f4763184.map","sourceRoot":"../../../src","sourcesContent":["import {\n  mainMenu\n} from './modules/_mainMenu';\n\nmainMenu.init();\n"]}

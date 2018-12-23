@@ -1,8 +1,10 @@
 doctype html
 html(lang="en")
   head
-    title config.name
+    title #{locals.title}
     meta(content="" name="description")
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
     block css
 
     block topScripts
@@ -10,8 +12,8 @@ html(lang="en")
       
   body
     #MainContent.content
+      include _menu
       .header
-        include _menu
         block header
 
       .wrap

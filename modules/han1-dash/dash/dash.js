@@ -116,6 +116,8 @@ require("./views/graph.pug");
 require("./views/settings.pug");
 
 require("./views/setup.pug");
+
+window.isTouch = !!window.ontouchstart || !!navigator.msMaxTouchPoints;
 },{"./views/index.pug":"views/index.pug","./views/debug.pug":"views/debug.pug","./views/graph.pug":"views/graph.pug","./views/settings.pug":"views/settings.pug","./views/setup.pug":"views/setup.pug"}],"../node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js":[function(require,module,exports) {
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
@@ -217,6 +219,7 @@ function () {
 
     (0, _classCallCheck2.default)(this, loadingScreen);
     this.active = false;
+    this.originalText = text;
     this.text = document.createTextNode(text);
     this.run = run;
     this.animation = animation;
@@ -314,6 +317,16 @@ function () {
             _this.mainContainer.dataset.blurred = '';
           }
         }, 10);
+        setTimeout(function () {
+          if (_this.isActive) {
+            _this.text.nodeValue = "It's taking a longer time than expected to get data.";
+            setTimeout(function () {
+              if (_this.isActive) {
+                _this.text.nodeValue = "Uhm... I guess there is something wrong...";
+              }
+            }, 10000);
+          }
+        }, 10000);
       }
     }
   }, {
@@ -335,6 +348,7 @@ function () {
           _this2.background.parentNode.removeChild(_this2.background);
 
           _this2.active = false;
+          _this2.text.nodeValue = _this2.originalText;
 
           if (!!_this2.mainContainer && !!_this2.mainContainer.dataset) {
             delete _this2.mainContainer.dataset.blurred;
@@ -354,7 +368,71 @@ function () {
 }();
 
 exports.default = loadingScreen;
-},{"@babel/runtime/helpers/classCallCheck":"../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../node_modules/@babel/runtime/helpers/createClass.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/classCallCheck":"../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../node_modules/@babel/runtime/helpers/createClass.js"}],"js/modules/_mainMenu.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dataSetToggler = dataSetToggler;
+exports.mainMenu = void 0;
+
+function dataSetToggler(set, el) {
+  if (el.hasAttribute("data-".concat(set))) {
+    el.removeAttribute("data-".concat(set));
+  } else {
+    el.dataset[set] = '';
+  }
+}
+
+var mainMenu = {
+  DOMe: document.querySelector('.mainMenuCont ul'),
+  CL: window.location.href,
+  BTN: document.querySelector('#mainMenuToggle')
+};
+exports.mainMenu = mainMenu;
+
+mainMenu.init = function () {
+  this.BTN.addEventListener('touchstart', this.handleMainMenuToggle);
+  this.BTN.addEventListener('click', this.handleMainMenuToggle);
+  this.checkPath();
+};
+
+mainMenu.checkPath = function () {
+  var _this = this;
+
+  console.dir(this);
+  Array.from(this.DOMe.children).map(function (li) {
+    var link = li.querySelector('a');
+
+    if (link.href === _this.CL) {
+      li.dataset.active = '';
+      link.dataset.active = '';
+      return;
+    } else {
+      if (li.dataset.active) {
+        delete li.dataset.active;
+      }
+
+      if (link.dataset.active) {
+        delete link.dataset.active;
+      }
+
+      return;
+    }
+  });
+};
+
+mainMenu.handleMainMenuToggle = function name(e) {
+  e.preventDefault();
+  console.dir(this);
+  var innerMain = this.parentElement.querySelector('.mainMenuInner');
+  dataSetToggler('open', this);
+  dataSetToggler('open', this.firstElementChild);
+  dataSetToggler('open', innerMain);
+  dataSetToggler('open', this.parentElement);
+};
+},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -381,7 +459,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43213" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37845" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

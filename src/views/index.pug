@@ -2,7 +2,7 @@ extends template
 append css
   link(rel='stylesheet', href='../scss/main.scss')
 append topScripts
-  script(src=process.env.SOCKET)
+  script(src=locals.scriptTags.io)
 
 block content
   .activeGroup

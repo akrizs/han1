@@ -10,6 +10,8 @@ const {
   spawn
 } = require('child_process');
 
+console.clear();
+
 const cleanFiles = [ /*'.parcel-cache/*',*/ 'modules/han1-dash/dash/*']
 
 const nodemonOpts = {
@@ -49,7 +51,7 @@ const watchableOpts = {
   watch: true
 }
 
-console.clear();
+
 
 clean(cleanFiles)
   .then(() => {

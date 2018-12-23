@@ -1,4 +1,26 @@
+@charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,700);
+@font-face {
+  font-family: "Font Awesome 5 Brands";
+  font-style: normal;
+  font-weight: normal;
+  src: url(fa-brands-400.7b5acd02.eot);
+  src: url(fa-brands-400.7b5acd02.eot?#iefix) format("embedded-opentype"), url(fa-brands-400.34cc846b.woff2) format("woff2"), url(fa-brands-400.75159956.woff) format("woff"), url(fa-brands-400.f885063e.ttf) format("truetype"), url(fa-brands-400.1f0eb095.svg#fontawesome) format("svg");
+}
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 400;
+  src: url(fa-regular-400.d4b9b17f.eot);
+  src: url(fa-regular-400.d4b9b17f.eot?#iefix) format("embedded-opentype"), url(fa-regular-400.82c42f2f.woff2) format("woff2"), url(fa-regular-400.adc5c7aa.woff) format("woff"), url(fa-regular-400.b073eab5.ttf) format("truetype"), url(fa-regular-400.16d6ac71.svg#fontawesome) format("svg");
+}
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  src: url(fa-solid-900.0b60ff24.eot);
+  src: url(fa-solid-900.0b60ff24.eot?#iefix) format("embedded-opentype"), url(fa-solid-900.55d5ef42.woff2) format("woff2"), url(fa-solid-900.f824330b.woff) format("woff"), url(fa-solid-900.47a039f3.ttf) format("truetype"), url(fa-solid-900.d08d5f59.svg#fontawesome) format("svg");
+}
 *,
 *::before,
 *::after {
@@ -17,6 +39,8 @@ div#MainContent {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   min-height: 100vh;
   outline: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 div#MainContent:focus {
@@ -34,4 +58,323 @@ div#MainContent:focus {
   -ms-flex-direction: column;
   flex-direction: column;
   padding: 1rem;
+}
+
+.mainMenuWrap {
+  position: fixed;
+  width: 350px;
+  height: 100vh;
+  background: #1f1f21;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  z-index: 9998;
+  -webkit-transition: all 0.5s cubic-bezier(0.35, 0.96, 0.58, 0.96);
+  transition: all 0.5s cubic-bezier(0.35, 0.96, 0.58, 0.96);
+}
+.mainMenuWrap .mainMenuTopper {
+  width: 100%;
+  height: 60px;
+  border-bottom: 1px solid #37393b;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.mainMenuWrap .mainMenuTopper span {
+  width: 50%;
+}
+.mainMenuWrap .mainMenuInner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  -webkit-transition: all 0.5s cubic-bezier(0.35, 0.96, 0.58, 0.96);
+  transition: all 0.5s cubic-bezier(0.35, 0.96, 0.58, 0.96);
+}
+.mainMenuWrap .mainMenuInner .logoCont {
+  cursor: pointer;
+  width: auto;
+  height: auto;
+}
+.mainMenuWrap .mainMenuInner .logoCont .logoSVG {
+  width: auto;
+  height: 100px;
+}
+.mainMenuWrap .mainMenuInner .logoCont .logoSVG .mainLogo {
+  fill: none;
+  stroke: #eed369;
+}
+.mainMenuWrap .mainMenuInner .mainMenuCont ul {
+  list-style: none;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+.mainMenuWrap .mainMenuInner .mainMenuCont ul li {
+  position: relative;
+}
+.mainMenuWrap .mainMenuInner .mainMenuCont ul li a {
+  color: inherit;
+  font-size: 1.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mainMenuWrap .mainMenuInner .mainMenuCont ul li[data-active] {
+  color: #eed369;
+}
+.mainMenuWrap .mainMenuInner .mainMenuCont ul li[data-active]:hover {
+  color: #eed369;
+}
+.mainMenuWrap .mainMenuInner h5.versionInfo {
+  font-size: 1em;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.5);
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+.mainMenuWrap.left {
+  left: -90px;
+  -webkit-transform: skew(0deg) translateX(-75%);
+  transform: skew(0deg) translateX(-75%);
+  border-right: 1px solid #37393b;
+  -webkit-box-shadow: 20px 0px 30px -17px rgba(0, 0, 0, 0.8);
+  box-shadow: 20px 0px 30px -17px rgba(0, 0, 0, 0.8);
+}
+.mainMenuWrap.left .mainMenuTopper span.push {
+  -webkit-transform: skew(10deg);
+  transform: skew(10deg);
+}
+.mainMenuWrap.left .mainMenuTopper span.priceInfo {
+  -webkit-transform: skew(10deg);
+  transform: skew(10deg);
+  text-align: right;
+  padding: 0 1em 0 0;
+  color: #eed369;
+}
+.mainMenuWrap.left[data-open] {
+  -webkit-transform: skew(-10deg) translateX(0%);
+  transform: skew(-10deg) translateX(0%);
+}
+.mainMenuWrap.left .mainMenuInner {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-transform: translateX(-100%) skew(0deg);
+  transform: translateX(-100%) skew(0deg);
+}
+.mainMenuWrap.left .mainMenuInner[data-open] {
+  -webkit-transform: translateX(0) skew(10deg);
+  transform: translateX(0) skew(10deg);
+}
+.mainMenuWrap.left .mainMenuInner .logoCont {
+  justify-self: flex-end;
+  margin: 0 6em 10px 0;
+}
+.mainMenuWrap.left .mainMenuInner .mainMenuCont {
+  margin: 0 6em 10px 0;
+}
+.mainMenuWrap.left .mainMenuInner .mainMenuCont ul li {
+  text-align: right;
+}
+.mainMenuWrap.left .mainMenuInner .mainMenuCont ul li[data-active]::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-size: 1.2rem;
+  content: "";
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  top: 50%;
+  right: -1.3em;
+}
+.mainMenuWrap.left .mainMenuInner .mainMenuCont ul li:hover::after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-size: 1.2rem;
+  content: "";
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  top: 50%;
+  right: -1.3em;
+}
+.mainMenuWrap.left .mainMenuInner h5.versionInfo {
+  margin: 0 6em 0 0;
+}
+.mainMenuWrap.left button.mainMenuToggle {
+  right: -50px;
+}
+.mainMenuWrap.left button.mainMenuToggle[data-open] {
+  -webkit-transform: skew(10deg);
+  transform: skew(10deg);
+}
+.mainMenuWrap.right {
+  right: -90px;
+  -webkit-transform: skew(0deg) translateX(75%);
+  transform: skew(0deg) translateX(75%);
+  border-left: 1px solid #37393b;
+  -webkit-box-shadow: -20px 0px 30px -17px rgba(0, 0, 0, 0.8);
+  box-shadow: -20px 0px 30px -17px rgba(0, 0, 0, 0.8);
+}
+.mainMenuWrap.right[data-open] {
+  -webkit-transform: skew(10deg) translateX(0%);
+  transform: skew(10deg) translateX(0%);
+}
+.mainMenuWrap.right .mainMenuInner {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-transform: translateX(100%) skew(0deg);
+  transform: translateX(100%) skew(0deg);
+}
+.mainMenuWrap.right .mainMenuInner[data-open] {
+  -webkit-transform: translateX(0) skew(-10deg);
+  transform: translateX(0) skew(-10deg);
+}
+.mainMenuWrap.right .mainMenuInner .logoCont {
+  justify-self: flex-start;
+  margin: 0 0 10px 6em;
+}
+.mainMenuWrap.right .mainMenuInner .mainMenuCont {
+  margin: 0 0 10px 6em;
+}
+.mainMenuWrap.right .mainMenuInner .mainMenuCont ul li {
+  text-align: left;
+}
+.mainMenuWrap.right .mainMenuInner .mainMenuCont ul li[data-active]::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+}
+.mainMenuWrap.right .mainMenuInner .mainMenuCont ul li:hover::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  color: #eed369;
+  font-size: 1.2rem;
+  content: "";
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: -1.3em;
+}
+.mainMenuWrap.right .mainMenuInner h5.versionInfo {
+  margin: 0 0 0 6em;
+}
+.mainMenuWrap.right button.mainMenuToggle {
+  left: -50px;
+}
+.mainMenuWrap.right button.mainMenuToggle[data-open] {
+  -webkit-transform: skew(-10deg);
+  transform: skew(-10deg);
+}
+.mainMenuWrap button.mainMenuToggle {
+  background: none;
+  outline: none;
+  border: none;
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  top: 24px;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  cursor: pointer;
+}
+.mainMenuWrap button.mainMenuToggle:hover .iconGrp span:nth-child(1) {
+  top: 5px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+}
+.mainMenuWrap button.mainMenuToggle:hover .iconGrp span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+.mainMenuWrap button.mainMenuToggle:hover .iconGrp span:nth-child(3) {
+  top: 20px;
+  -webkit-transform: rotate(-35deg);
+  transform: rotate(-35deg);
+}
+.mainMenuWrap button.mainMenuToggle:hover .iconGrp[data-open] span:nth-child(1) {
+  top: 5px;
+  -webkit-transform: rotate(-35deg);
+  transform: rotate(-35deg);
+}
+.mainMenuWrap button.mainMenuToggle:hover .iconGrp[data-open] span:nth-child(3) {
+  top: 20px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  margin: 0 auto;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp span {
+  display: block;
+  position: absolute;
+  height: 7px;
+  width: 100%;
+  background: #eed369;
+  border-radius: 7px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp span:nth-child(1) {
+  top: 0px;
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp span:nth-child(2) {
+  top: 13px;
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp span:nth-child(3) {
+  top: 25px;
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp[data-open] span:nth-child(1) {
+  top: 13px;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp[data-open] span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+.mainMenuWrap button.mainMenuToggle .iconGrp[data-open] span:nth-child(3) {
+  top: 13px;
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
 }

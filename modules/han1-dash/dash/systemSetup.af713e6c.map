@@ -1,0 +1,1 @@
+{"version":3,"sources":["js/systemSetup.js"],"names":["sockSetup","io","connect"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,IAAMA,SAAS,GAAGC,EAAE,CAACC,OAAH,CAAW,QAAX,CAAlB","file":"systemSetup.af713e6c.map","sourceRoot":"../../../src","sourcesContent":["const sockSetup = io.connect('/debug')\n"]}

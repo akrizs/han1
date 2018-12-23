@@ -1,4 +1,7 @@
 import loadingScreen from './modules/loadingScreen';
+import {
+  mainMenu
+} from './modules/_mainMenu';
 
 const dbgConn = io.connect('/debug')
 
@@ -13,6 +16,8 @@ let waitscreen = new loadingScreen({
   text: 'Waiting for data!',
   animation: 'scroller'
 });
+
+mainMenu.init();
 
 window.waitscreen = waitscreen;
 

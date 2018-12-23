@@ -17,21 +17,23 @@ let lastPrice;
 
 let date = new Date();
 
-
 async function han1Bridge(data) {
+  const package = {};
   let fullHour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
   // data = demodata.kamstrup.second
-  const validated = await han1Validator(data);
-  const parsed = await han1Parser(validated)
+  package.validated = await han1Validator(data);
+  package.parsed = await han1Parser(package.validated)
+
+
   if (process.cfg.addons.han1Tibber.active) {
     if (!lastPrice || fullHour === '00') {
-      lastPrice = await han1Tibber.getPrice();
+      package.lastPrice = await han1Tibber.getPrice();
     }
   }
-  mainWeb.emit('meterData', parsed);
+  mainWeb.emit('meterData', package.parsed, package.lastPrice);
 
   if (process.cfg.debug) {
-    han1Debug(data, parsed, lastPrice);
+    han1Debug(data, package.parsed, package.lastPrice);
   }
 
 }
