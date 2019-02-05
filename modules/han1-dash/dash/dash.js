@@ -310,6 +310,8 @@ function () {
         this.active = true;
         document.body.insertAdjacentElement('afterbegin', this.background);
         document.body.classList.add('disScroll');
+        this.background.setAttribute('tabindex', '-1');
+        this.background.addEventListener('keydown', escToClose.bind(this));
         setTimeout(function () {
           _this.background.setAttribute('data-display', '');
 
@@ -343,6 +345,8 @@ function () {
         }
 
         setTimeout(function () {
+          _this2.background.removeEventListener('keydown', escToClose.bind(_this2));
+
           document.body.classList.remove('disScroll');
 
           _this2.background.parentNode.removeChild(_this2.background);
@@ -368,6 +372,13 @@ function () {
 }();
 
 exports.default = loadingScreen;
+
+function escToClose(e) {
+  if (e.keyCode === 27) {
+    e.preventDefault();
+    this.disable();
+  }
+}
 },{"@babel/runtime/helpers/classCallCheck":"../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../node_modules/@babel/runtime/helpers/createClass.js"}],"js/modules/_mainMenu.js":[function(require,module,exports) {
 "use strict";
 
@@ -459,7 +470,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37845" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36945" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

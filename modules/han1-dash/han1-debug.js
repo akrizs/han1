@@ -4,8 +4,10 @@ const {
 } = require('hexy');
 // Require the Socket connection
 const {
-  dbgWeb
-} = require('./han1-dash/han1-dash');
+  dbgSocket
+} = require('./han1-sockets');
+
+const findDataType = require('../han1-parser/han1-profile').findDataType;
 
 
 /**
@@ -25,42 +27,26 @@ function han1Debug(data, parsed, lastPrice) {
     format: 'twos',
     annotate: 'none'
   });
-  let obis = debugFindObis(data);
-  dbgPack.obis = obis
+
+  dbgPack.obis = debugFindObis(data)
   dbgPack.date = parsed.dateTime;
-  dbgPack.raw = parsed.raw;
-  dbgPack.raw.fullData = data;
+  dbgPack.raw = data;
+  dbgPack.parsed = parsed
   if (!!lastPrice) {
     dbgPack.price = lastPrice
   }
-  dbgWeb.emit('dbgData', dbgPack)
+  dbgSocket.emit('dbgData', dbgPack)
 }
 
 function debugFindObis(raw) {
   const obis = [];
   let sponge = Array.from(raw).map((int, idx, arr) => {
     let dataType;
-    // Obis codes as the date of app creation usually are unused and therefore end with 0xFF;
     if (int === 0xFF) {
       // 0x01 stands for Electronics 0x00 for general
-      if (arr[idx - 5] === 0x01 || arr[idx - 5] === 0x00) {
+      if (arr[idx - 5] === 0x01 && arr[idx - 4] === 0x00 || arr[idx - 5] === 0x00 && arr[idx - 4] === 0x01 || arr[idx - 5] === 0x01 && arr[idx - 4] === 0x01 || arr[idx - 5] === 0x00 && arr[idx - 4] === 0x00) {
 
-        if (arr[idx + 1] === 0x0A) {
-          // OBIS code value
-          dataType = 'obisCodeValue';
-        } else if (arr[idx + 1] === 0x09) {
-          // String value
-          dataType = 'string';
-        } else if (arr[idx + 1] === 0x02) {
-          // byte value (1 byte)
-          dataType = '1byte';
-        } else if (arr[idx + 1] === 0x12) {
-          // integer value (2 bytes)
-          dataType = 'int2bytes';
-        } else if (arr[idx + 1] === 0x06) {
-          // integer value (4 bytes)
-          dataType = 'int4bytes';
-        }
+        dataType = findDataType(arr[idx + 1])
 
         let string = `${arr[idx - 5]}-${arr[idx - 4]}:${arr[idx - 3]}.${arr[idx - 2]}.${arr[idx - 1]}.${arr[idx]}`
         return [string, dataType, idx - 5, idx]

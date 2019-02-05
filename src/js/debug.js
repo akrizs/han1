@@ -23,8 +23,6 @@ window.waitscreen = waitscreen;
 
 createFreezeButton();
 
-
-
 dbgConn.on('dbgData', (frmSrv) => {
   const {
     hexified,
@@ -39,7 +37,7 @@ dbgConn.on('dbgData', (frmSrv) => {
   }
 
   if (!frozen) {
-    debugHexTable(date, hexified, obis, raw.ctrl.frameSize);
+    debugHexTable(date, hexified, obis);
     generateObisTable(raw.manufacturer, null, obis);
     addEvListenersToTables();
     console.log(frmSrv);
@@ -124,8 +122,8 @@ function generateObisTable(mfact, listNr, obisVals) {
 
 
 function debugHexTable(date, hexified, obisVals, size) {
-  let meterDate = new Date(date.meter);
-  let serverDate = new Date(date.server);
+  let meterDate = new Date();
+  let serverDate = new Date();
 
   let rL = hexified.split('\n').filter(Boolean).length
   let no = -1;
@@ -213,6 +211,10 @@ function debugHexTable(date, hexified, obisVals, size) {
           t = 'data';
         }
 
+        if (no === 19) {
+          t = 'itemscount'
+        }
+
 
         return `<p class="byte${t ? ' ' + t : ''}" data-byteNr="${no}" data-type="${t}">${byte}</p>`
       }).join(' ')
@@ -232,87 +234,82 @@ function findObisName(obis, mfact) {
   if (str === '1-1:0.2.129.255') {
     return 'Obis List Version Identifier'
   }
-  if (str === '1-1:0.0.5.255' || str === '0-0:96.1.0.255') {
+  if (/((?:(?:1|0)-(?:1|0)):(?:0|96)(?:\.(?:0|1)\.(?:0|5)\.255))/gi.test(str)) {
     return 'Meter ID (GIAI GS1 16 Digit)'
   }
-  if (str === '1-1:96.1.1.255' || str === '0-0:96.1.7.255') {
+  if (/((?:1|0)-(?:1|0):(?:96)\.(?:1)\.(?:1|7)\.(?:255))/gi.test(str)) {
     return 'Meter Type'
   }
-  if (str === '1-1:1.7.0.255' || str === '1-0:1.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:1)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Active Power + (Q1+Q4)'
   }
-  if (str === '1-1:2.7.0.255' || str === '1-0:2.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:2)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Active Power - (Q2+Q3)'
   }
-  if (str === '1-1:3.7.0.255' || str === '1-0:3.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:3)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Reactive Power + (Q1+Q2)'
   }
-  if (str === '1-1:4.7.0.255' || str === '1-0:4.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:4)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Reactive Power - (Q3-Q4)'
   }
-  if (str === '1-1:31.7.0.255' || str === '1-0:31.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:31)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'IL1 Current Phase L1'
   }
-  if (str === '1-1:51.7.0.255' || str === '1-0:51.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:51)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'IL2 Current Phase L2'
   }
-  if (str === '1-1:71.7.0.255' || str === '1-0:71.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:71)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'IL3 Current Phase L3'
   }
-  if (str === '1-1:32.7.0.255' || str === '1-0:32.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:32)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'ULN1 Phase Voltage 4W meter, Line voltage 3W meter.'
   }
-  if (str === '1-1:52.7.0.255' || str === '1-0:52.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:52)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'ULN2 Phase Voltage 4W meter, Line voltage 3W meter.'
   }
-  if (str === '1-1:72.7.0.255' || str === '1-0:72.7.0.255') {
+  if (/((?:1)-(?:1|0):(?:72)\.(?:7)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'ULN3 Phase Voltage 4W meter, Line voltage 3W meter.'
   }
-  if (str === '0-1:1.0.0.255' || str === '0-0:1.0.0.255') {
+  if (/((?:0)-(?:1|0):(?:1)\.(?:0)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Clock and Date in meter'
   }
-  if (str === '1-1:1.8.0.255' || str === '1-0:1.8.0.255') {
+  if (/((?:1)-(?:1|0):(?:1)\.(?:8)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Cumulative hourly active import energy (A+)(Q1+Q4)'
   }
-  if (str === '1-1:2.8.0.255' || str === '1-0:2.8.0.255') {
+  if (/((?:1)-(?:1|0):(?:2)\.(?:8)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Cumulative hourly active export energy (A-)(Q2+Q3)'
   }
-  if (str === '1-1:3.8.0.255' || str === '1-0:3.8.0.255') {
+  if (/((?:1)-(?:1|0):(?:3)\.(?:8)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Cumulative hourly reactive import energy (R+)(Q1+Q2)'
   }
-  if (str === '1-1:4.8.0.255' || str === '1-0:4.8.0.255') {
+  if (/((?:1)-(?:1|0):(?:4)\.(?:8)\.(?:0)\.(?:255))/gi.test(str)) {
     return 'Cumulative hourly reactive export energy (R-)(Q3+Q4)'
   }
+  return '';
 }
 
 function findUnitType(obis, mfact) {
   const [a, b, c, d, e, f, str] = obis;
-  if (str === '1-1:0.2.129.255' ||
-    str === '1-1:0.0.5.255' ||
-    str === '1-1:96.1.1.255' ||
-    str === '0-1:1.0.0.255') {
-    return ''
-  }
-  if (str === '1-1:1.7.0.255' || str === '1-1:2.7.0.255') {
+  if (/((1-(1|0)):(1|2)(\.7\.0\.255))/gi.test(str)) {
     return 'kW'
   }
-  if (str === '1-1:3.7.0.255' || str === '1-1:4.7.0.255') {
+  if (/((1-(1|0)):(3|4)(\.7\.0\.255))/gi.test(str)) {
     return 'kVAr'
   }
-  if (str === '1-1:31.7.0.255' ||
-    str === '1-1:51.7.0.255' ||
-    str === '1-1:71.7.0.255') {
+  if (/((1-(1|0)):(31|51|71)(\.7\.0\.255))/gi.test(str)) {
     return 'A'
   }
-  if (str === '1-1:32.7.0.255' || str === '1-1:52.7.0.255' || str === '1-1:72.7.0.255') {
+  if (/((1-(1|0)):(32|52|72)(\.7\.0\.255))/gi.test(str)) {
     return 'V'
   }
-  if (str === '1-1:1.8.0.255' || str === '1-1:2.8.0.255') {
+  if (/((1-(1|0)):(1|2)(\.8\.0\.255))/gi.test(str)) {
     return 'kWh'
   }
-  if (str === '1-1:3.8.0.255' || str === '1-1:4.8.0.255') {
+  if (/((1-(1|0)):(3|4)(\.8\.0\.255))/gi.test(str)) {
     return 'kVArh'
   }
+
+  return '';
 }
 
 function createFreezeButton() {

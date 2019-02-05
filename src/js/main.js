@@ -90,9 +90,17 @@ const metersOptions = {
 
 
 
-const mainConn = io.connect('/main');
+const mainSocket = io.connect('/main');
+const errorSocket = io.connect('/error');
 
-window.mainConn = mainConn;
+window.mainSocket = mainSocket;
+window.errorSocket = errorSocket;
+
+errorSocket.on('error', (e) => {
+  console.dir(e);
+})
+
+
 let lastUpdate = document.all.lastUpdate;
 let activePower = document.all.activePower;
 
@@ -154,19 +162,20 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
-mainConn.on('disconnect', function () {
+mainSocket.on('disconnect', function () {
   loading.enable('Lost Connection')
 });
 
-mainConn.on('reconnect', function () {
+mainSocket.on('reconnect', function () {
   loading.disable()
 });
 
-mainConn.on('meterData', (frmSrv, lastPrice) => {
+mainSocket.on('meterData', (frmSrv, lastPrice) => {
   const {
     data,
     meter,
-    listId,
+    listID,
+    manufacturer,
     ...rest
   } = frmSrv;
 
@@ -174,92 +183,32 @@ mainConn.on('meterData', (frmSrv, lastPrice) => {
     loading.disable();
   }
 
+  console.log(frmSrv);
+
   workThePrice(lastPrice);
 
-  if (listId === 25 || listId === 35) {
-    activeWmeter.animate((data.activePowerPos / metersOptions.maxWatts), metersOptions.animationOpts);
-    activeWmeter.setText(`${(data.activePowerPos / 1000).toFixed(3)} kW`)
-    if (data.activePowerPos > 0 && data.activePowerPos < 5000) {
-      activeWmeter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if (data.activePowerPos > 5000 && data.activePowerPos < 8000) {
-      activeWmeter.path.setAttribute('stroke', metersOptions.sColors.warning)
-    }
-    if (data.activePowerPos > 8000 && data.activePowerPos < metersOptions.maxWatts) {
-      activeWmeter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
+  if (listID === 1 || listID === 2 || listID === 3) {
+    // Update the activePowerMeter on every list!
+    activePowerMeterUpdate.call(activeWmeter, data.aPowPlus, manufacturer)
+  }
 
-    il1Meter.animate((data.phases.l1.i / 100) / metersOptions.ampsMax, metersOptions.animationOpts);
-    il1Meter.setText(`${(data.phases.l1.i / 100).toFixed(2)} A`)
-    if ((data.phases.l1.i / 100) > 0 && (data.phases.l1.i / 100) < metersOptions.ampsAlot) {
-      il1Meter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if ((data.phases.l1.i / 100) > metersOptions.ampsAlot && (data.phases.l1.i / 100) < 25) {
-      il1Meter.path.setAttribute('stroke', metersOptions.sColors.warning)
-    }
-    if ((data.phases.l1.i / 100) > 25 && (data.phases.l1.i / 100) < metersOptions.ampsMax) {
-      il1Meter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
-    vl1Meter.animate(data.phases.l1.v / metersOptions.voltsMax, metersOptions.animationOpts);
-    vl1Meter.setText(`${data.phases.l1.v} V`)
-    if (data.phases.l1.v > 220 && data.phases.l1.v < 240) {
-      vl1Meter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if (data.phases.l1.v < 220 &&
-      data.phases.l1.v > 240) {
-      vl1Meter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
+  if (listID === 2 || listID === 3) {
+    currentMetersUpdate.call(il1Meter, data.phases.l1.i, manufacturer);
+    currentMetersUpdate.call(il2Meter, data.phases.l2.i, manufacturer);
+    currentMetersUpdate.call(il3Meter, data.phases.l3.i, manufacturer);
 
-    il2Meter.animate((data.phases.l2.i / 100) / metersOptions.ampsMax, metersOptions.animationOpts)
-    il2Meter.setText(`${(data.phases.l2.i / 100).toFixed(2)} A`)
-    if ((data.phases.l2.i / 100) > 0 && (data.phases.l2.i / 100) < metersOptions.ampsAlot) {
-      il2Meter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if ((data.phases.l2.i / 100) > metersOptions.ampsAlot && (data.phases.l2.i / 100) < 25) {
-      il2Meter.path.setAttribute('stroke', metersOptions.sColors.warning)
-    }
-    if ((data.phases.l2.i / 100) > 25 && (data.phases.l2.i / 100) < metersOptions.ampsMax) {
-      il2Meter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
+    voltageMetersUpdate.call(vl1Meter, data.phases.l1.v, manufacturer)
+    voltageMetersUpdate.call(vl2Meter, data.phases.l2.v, manufacturer)
+    voltageMetersUpdate.call(vl3Meter, data.phases.l3.v, manufacturer)
 
-    vl2Meter.animate(data.phases.l2.v / metersOptions.voltsMax, metersOptions.animationOpts)
-    vl2Meter.setText(`${data.phases.l2.v} V`)
-    if (data.phases.l2.v > 220 && data.phases.l2.v < 240) {
-      vl2Meter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if (data.phases.l2.v < 220 &&
-      data.phases.l2.v > 240) {
-      vl2Meter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
 
-    il3Meter.animate((data.phases.l3.i / 100) / metersOptions.ampsMax, metersOptions.animationOpts)
-    il3Meter.setText(`${(data.phases.l3.i / 100).toFixed(2)} A`)
-    if ((data.phases.l3.i / 100) > 0 && (data.phases.l3.i / 100) < metersOptions.ampsAlot) {
-      il3Meter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if ((data.phases.l3.i / 100) > metersOptions.ampsAlot && (data.phases.l3.i / 100) < 25) {
-      il3Meter.path.setAttribute('stroke', metersOptions.sColors.warning)
-    }
-    if ((data.phases.l3.i / 100) > 25 && (data.phases.l3.i / 100) < metersOptions.ampsMax) {
-      il3Meter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
-
-    vl3Meter.animate(data.phases.l3.v / metersOptions.voltsMax, metersOptions.animationOpts)
-    vl3Meter.setText(`${data.phases.l3.v} V`)
-    if (data.phases.l3.v > 220 && data.phases.l3.v < 240) {
-      vl3Meter.path.setAttribute('stroke', metersOptions.sColors.fine)
-    }
-    if (data.phases.l3.v < 220 && data.phases.l3.v > 240) {
-      vl3Meter.path.setAttribute('stroke', metersOptions.sColors.error)
-    }
-
-    const date = new Date(frmSrv.dateTime.meter);
+    const date = new Date(data.time);
 
 
     lastUpdate.querySelector('h4').textContent = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
     // `${data.date.date}/${data.date.month}/${data.date.year}\n${data.date.hour}:${data.date.min}:${data.date.sec}`
   }
-  if (listId === 35) {
+  if (listID === 3) {
 
   }
 })
@@ -316,4 +265,67 @@ function getAvgAndHighHours(day, idx) {
 
 function round(value, decimals) {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
+function currentMetersUpdate(pack, manufacturer) {
+  let {
+    value,
+    unit
+  } = pack;
+
+  if (manufacturer === 'kamstrup') {
+    value = value
+  } else {
+    value = value * 100;
+  }
+
+  value = parseInt(value) / 100
+
+  this.animate(value / metersOptions.ampsMax, metersOptions.animationOpts);
+  this.setText(`${value.toFixed(2)} A`)
+  if (value > 0 && value < metersOptions.ampsAlot) {
+    this.path.setAttribute('stroke', metersOptions.sColors.fine)
+  }
+  if (value > metersOptions.ampsAlot && value < 25) {
+    this.path.setAttribute('stroke', metersOptions.sColors.warning)
+  }
+  if (value > 25 && value < metersOptions.ampsMax) {
+    this.path.setAttribute('stroke', metersOptions.sColors.error)
+  }
+}
+
+function voltageMetersUpdate(pack, manufacturer) {
+  let {
+    value,
+    unit
+  } = pack;
+
+  this.animate(value / metersOptions.voltsMax, metersOptions.animationOpts);
+  this.setText(`${value} V`)
+  if (value > 220 && value < 240) {
+    this.path.setAttribute('stroke', metersOptions.sColors.fine)
+  }
+  if (value < 220 &&
+    value > 240) {
+    this.path.setAttribute('stroke', metersOptions.sColors.error)
+  }
+}
+
+function activePowerMeterUpdate(pack, manufacturer) {
+  let {
+    value,
+    unit
+  } = pack;
+
+  this.animate((value / metersOptions.maxWatts), metersOptions.animationOpts);
+  this.setText(`${(value / 1000).toFixed(3)} kW`)
+  if (value > 0 && value < 5000) {
+    this.path.setAttribute('stroke', metersOptions.sColors.fine)
+  }
+  if (value > 5000 && value < 8000) {
+    this.path.setAttribute('stroke', metersOptions.sColors.warning)
+  }
+  if (value > 8000 && value < metersOptions.maxWatts) {
+    this.path.setAttribute('stroke', metersOptions.sColors.error)
+  }
 }

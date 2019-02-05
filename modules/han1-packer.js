@@ -1,4 +1,5 @@
 const han1Bridge = require('./han1-bridge');
+const han1Error = require('./han1-dash/han1-error');
 
 const rem = {
   start: false,
@@ -9,7 +10,7 @@ const rem = {
 }
 
 function han1Packer(data) {
-  if (rem.start === false && data[0] === 0x7E && data[1] === 0xA0) {
+  if (rem.start === false && data[0] === 0x7E) {
     rem.start = true;
     rem.length = data.readUInt8(2);
   }
@@ -33,6 +34,8 @@ function han1Packer(data) {
       rem.start = false;
       rem.data = [];
       rem.promises = [];
+    }).catch(e => {
+      han1Error(e);
     })
   }
 }

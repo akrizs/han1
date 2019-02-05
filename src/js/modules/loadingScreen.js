@@ -103,6 +103,8 @@ export default class loadingScreen {
       this.active = true;
       document.body.insertAdjacentElement('afterbegin', this.background);
       document.body.classList.add('disScroll');
+      this.background.setAttribute('tabindex', '-1');
+      this.background.addEventListener('keydown', escToClose.bind(this))
 
       setTimeout(() => {
         this.background.setAttribute('data-display', '');
@@ -134,6 +136,7 @@ export default class loadingScreen {
       }
 
       setTimeout(() => {
+        this.background.removeEventListener('keydown', escToClose.bind(this))
         document.body.classList.remove('disScroll');
         this.background.parentNode.removeChild(this.background);
         this.active = false;
@@ -148,5 +151,13 @@ export default class loadingScreen {
 
   get isActive() {
     return this.active;
+  }
+}
+
+
+function escToClose(e) {
+  if (e.keyCode === 27) {
+    e.preventDefault();
+    this.disable();
   }
 }

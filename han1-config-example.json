@@ -1,13 +1,29 @@
 {
-  "firstStart": true,
-  "debug": false,
-  "meter": {
-    "type": "Kamstrup|Kaifa|Aidon"
+  "firstStart": false,
+  "debug": true,
+  "log": "error",
+  "host": "raspi" || "other",
+  "serial": {
+    "port": "/dev/ttyAMA0",
+    "baudRate": 2400,
+    "dataBits": 8,
+    "stopBits": 1,
+    "parity": "none"
   },
-  "dash": {
+  "meter": {
+    "manufacturer": "kamstrup" || "aidon" || "kaifa",
+    "id": "",
+    "serial": "",
+    "type": ""
+  },
+  "dashboard": {
     "port": 3000,
-    "api": true,
-    "protect": false
+    "api": false,
+    "protect": {
+      "active": false,
+      "username": "admin",
+      "password": "admin"
+    }
   },
   "addons": {
     "han1Tibber": {
@@ -17,9 +33,9 @@
     },
     "han1Nettleie": {
       "active": false,
-      "noan": 23825,
-      "consumeTax": true,
-      "vat": true
+      "noan": "int",
+      "consumeTax": false,
+      "vat": false
     }
   },
   "dataStorage": {
