@@ -4,7 +4,6 @@ const han1Dash = express();
 
 const han1Settings = require('./han1-settings.js');
 const han1RestApi = require('./han1-restapi.js');
-const han1InitSetup = require('./han1-initSetup.js');
 
 const fs = require('fs');
 
@@ -26,10 +25,6 @@ han1Dash.use(express.static(__dirname + '/dash/assets'));
 // if (process.cfg.dash.protect) {
 // Set some kind of authentication method.
 // }
-
-if (process.cfg.firstStart) {
-  han1Dash.use('*', han1InitSetup)
-}
 
 han1Dash.use('/settings', han1Settings)
 han1Dash.use('/api', han1RestApi);
