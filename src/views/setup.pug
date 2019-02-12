@@ -4,7 +4,54 @@ append css
 append topScripts
   script(src=locals.scriptTags.io)
 block content
+  #setupContainer.installationContainer
+    #setupProcessBar.setupProcessBar
+    .logoContainer
+      <svg class="logoSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 106.53 188"><g id="mainLogoGroup" data-name="mainLogo"><path id="mainMenuLogo" class="mainLogo" d="M3.13,188a3.13,3.13,0,0,1-2.88-4.35l35.1-83.38H3.13a3.14,3.14,0,0,1-2.8-4.54l47-94A3.14,3.14,0,0,1,50.13,0h50.14a3.14,3.14,0,0,1,2.65,4.81L66.27,62.67H103.4a3.12,3.12,0,0,1,2.84,1.81,3.15,3.15,0,0,1-.44,3.34L5.53,186.89A3.15,3.15,0,0,1,3.13,188"/></g></svg>
+    .pages
+      .page.active(data-content="intro" data-pagenr=1 data-han1installation="page")
+        .pageHeading
+          h1.header Welcome To HAN1
+          h4.version
+          p.desc Please follow the setup to get you up and running with your AMS/HAN enabled smartmeter!
 
+          p HAN1 is an NodeJS project to read, parse and serve data from so called "smart electrical meters", the system works after the Norwegian HAN standard which follows the DLMS/COSEM standard.
+      .page(data-content="general" data-pagenr=2 data-han1installation="page")
+        .pageHeading
+          h1.header General
+          p.desc Few basic generic settings to get you connected to the meter and start receiving data from it!
+        .settingsArea
+      .page(data-content="meter" data-pagenr=3 data-han1installation="page")
+        .pageHeading
+          h1.header Meter
+          p.desc Few settings to get the meter syncronized with the HAN1 system!
+        .settingsArea
+      .page(data-content="dashboard" data-pagenr=4 data-han1installation="page")
+        .pageHeading
+          h1.header Dashboard
+          p.desc Settings for the dashboard and the web stack services.
+        .settingsArea
+      .page(data-content="addons" data-pagenr=5 data-han1installation="page")
+        .pageHeading
+          h1.header Addons
+          p.desc Addons also have some settings to be adjusted!
+        .settingsArea
+      .page(data-content="storage" data-pagenr=6 data-han1installation="page")
+        .pageHeading
+          h1.header Storage
+          p.desc You can provide storage options for the system to save the values to be read from the meter, a storage option is mandatory if you want to view historic data and go back in time to find readings!
+        .settingsArea
+      .page(data-content="review" data-pagenr=6 data-han1installation="page")
+        .pageHeading
+          h1.header Review your settings!
+          p.desc Please go over the settings you have choosed to prevent any errors at first startup.
+        .settingsArea
+    #installation-controlBox.ctrlBox.single
+      button#prevPage.prev(title="Previous page!")
+      button#nextPage.start(title="Begin Setup!")
+  //- Setup
+  //- Review settings
+  //- Submit
 block footer
 
 

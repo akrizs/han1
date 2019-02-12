@@ -4,6 +4,7 @@ const han1Dash = express();
 
 const han1Settings = require('./han1-settings.js');
 const han1RestApi = require('./han1-restapi.js');
+const han1InitSetup = require('./han1-initSetup.js');
 
 const fs = require('fs');
 
@@ -27,8 +28,6 @@ han1Dash.use(express.static(__dirname + '/dash/assets'));
 // }
 
 if (process.cfg.firstStart) {
-  const han1InitSetup = require('./han1-initSetup.js');
-
   han1Dash.use('*', han1InitSetup)
 }
 

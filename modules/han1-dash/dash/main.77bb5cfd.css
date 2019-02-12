@@ -21,6 +21,83 @@
   src: url(fa-solid-900.0b60ff24.eot);
   src: url(fa-solid-900.0b60ff24.eot?#iefix) format("embedded-opentype"), url(fa-solid-900.55d5ef42.woff2) format("woff2"), url(fa-solid-900.f824330b.woff) format("woff"), url(fa-solid-900.47a039f3.ttf) format("truetype"), url(fa-solid-900.d08d5f59.svg#fontawesome) format("svg");
 }
+input,
+label,
+select,
+button,
+textarea {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  background: none;
+  line-height: 1;
+  font-size: 13px;
+  font-family: Arial;
+}
+
+input:focus {
+  outline: 0;
+}
+
+input,
+textarea {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+button,
+input[type=reset],
+input[type=button],
+input[type=submit],
+input[type=checkbox],
+input[type=radio],
+select {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input[type=checkbox],
+input[type=radio] {
+  width: 13px;
+  height: 13px;
+}
+
+input[type=search] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+}
+
+::-webkit-search-decoration {
+  display: none;
+}
+
+button,
+input[type=reset],
+input[type=button],
+input[type=submit] {
+  /* Fix IE7 display bug */
+  overflow: visible;
+  width: auto;
+}
+
+::-webkit-file-upload-button {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+textarea {
+  vertical-align: top;
+  overflow: auto;
+}
+
+select[mulitple] {
+  vertical-align: top;
+}
+
 *,
 *::before,
 *::after {

@@ -10,13 +10,9 @@ const han1Debug = require('./han1-dash/han1-debug');
 const {
   mainSocket
 } = require('./han1-dash/han1-sockets');
-
 const han1Error = require('./han1-dash/han1-error')
-
 const han1Tibber = require('./han1-tibber/han1-tibber');
-
 let lastPrice;
-
 let date = new Date();
 
 async function han1Bridge(data) {
