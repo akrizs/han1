@@ -41,7 +41,7 @@
     "@fortawesome/fontawesome-free": "^5.6.3",
     "axios": "^0.18.0",
     "crc": "^3.8.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "font-awesome": "^4.7.0",
     "graphql-request": "^1.8.2",
     "hexy": "^0.3.0",
